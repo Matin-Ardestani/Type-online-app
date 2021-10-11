@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../../../.designer/img/logo.png</normaloff>../../../.designer/img/logo.png</iconset>
+    <normaloff>../img/logo.png</normaloff>../img/logo.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: #fff;border-radius:5px;</string>
@@ -135,6 +135,9 @@
       <width>980</width>
       <height>600</height>
      </rect>
+    </property>
+    <property name="currentIndex">
+     <number>2</number>
     </property>
     <widget class="QWidget" name="page_type">
      <widget class="QLabel" name="label_7">
@@ -561,7 +564,7 @@
       <widget class="QLabel" name="acount_profile">
        <property name="geometry">
         <rect>
-         <x>0</x>
+         <x>10</x>
          <y>0</y>
          <width>50</width>
          <height>50</height>
@@ -572,6 +575,9 @@
          <family>Arial</family>
          <pointsize>15</pointsize>
         </font>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Comming soon&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="styleSheet">
         <string notr="true">background-color: #0088CC; color: #fff;border-radius: 25px;</string>
@@ -586,7 +592,7 @@
       <widget class="QLabel" name="acount_username">
        <property name="geometry">
         <rect>
-         <x>60</x>
+         <x>70</x>
          <y>5</y>
          <width>611</width>
          <height>20</height>
@@ -610,7 +616,7 @@
       <widget class="QLabel" name="acount_email">
        <property name="geometry">
         <rect>
-         <x>60</x>
+         <x>70</x>
          <y>25</y>
          <width>581</width>
          <height>20</height>
@@ -675,7 +681,7 @@
       <widget class="QLabel" name="acount_email_2">
        <property name="geometry">
         <rect>
-         <x>0</x>
+         <x>10</x>
          <y>130</y>
          <width>121</width>
          <height>20</height>
@@ -699,7 +705,7 @@
       <widget class="QLabel" name="acount_email_3">
        <property name="geometry">
         <rect>
-         <x>0</x>
+         <x>10</x>
          <y>180</y>
          <width>121</width>
          <height>20</height>
@@ -723,7 +729,7 @@
       <widget class="QLabel" name="acount_email_4">
        <property name="geometry">
         <rect>
-         <x>0</x>
+         <x>10</x>
          <y>230</y>
          <width>121</width>
          <height>20</height>
@@ -811,10 +817,10 @@
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QLabel" name="acount_email_7">
+      <widget class="QLabel" name="acount_teststaken">
        <property name="geometry">
         <rect>
-         <x>80</x>
+         <x>90</x>
          <y>130</y>
          <width>91</width>
          <height>21</height>
@@ -835,10 +841,10 @@
         <string>0</string>
        </property>
       </widget>
-      <widget class="QLabel" name="acount_email_8">
+      <widget class="QLabel" name="acount_besttest">
        <property name="geometry">
         <rect>
-         <x>66</x>
+         <x>76</x>
          <y>180</y>
          <width>91</width>
          <height>21</height>
@@ -859,10 +865,10 @@
         <string>0</string>
        </property>
       </widget>
-      <widget class="QLabel" name="acount_email_9">
+      <widget class="QLabel" name="acount_testavrage">
        <property name="geometry">
         <rect>
-         <x>130</x>
+         <x>140</x>
          <y>230</y>
          <width>91</width>
          <height>21</height>
@@ -883,7 +889,7 @@
         <string>0</string>
        </property>
       </widget>
-      <widget class="QLabel" name="acount_email_10">
+      <widget class="QLabel" name="acount_typedwords">
        <property name="geometry">
         <rect>
          <x>330</x>
@@ -907,7 +913,7 @@
         <string>0</string>
        </property>
       </widget>
-      <widget class="QLabel" name="acount_email_11">
+      <widget class="QLabel" name="acount_comtaken">
        <property name="geometry">
         <rect>
          <x>370</x>
@@ -929,6 +935,517 @@
        </property>
        <property name="text">
         <string>0</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="page_ranking">
+     <widget class="QLabel" name="ranking_title">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>50</y>
+        <width>611</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>15</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: #010A1A;</string>
+      </property>
+      <property name="text">
+       <string>5 Best test</string>
+      </property>
+     </widget>
+     <widget class="QFrame" name="frame_4">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>70</y>
+        <width>980</width>
+        <height>530</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QLabel" name="label_8">
+       <property name="geometry">
+        <rect>
+         <x>39</x>
+         <y>85</y>
+         <width>160</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:#DEDEDE;colro: #010A1A; border:1px solid #010A1A; border-radius: 0px;</string>
+       </property>
+       <property name="text">
+        <string>Username</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_9">
+       <property name="geometry">
+        <rect>
+         <x>198</x>
+         <y>85</y>
+         <width>160</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">colro: #010A1A; border:1px solid #010A1A; border-radius: 0px; background-color:#DEDEDE;</string>
+       </property>
+       <property name="text">
+        <string>Test speed</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_14">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>85</y>
+         <width>30</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:#DEDEDE;colro: #010A1A; border:1px solid #010A1A; border-radius: 0px;</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="rank_user1">
+       <property name="geometry">
+        <rect>
+         <x>39</x>
+         <y>134</y>
+         <width>160</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">colro: #010A1A; border:1px solid #010A1A; border-radius: 0px;</string>
+       </property>
+       <property name="text">
+        <string>mtain</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_15">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>134</y>
+         <width>30</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">colro: #010A1A; border:1px solid #010A1A; border-radius: 0px;</string>
+       </property>
+       <property name="text">
+        <string>1</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="rank_test1">
+       <property name="geometry">
+        <rect>
+         <x>198</x>
+         <y>134</y>
+         <width>160</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">colro: #010A1A; border:1px solid #010A1A; border-radius: 0px;</string>
+       </property>
+       <property name="text">
+        <string>70</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="rank_user2">
+       <property name="geometry">
+        <rect>
+         <x>39</x>
+         <y>183</y>
+         <width>160</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">colro: #010A1A; border:1px solid #010A1A; border-radius: 0px;</string>
+       </property>
+       <property name="text">
+        <string>ali</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_16">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>183</y>
+         <width>30</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">colro: #010A1A; border:1px solid #010A1A; border-radius: 0px;</string>
+       </property>
+       <property name="text">
+        <string>2</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="rank_test2">
+       <property name="geometry">
+        <rect>
+         <x>198</x>
+         <y>183</y>
+         <width>160</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">colro: #010A1A; border:1px solid #010A1A; border-radius: 0px;</string>
+       </property>
+       <property name="text">
+        <string>60</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="rank_user5">
+       <property name="geometry">
+        <rect>
+         <x>39</x>
+         <y>330</y>
+         <width>160</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">colro: #010A1A; border:1px solid #010A1A; border-radius: 0px;</string>
+       </property>
+       <property name="text">
+        <string>amir</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_21">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>330</y>
+         <width>30</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">colro: #010A1A; border:1px solid #010A1A; border-radius: 0px;</string>
+       </property>
+       <property name="text">
+        <string>5</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="rank_test5">
+       <property name="geometry">
+        <rect>
+         <x>198</x>
+         <y>330</y>
+         <width>160</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">colro: #010A1A; border:1px solid #010A1A; border-radius: 0px;</string>
+       </property>
+       <property name="text">
+        <string>32</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="rank_user3">
+       <property name="geometry">
+        <rect>
+         <x>39</x>
+         <y>232</y>
+         <width>160</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">colro: #010A1A; border:1px solid #010A1A; border-radius: 0px;</string>
+       </property>
+       <property name="text">
+        <string>reza</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_24">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>232</y>
+         <width>30</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">colro: #010A1A; border:1px solid #010A1A; border-radius: 0px;</string>
+       </property>
+       <property name="text">
+        <string>3</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="rank_test3">
+       <property name="geometry">
+        <rect>
+         <x>198</x>
+         <y>232</y>
+         <width>160</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">colro: #010A1A; border:1px solid #010A1A; border-radius: 0px;</string>
+       </property>
+       <property name="text">
+        <string>45</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="rank_user4">
+       <property name="geometry">
+        <rect>
+         <x>39</x>
+         <y>281</y>
+         <width>160</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">colro: #010A1A; border:1px solid #010A1A; border-radius: 0px;</string>
+       </property>
+       <property name="text">
+        <string>sara</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_27">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>281</y>
+         <width>30</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">colro: #010A1A; border:1px solid #010A1A; border-radius: 0px;</string>
+       </property>
+       <property name="text">
+        <string>4</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="rank_test4">
+       <property name="geometry">
+        <rect>
+         <x>198</x>
+         <y>281</y>
+         <width>160</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">colro: #010A1A; border:1px solid #010A1A; border-radius: 0px;</string>
+       </property>
+       <property name="text">
+        <string>42</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_10">
+       <property name="geometry">
+        <rect>
+         <x>520</x>
+         <y>20</y>
+         <width>430</width>
+         <height>430</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap>../img/ranking.jpg</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
        </property>
       </widget>
      </widget>
