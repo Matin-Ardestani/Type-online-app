@@ -24,7 +24,7 @@
    <widget class="QPushButton" name="btn_minimze">
     <property name="geometry">
      <rect>
-      <x>888</x>
+      <x>924</x>
       <y>10</y>
       <width>30</width>
       <height>30</height>
@@ -53,7 +53,7 @@
    <widget class="QPushButton" name="btn_close">
     <property name="geometry">
      <rect>
-      <x>918</x>
+      <x>954</x>
       <y>10</y>
       <width>30</width>
       <height>30</height>
@@ -137,7 +137,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="page_type">
      <widget class="QLabel" name="label_7">
@@ -564,7 +564,7 @@
       <widget class="QLabel" name="acount_profile">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>20</x>
          <y>0</y>
          <width>50</width>
          <height>50</height>
@@ -592,7 +592,7 @@
       <widget class="QLabel" name="acount_username">
        <property name="geometry">
         <rect>
-         <x>70</x>
+         <x>80</x>
          <y>5</y>
          <width>611</width>
          <height>20</height>
@@ -616,7 +616,7 @@
       <widget class="QLabel" name="acount_email">
        <property name="geometry">
         <rect>
-         <x>70</x>
+         <x>80</x>
          <y>25</y>
          <width>581</width>
          <height>20</height>
@@ -681,7 +681,7 @@
       <widget class="QLabel" name="acount_email_2">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>20</x>
          <y>130</y>
          <width>121</width>
          <height>20</height>
@@ -705,7 +705,7 @@
       <widget class="QLabel" name="acount_email_3">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>20</x>
          <y>180</y>
          <width>121</width>
          <height>20</height>
@@ -729,7 +729,7 @@
       <widget class="QLabel" name="acount_email_4">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>20</x>
          <y>230</y>
          <width>121</width>
          <height>20</height>
@@ -820,7 +820,7 @@
       <widget class="QLabel" name="acount_teststaken">
        <property name="geometry">
         <rect>
-         <x>90</x>
+         <x>100</x>
          <y>130</y>
          <width>91</width>
          <height>21</height>
@@ -844,7 +844,7 @@
       <widget class="QLabel" name="acount_besttest">
        <property name="geometry">
         <rect>
-         <x>76</x>
+         <x>86</x>
          <y>180</y>
          <width>91</width>
          <height>21</height>
@@ -868,7 +868,7 @@
       <widget class="QLabel" name="acount_testavrage">
        <property name="geometry">
         <rect>
-         <x>140</x>
+         <x>150</x>
          <y>230</y>
          <width>91</width>
          <height>21</height>
@@ -968,7 +968,7 @@
      <widget class="QLabel" name="ranking_title">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>20</x>
         <y>50</y>
         <width>611</width>
         <height>20</height>
@@ -986,7 +986,7 @@
        <string notr="true">color: #010A1A;</string>
       </property>
       <property name="text">
-       <string>5 Best test</string>
+       <string>5 Best tests</string>
       </property>
      </widget>
      <widget class="QFrame" name="frame_4">
@@ -1007,7 +1007,7 @@
       <widget class="QLabel" name="label_8">
        <property name="geometry">
         <rect>
-         <x>39</x>
+         <x>49</x>
          <y>85</y>
          <width>160</width>
          <height>50</height>
@@ -1032,7 +1032,7 @@
       <widget class="QLabel" name="label_9">
        <property name="geometry">
         <rect>
-         <x>198</x>
+         <x>208</x>
          <y>85</y>
          <width>160</width>
          <height>50</height>
@@ -1057,7 +1057,7 @@
       <widget class="QLabel" name="label_14">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>20</x>
          <y>85</y>
          <width>30</width>
          <height>50</height>
@@ -1082,7 +1082,7 @@
       <widget class="QLabel" name="rank_user1">
        <property name="geometry">
         <rect>
-         <x>39</x>
+         <x>49</x>
          <y>134</y>
          <width>160</width>
          <height>50</height>
@@ -1107,7 +1107,7 @@
       <widget class="QLabel" name="label_15">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>20</x>
          <y>134</y>
          <width>30</width>
          <height>50</height>
@@ -1132,7 +1132,7 @@
       <widget class="QLabel" name="rank_test1">
        <property name="geometry">
         <rect>
-         <x>198</x>
+         <x>208</x>
          <y>134</y>
          <width>160</width>
          <height>50</height>
@@ -1157,7 +1157,7 @@
       <widget class="QLabel" name="rank_user2">
        <property name="geometry">
         <rect>
-         <x>39</x>
+         <x>49</x>
          <y>183</y>
          <width>160</width>
          <height>50</height>
@@ -1182,7 +1182,7 @@
       <widget class="QLabel" name="label_16">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>20</x>
          <y>183</y>
          <width>30</width>
          <height>50</height>
@@ -1207,7 +1207,7 @@
       <widget class="QLabel" name="rank_test2">
        <property name="geometry">
         <rect>
-         <x>198</x>
+         <x>208</x>
          <y>183</y>
          <width>160</width>
          <height>50</height>
@@ -1232,7 +1232,7 @@
       <widget class="QLabel" name="rank_user5">
        <property name="geometry">
         <rect>
-         <x>39</x>
+         <x>49</x>
          <y>330</y>
          <width>160</width>
          <height>50</height>
@@ -1257,7 +1257,7 @@
       <widget class="QLabel" name="label_21">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>20</x>
          <y>330</y>
          <width>30</width>
          <height>50</height>
@@ -1282,7 +1282,7 @@
       <widget class="QLabel" name="rank_test5">
        <property name="geometry">
         <rect>
-         <x>198</x>
+         <x>208</x>
          <y>330</y>
          <width>160</width>
          <height>50</height>
@@ -1307,7 +1307,7 @@
       <widget class="QLabel" name="rank_user3">
        <property name="geometry">
         <rect>
-         <x>39</x>
+         <x>49</x>
          <y>232</y>
          <width>160</width>
          <height>50</height>
@@ -1332,7 +1332,7 @@
       <widget class="QLabel" name="label_24">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>20</x>
          <y>232</y>
          <width>30</width>
          <height>50</height>
@@ -1357,7 +1357,7 @@
       <widget class="QLabel" name="rank_test3">
        <property name="geometry">
         <rect>
-         <x>198</x>
+         <x>208</x>
          <y>232</y>
          <width>160</width>
          <height>50</height>
@@ -1382,7 +1382,7 @@
       <widget class="QLabel" name="rank_user4">
        <property name="geometry">
         <rect>
-         <x>39</x>
+         <x>49</x>
          <y>281</y>
          <width>160</width>
          <height>50</height>
@@ -1407,7 +1407,7 @@
       <widget class="QLabel" name="label_27">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>20</x>
          <y>281</y>
          <width>30</width>
          <height>50</height>
@@ -1432,7 +1432,7 @@
       <widget class="QLabel" name="rank_test4">
        <property name="geometry">
         <rect>
-         <x>198</x>
+         <x>208</x>
          <y>281</y>
          <width>160</width>
          <height>50</height>
@@ -1480,9 +1480,9 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>70</y>
+        <y>50</y>
         <width>501</width>
-        <height>20</height>
+        <height>25</height>
        </rect>
       </property>
       <property name="font">
@@ -1497,14 +1497,14 @@
        <string notr="true">color: #010A1A;</string>
       </property>
       <property name="text">
-       <string>Create Competition</string>
+       <string>Create competition</string>
       </property>
      </widget>
      <widget class="QLabel" name="ranking_title_3">
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>120</y>
+        <y>110</y>
         <width>131</width>
         <height>30</height>
        </rect>
@@ -1521,14 +1521,14 @@
        <string notr="true">color: #010A1A;</string>
       </property>
       <property name="text">
-       <string>Competition name:</string>
+       <string>competition name:</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="cometition_name">
       <property name="geometry">
        <rect>
         <x>144</x>
-        <y>120</y>
+        <y>110</y>
         <width>245</width>
         <height>30</height>
        </rect>
@@ -1547,7 +1547,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>150</y>
+        <y>140</y>
         <width>501</width>
         <height>16</height>
        </rect>
@@ -1564,14 +1564,14 @@
        <string notr="true">color: #010A1A;</string>
       </property>
       <property name="text">
-       <string>(The Competition room will be close when no one is online there)</string>
+       <string>(The competition room will be closed when no one is online there)</string>
       </property>
      </widget>
      <widget class="QPushButton" name="btn_createcompetition">
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>190</y>
+        <y>180</y>
         <width>370</width>
         <height>40</height>
        </rect>
@@ -1596,7 +1596,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>330</y>
+        <y>320</y>
         <width>421</width>
         <height>20</height>
        </rect>
@@ -1613,7 +1613,7 @@
        <string notr="true">color: #010A1A;</string>
       </property>
       <property name="text">
-       <string>Join Competition</string>
+       <string>Join competition</string>
       </property>
      </widget>
      <widget class="QLabel" name="ranking_title_6">
@@ -1637,7 +1637,7 @@
        <string notr="true">color: #010A1A;</string>
       </property>
       <property name="text">
-       <string>Competition code:</string>
+       <string>competition code:</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="join_competition">
