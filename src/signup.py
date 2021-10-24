@@ -14,7 +14,7 @@ from pathlib import Path
 path = str(Path.cwd())
 
 
-class Ui_MainWindow(object):
+class Ui_SignupWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(500, 610)
@@ -211,13 +211,3 @@ class Ui_MainWindow(object):
         self.btn_login.setText(_translate("MainWindow", "Log in"))
         self.repasslb.setText(_translate("MainWindow", "Reapet Password:"))
         self.emaillb.setText(_translate("MainWindow", "Email:"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())

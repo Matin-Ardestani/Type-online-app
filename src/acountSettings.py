@@ -11,7 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_MainWindow(object):
+class Ui_AcountSettings(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(600, 300)
@@ -108,13 +108,3 @@ class Ui_MainWindow(object):
         self.btn_login.setText(_translate("MainWindow", "Save Changes"))
         self.btn_login_2.setText(_translate("MainWindow", "Cancel"))
         self.title.setText(_translate("MainWindow", "Acount Settings"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
