@@ -2,10 +2,20 @@ import socket
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 import sys
-import sqlite3
+import pymysql
+from email_validator import validate_email
 
-connection = sqlite3.connect('C:/Users/ardes/Desktop/Typing-online-app/src/database.db')
-cursor = connection.cursor()
+try:
+    connection = pymysql.connect()
+    cursor = connection.cursor()
+except:
+    error_msg = QMessageBox()
+    error_msg.setIcon(QMessageBox.Information)
+    error_msg.setText("Someting went wrong")
+    error_msg.setWindowTitle("Error")
+    error_msg.setStandardButtons(QMessageBox.Ok )
+    error_msg.buttonClicked.connect(lambda: error_msg.close())
+    error_msg.exec_()
 
 from mainpage import Ui_MainWindow
 from login import Ui_LonginWindow
@@ -112,7 +122,7 @@ class RootMain(QMainWindow):
         if self.userip in self.ips:
             print('already loged in')
         else:
-            self.signing()
+            self.logingin()
 
     #===============================Designer codes=============
     def borders(self):
@@ -129,13 +139,113 @@ class RootMain(QMainWindow):
         self.oldPos = evt.globalPos()
 
     #===============================My funcitons================
-    def signing(self):
+    
+    # open signin or login page
+    def logingin(self):
 
+        # sign in page
         def signing():
             self.login.close()
             self.signup.show()
 
+            def putInfoToDB():
+
+                # check infos
+                correct_info = True
+
+                # check blanks
+                if ((self.signup.ui.username_en.text()).strip() == '') or ((self.signup.ui.email_en.text()).strip() == '') or ((self.signup.ui.password_en.text()).strip() == '') or ((self.signup.ui.repassword_en.text()).strip() == ''):
+                    self.signup.ui.alarmlb.setText('Fill all the blanks') 
+                    correct_info = False
+                else:
+                    # check password
+                    numbers = '1234567890'
+                    alphabets = 'mnbvcxzasdfghjklpoiuytrewqMNBVCXZASDFGHJKLPOIUYTREWQ'
+                    signs = '!@#$%^&*()_-/+'
+                    if self.signup.ui.password_en.text() != self.signup.ui.repassword_en.text():
+                        self.signup.ui.alarmlb.setText('Passwords are not the same')
+                        correct_info = False
+
+                    else:
+                        check_pass = [False , False , False]
+                        for letter in self.signup.ui.password_en.text():
+                            if (letter not in numbers) and (letter not in alphabets) and (letter not in signs):
+                                self.signup.ui.alarmlb.setText('Password should contains numbers and alphabets and signs')
+                                correct_info = False
+                            else:
+                                if letter in numbers:
+                                    check_pass[0] = True
+                                elif letter in alphabets:
+                                    check_pass[1] = True
+                                elif letter in signs:
+                                    check_pass[2] = True
+                        
+                        if check_pass != [True , True , True]:
+                            self.signup.ui.alarmlb.setText('Password should contains numbers and alphabets and signs')
+                            correct_info = False
+                        else:
+                            self.signup.ui.alarmlb.setText('')
+
+                    # check email     
+                    try:
+                        validate_email(self.signup.ui.email_en.text())
+
+                        cursor.execute("SELECT email FROM acounts;")
+                        db_emails = []
+                        for email in cursor:
+                            db_emails.append(email[0])
+                        if self.signup.ui.email_en.text() in db_emails:
+                            self.signup.ui.alarmlb.setText('Email already exists')
+                            correct_info = False
+
+                    except:
+                        self.signup.ui.alarmlb.setText('Email address is not valid')
+                        correct_info = False
+
+                    # check username
+                    for letter in self.signup.ui.username_en.text():
+                        if (letter not in numbers) and (letter not in alphabets) and (letter not in signs):
+                            self.signup.ui.alarmlb.setText('Username is not valid')
+                            correct_info = False
+                        else:
+                            cursor.execute("SELECT username FROM acounts;")
+                            db_usernames = []
+                            for username in cursor:
+                                db_usernames.append(username[0])
+                            if self.signup.ui.username_en.text() in db_usernames:
+                                self.signup.ui.alarmlb.setText('Username already exists')
+                                correct_info = False
+                            break
+                
+                # insert infos to database
+                if correct_info == True:
+                    try:
+                        username = self.signup.ui.username_en.text()
+                        email = self.signup.ui.email_en.text()
+                        password = self.signup.ui.password_en.text()
+                        ip = str(socket.gethostname())
+                        quary = "INSERT INTO acounts VALUES( \'%s\' , \'%s\' , \'%s\' , \'%s\' );" % (username , email , password , ip)
+                        cursor.execute(quary)
+                        connection.commit()
+                    except:
+                        error_msg = QMessageBox()
+                        error_msg.setIcon(QMessageBox.Information)
+                        error_msg.setText("Someting went wrong")
+                        error_msg.setWindowTitle("Error")
+                        error_msg.setStandardButtons(QMessageBox.Ok )
+                        error_msg.buttonClicked.connect(lambda: error_msg.close())
+                        error_msg.exec_()
+                    
+                    
+
+            self.signup.ui.btn_login.clicked.connect(self.logingin)
+            self.signup.ui.btn_signup.clicked.connect(putInfoToDB)
+
+            
+
+        # login page
         self.login.show()
+        self.signup.close()
         self.login.ui.btn_signup.clicked.connect(signing)
 
 

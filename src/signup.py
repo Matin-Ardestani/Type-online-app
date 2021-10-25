@@ -163,7 +163,7 @@ class Ui_SignupWindow(object):
         self.repassword_en.setStyleSheet("background-color: #DEDEDE; color: #010A1A;")
         self.repassword_en.setObjectName("repassword_en")
         self.alarmlb = QtWidgets.QLabel(self.centralwidget)
-        self.alarmlb.setGeometry(QtCore.QRect(80, 490, 330, 20))
+        self.alarmlb.setGeometry(QtCore.QRect(0, 490, 500, 20))
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(9)
