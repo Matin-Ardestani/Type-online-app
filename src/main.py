@@ -143,6 +143,39 @@ class RootMain(QMainWindow):
     # open signin or login page
     def logingin(self):
 
+        def LoginToDB():
+            correct_info = True
+
+            # check blanks
+            if ((self.login.ui.username_en.text()).strip() == '') or ((self.login.ui.password_en.text()).strip() == ''):
+                self.login.ui.alarmlb.setText('Fill all blanks')
+            else:
+                # check username
+                cursor.execute("SELECT username FROM acounts;")
+                db_usernames = []
+                for username in cursor:
+                     db_usernames.append(username[0])
+                if self.login.ui.username_en.text() not in db_usernames:
+                    self.login.ui.alarmlb.setText('Username does not exists')
+                    correct_info = False
+
+                else:
+                    # check password
+                    cursor.execute("SELECT password FROM acounts WHERE username=\'%s\' ;" % self.login.ui.username_en.text())
+                    password = ''
+                    for row in cursor:
+                        password = row[0]
+
+                    if self.login.ui.password_en.text() != password:
+                        self.login.ui.alarmlb.setText('Username or Password is not correct')
+                        correct_info = False
+
+            # change user ip in database
+            if correct_info == True:
+                quary = "UPDATE acounts SET ip=\'%s\' WHERE username=\'%s\' ;" % (str(socket.gethostname()) , self.login.ui.username_en.text())
+                cursor.execute(quary)
+                connection.commit()
+
         # sign in page
         def signing():
             self.login.close()
@@ -236,17 +269,23 @@ class RootMain(QMainWindow):
                         error_msg.buttonClicked.connect(lambda: error_msg.close())
                         error_msg.exec_()
                     
-                    
+            
+
 
             self.signup.ui.btn_login.clicked.connect(self.logingin)
             self.signup.ui.btn_signup.clicked.connect(putInfoToDB)
 
-            
 
         # login page
         self.login.show()
         self.signup.close()
         self.login.ui.btn_signup.clicked.connect(signing)
+        self.login.ui.btn_login.clicked.connect(LoginToDB)
+
+
+    def openMainWindow(self):
+        print('openmainwindow')
+
 
 
 if __name__ == '__main__':
