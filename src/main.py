@@ -6,7 +6,7 @@ import pymysql
 from email_validator import validate_email
 
 try:
-    connection = pymysql.connect()
+    connection = pymysql.connect() # Database inforamtions ( not in github )
     cursor = connection.cursor()
 except:
     error_msg = QMessageBox()
