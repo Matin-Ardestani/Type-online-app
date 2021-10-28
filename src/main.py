@@ -12,6 +12,14 @@ path = str(Path.cwd())
 connection = pymysql.connect() # Database inforamtions ( not in github )
 cursor = connection.cursor()
 
+words = ['scarf', 'possible', 'lettuce', 'voice', 'rainstorm', 'loving', 'extra-small', 'flagrant', 'ambiguous', 'trains', 'yard', 'godly', 'lighten', 'nutritious', 'rod', 'toys', 'greedy', 'belief', 'behavior', 'alike', 'lively', 'kneel', 'oafish', 'squirrel', 'energetic', 'dinner', 'crime', 'chalk', 'dam', 'bomb', 'mourn', 'detect', 'onerous', 'rabid', 'chase', 'tap', 'unsuitable', 'texture', 'change', 'mute', 'bit', 'payment', 'sink', 'cows', 'hushed', 'fat', 'flock', 'cent', 'roasted', 'obtain', 'prepare', 'letter', 'bushes', 'fax', 'heat', 'subdued', 'cold', 'nod', 'snobbish', 'pin', 'wrathful', 'flood', 'comb', 'airplane', 'visitor', 'frightening', 'maid', 'knife', 'hideous', 'previous', 'glue', 'pancake', 'round', 'tempt', 'peel', 'habitual', 'moldy', 'fold', 'icy', 'digestion', 'minister', 'reject', 'race', 'flap', 'yam', 'gullible', 'obsequious', 
+'welcome', 'grape', 'grey', 'border', 'bone', 'identify', 'dysfunctional', 'destruction', 'repair', 'system', 'tidy', 'terrible', 'branch', 'imperfect', 'like', 'add', 'pale', 'glistening', 'charge', 'splendid', 'swim', 'unwritten', 'juicy', 'reflect', 'public', 'hobbies', 'tumble', 'abortive', 'cloistered', 'thought', 'whine', 'bashful', 'actor', 'scattered', 'flashy', 'slippery', 'pear', 'accessible', 'rat', 'fuzzy', 'pop', 
+'early', 'fireman', 'calendar', 'leather', 'overt', 'shiny', 'lip', 'bath', 'substantial', 'education', 'hose', 'recognise', 'tub', 'women', 'holiday', 'jellyfish', 'nauseating', 'shy', 'jeans', 'fumbling', 'shivering', 'play', 'post', 'awake', 'reproduce', 'work', 'grandfather', 'smash', 'attack', 'mailbox', 'tense', 'cap', 'awful', 'rake', 'sudden', 'verse', 'spray', 'puzzling', 'apparatus', 'wind', 'happy', 'null', 'pray', 
+'legal', 'degree', 'truck', 'labored', 'stranger', 'sticks', 'curved', 'tremendous', 'nimble', 'erratic', 'statement', 'brick', 'blink', 'earsplitting', 'protect', 'bounce', 'happen', 'plough', 'decisive', 'page', 'fence', 'mint', 'waste', 'weight', 'complain', 'stale', 'imagine', 'stormy', 'horn', 'cow', 'aboriginal', 'gate', 'tent', 'children', 'chop', 'vegetable', 'boorish', 'important', 'greet', 'evanescent', 'locket', 'crowded', 'knowledgeable', 'truculent', 'loud', 'haunt', 'religion', 'show', 'suck', 'tranquil', 'lethal', 'trot', 'mass', 'delight', 'tricky', 'cracker', 'separate', 'glossy', 'doubt', 'belong', 'zebra', 'relation', 
+'window', 'vagabond', 'marry', 'blood', 'obnoxious', 'basket', 'ring', 'flippant', 'kick', 'bore', 'painful', 'threatening', 'sound', 'stupendous', 'ordinary', 'pick', 'challenge', 'brawny', 'birth', 'horse', 'physical', 'coat', 'underwear', 'queen', 'utter', 'peep', 'planes', 'calm', 'agonizing', 'dislike', 'high-pitched', 'art', 'turkey', 'grouchy', 'direction', 'kitty', 'wasteful', 'iron', 'receive', 'baseball', 'fruit', 'wren', 'striped', 'creator', 'well-groomed', 'lace', 'woebegone', 'friends', 'abundant', 'savory', 'wealthy', 'tooth', 'prevent', 'rule', 'wish', 'veil', 'book', 'toad', 'unwieldy', 'comparison', 'jog', 'breezy', 'tow', 'company', 'tired', 'rose', 'melt', 'longing', 'eight', 'ink', 'astonishing', 'telling', 'stimulating', 'bizarre', 'pleasant', 'aquatic', 'clear', 'yawn', 'injure', 'utopian', 'observation', 'concern', 'force', 
+'zesty', 'discussion', 'reading', 'moor', 'wealth', 'value', 'drum', 'mundane', 'symptomatic', 'confess', 'cat', 'excellent', 'robin', 'permissible', 'dark', 'approve', 'capricious', 'unnatural', 'star', 'thunder', 
+'fanatical', 'unaccountable', 'person', 'nippy', 'freezing', 'common', 'heavy', 'grade', 'preach', 'balance', 'rub', 'scorch', 'needle', 'worried', 'scary', 'daily', 'worry', 'circle', 'wood', 'skip', 'powder', 'substance', 'pointless', 'arrange', 'lyrical', 'replace', 'guide', 'obtainable', 'rambunctious', 'sky', 'last', 'cooing', 'rings', 'cautious', 'snotty', 'playground', 'abject', 'error', 'approval', 'harass', 'activity', 'abrasive', 'vest', 'wise', 'cannon', 'few', 'magnificent', 'wiry', 'water', 'disapprove', 'vivacious', 'potato', 'typical', 'well-to-do', 'channel', 'kill', 'whistle', 'beneficial', 'uppity', 'duck', 'worm', 'treat', 'noxious', 'hover', 'distance', 'furniture', 'explain', 'abashed', 'laughable', 'cynical', 'oil', 'coordinated', 'notebook', 'gray', 'pizzas', 'breakable', 'seed', 'classy', 'stain', 'royal', 'impulse', 'downtown', 'scarce', 'possessive', 'pie', 'paltry', 'blow', 'needless', 'acceptable', 'cause', 'barbarous', 'wholesale', 'lunchroom', 'gold', 'courageous', 'exciting', 'dead', 'spicy', 'town', 'suppose', 'war', 'attend', 
+'guitar', 'earthy', 'soothe', 'night', 'combative', 'sister', 'measure', 'vase', 'macho', 'cats', 'cycle', 'fetch', 'telephone', 'yellow', 'roll', 'productive', 'chilly', 'mug', 'dance', 'quixotic', 'helpful', 'momentous', 'ghost', 'maniacal', 'tight', 'draconian', 'tough', 'bury', 'wiggly', 'cherry', 'cool', 'rain', 'end', 'sloppy', 'filthy', 'half', 'innocent', 'odd', 'bang', 'tire', 'messy', 'cheer', 'educated', 'spooky', 'equable', 'weary', 'want', 'quicksand', 'expect', 'jewel', 'hang', 'occur', 'bottle', 'bedroom', 'can', 'sand', 'efficacious', 'size', 'trap', 'ossified', 'deadpan', 'nervous', 'quartz', 'doll', 'careless', 'bridge', 'ugly', 'handy', 'adventurous', 'saw', 'useless', 'please', 'friend', 'bell', 'amused', 'high', 'wait', 'trade', 'craven', 'aromatic', 'imported', 'vengeful', 'huge', 'sneaky', 'spare', 'aggressive', 'notice', 'design', 'flawless', 'gather', 'cry', 'fade', 'relax', 'burst', 'punish', 'first', 'compete', 'many', 'stocking', 'wry', 'capable', 'holistic', 'optimal', 'sense', 'canvas', 'dry', 'school', 'nation', 'vigorous', 'frightened', 'tasteless', 'slap', 'kiss', 'idea', 'thaw', 'pets', 'nostalgic', 'real', 'knotty', 'beginner', 'awesome', 'needy', 'fit', 'comfortable', 'dream', 'silent', 'loutish', 'ladybug', 'servant', 'measly', 'closed', 'confused', 'spot', 'deserted', 'uneven', 'allow', 'immense', 'rabbits', 'defective', 'wacky', 'swanky', 'fallacious', 'aunt', 'mighty', 'amount', 'check', 'pine', 'ancient', 'square', 'annoyed', 'borrow', 'wilderness', 'shocking', 'rare', 'spill', 'quiet', 'great', 'scintillating', 'gratis', 'act', 'uttermost', 'memorize', 'cute', 'correct', 'absent', 'zonked', 'offer', 'waggish', 'jam', 'argument', 'invite', 'ruddy', 'brief', 'addition', 'level', 'obscene', 'itch', 'respect', 'unite', 'side', 'kettle', 'treatment', 'wobble', 'strengthen', 'cruel', 'callous', 'satisfying', 'disagree', 'ambitious', 'lumpy', 'unadvised', 'grotesque', 'lame', 'introduce', 'consider', 'division', 'rude', 'mellow', 'arrest', 'poised', 'protest', 'thoughtless', 'ugliest', 'impolite', 'eggs', 'bucket', 'womanly', 'passenger', 'shoe', 'flight', 'dust', 'marvelous', 'fluttering', 'pink', 'transport', 'men', 'cuddly', 'slim', 'illegal', 'steep', 'remember', 'pushy', 'modern', 'pedal', 'glib', 'twist', 'interesting', 'attach', 'abrupt', 'arrive', 'group', 'bouncy', 'little', 'judge', 'reward', 'five', 'possess', 'groovy', 'dirt', 'connect', 'bumpy', 'plucky', 'rustic', 'grip', 'object', 'old-fashioned', 'unused', 'undress', 'good', 'bite-sized', 'health', 'exuberant', 'even', 'unable', 'pocket', 'knee', 'advise', 'suspect', 'interest', 'stream', 'tremble', 'plug', 'rejoice', 'calculator', 'silky', 'afterthought', 'feeble', 'voracious', 'nutty', 'lie', 'woozy', 'representative', 'taste', 'houses', 'temporary', 'crabby', 'wrong', 'partner', 'bare', 'wandering', 'oven', 'snail', 'extra-large', 'elderly', 'witty', 'toy', 'soft', 'spectacular', 'statuesque', 'gamy', 'crowd', 'continue', 'diligent', 'decision', 'boring', 'scratch', 'loose', 'lucky', 'analyze', 'chicken', 'cushion', 'riddle', 'caption', 'road', 'makeshift', 'soggy', 'calculating', 'decide', 'plants', 'house', 'butter', 'double', 'thin', 'badge', 'soda', 'examine', 'low', 'selection', 'sweater', 'sleet', 'violet', 'fish', 'skillful', 'wail', 'nine', 'rainy', 'busy', 'precious', 'invincible', 'detail', 'sign', 'boiling', 'knot', 'next', 'color', 'vague', 'delay', 'clean', 'harbor', 'oranges', 'crayon', 'tender', 'disagreeable', 'file', 'muddled', 'feigned', 'warm', 'afraid', 'rot', 'mate', 'nebulous', 'daughter', 'icicle', 'rigid', 'trees', 'piquant', 'card', 'impress', 'hallowed', 'machine', 'ruthless', 'imaginary', 'egg', 'apparel', 'advice', 'equal', 'example', 'agreeable', 'run', 'hug', 'switch', 'encourage', 'true', 'tenuous', 'shade', 'faithful', 'electric', 'near', 'humdrum', 'powerful', 'grandiose', 'touch', 'intelligent', 'eatable', 'quickest', 'dispensable', 'well-made', 'absorbing', 'embarrassed', 'copper', 'irritating', 'turn', 'railway', 'agree', 'wine', 'cattle', 'suffer', 'blade', 'carve', 'flower', 'library', 'quince', 'watch', 'berry', 'rebel', 'corn', 'disgusted', 'towering', 'vulgar', 'wave', 'babies', 'knowing', 'uninterested', 'wriggle', 'thoughtful', 'drab', 'improve', 'back', 'pail', 'story', 'lamentable', 'swift', 'teaching', 'sleep', 'hulking', 'calculate', 'stew', 'pan', 'church', 'inject', 'line', 'button', 'boot', 'taboo', 'unfasten', 'curtain', 'bubble', 'view', 'terrific', 'minor', 'charming', 'umbrella', 'cloth', 'terrify', 'simple', 'condemned', 'premium', 'voiceless', 'unkempt', 'spiders', 'dizzy', 'stupid', 'reason', 'cheerful', 'slope', 'record', 'plate', 'orange', 'old', 'panicky', 'unknown', 'anger', 'mark', 'perform', 'festive', 'girl', 'chemical', 'space', 'pleasure', 'absurd', 'silly', 'invention', 'frantic', 'zoom', 'frequent', 'entertain', 'press', 'strip', 'chew', 'stroke', 'cooperative', 'belligerent', 'hand', 'remarkable', 'fry', 'crook', 'heavenly', 'chickens', 'position', 'zealous', 'assorted', 'answer', 'wink', 'admit', 'blind', 'sisters', 'burly', 'plantation', 'bat', 'flowers', 'hospital', 'event', 'mother', 'day', 'jelly', 'label', 'ritzy', 'sturdy', 'plastic', 'chance', 'guard', 'applaud', 'wipe', 'chess', 'short', 'seal', 'camera', 'insurance', 'license', 'rob', 'pies', 'black-and-white', 'songs', 'move', 'dirty', 'desire', 'second-hand', 'decorous', 'dinosaurs', 'observe', 'lunch', 'gainful', 'eminent', 'mountain', 'worthless', 'crazy', 'hole', 'stretch', 'large', 'opposite', 'far-flung', 'conscious', 'mist', 'ship', 'talented', 'omniscient', 'glamorous', 'stingy', 'crash', 'placid', 'tomatoes']
 
 from mainpage import Ui_MainWindow
 from login import Ui_LonginWindow
@@ -353,11 +361,49 @@ class RootMain(QMainWindow):
             self.main.btn_pageCompetitions.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageTest.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }")
         ])
-
-        
         # open & close sidebar
         self.main.btn_menu.clicked.connect(openSidebar)
 
+        def TypingTest():
+            # set words to type
+            import random
+            words_toType = ''
+            for this in range(350):
+                words_toType += str(words[random.randint(0 , len(words)-1)]) + ' '
+            words_toType_list = words_toType.split()
+            self.main.type_words.setText(words_toType)
+            self.main.type_lastword.setText(words_toType_list[0])
+
+            # calculate words
+            def typing():
+                typed_text = list(self.main.words_en.text())
+                print(typed_text)
+                if len(typed_text) == 0:
+                    typed_text = 'j'
+
+                if typed_text[-1] == ' ':
+                    
+                    # delete typed word
+                    
+                    words_toType_list.pop(0)
+                    words_toType = ''
+                    for word in words_toType_list:
+                        words_toType += word + ' '
+                    self.main.type_words.setText(words_toType)
+                    self.main.type_lastword.setText(words_toType_list[0])
+                    self.main.words_en.setText('')
+                    
+
+            self.main.words_en.textChanged.connect(typing)
+            self.main.words_en.setEnabled(True)
+            self.main.words_en.setFocus()
+
+           
+
+        
+        self.main.words_en.setEnabled(False)
+        self.main.type_restart.clicked.connect(TypingTest)
+        
 
 
 if __name__ == '__main__':
