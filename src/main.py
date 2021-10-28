@@ -128,6 +128,12 @@ class RootMain(QMainWindow):
         else:
             self.logingin()
 
+        # check typed word
+        self.correct_words = 0
+        self.wrong_words = 0
+        self.correct_letters = 0
+        self.wrong_letter = 0
+
     #===============================Designer codes=============
     def borders(self):
         self.mainwindow = RootMain()
@@ -376,15 +382,15 @@ class RootMain(QMainWindow):
 
             # calculate words
             def typing():
-                typed_text = list(self.main.words_en.text())
-                print(typed_text)
+                typed_text = self.main.words_en.text()
                 if len(typed_text) == 0:
                     typed_text = 'j'
 
                 if typed_text[-1] == ' ':
-                    
-                    # delete typed word
-                    
+                    # check word                    
+                    self.checkWord(words_toType_list[0] , typed_text.strip())
+
+                    # delete last word
                     words_toType_list.pop(0)
                     words_toType = ''
                     for word in words_toType_list:
@@ -392,6 +398,7 @@ class RootMain(QMainWindow):
                     self.main.type_words.setText(words_toType)
                     self.main.type_lastword.setText(words_toType_list[0])
                     self.main.words_en.setText('')
+                    
                     
 
             self.main.words_en.textChanged.connect(typing)
@@ -405,6 +412,41 @@ class RootMain(QMainWindow):
         self.main.type_restart.clicked.connect(TypingTest)
         
 
+    # check typed word and add information fo self attributes
+    def checkWord(self , the_word , en_word):
+        if en_word == the_word:
+            self.correct_words += 1
+            self.correct_letters += len(the_word)
+        else:
+            self.wrong_words += 1
+            if len(en_word) == len(the_word):
+                counter = -1
+                for i in the_word:
+                    counter += 1
+                    if the_word[counter] == en_word[counter]:
+                        self.correct_letters += 1
+                    else:
+                        self.wrong_letter += 1
+            else:
+                diff = abs(len(en_word) - len(the_word))
+                if len(en_word) > len(the_word):
+                    counter = -1
+                    for i in the_word:
+                        counter += 1
+                        if the_word[counter] == en_word[counter]:
+                            self.correct_letters += 1
+                        else:
+                            self.wrong_letter += 1
+                    self.wrong_letter += diff
+                else:
+                    counter = -1
+                    for i in en_word:
+                        counter += 1
+                        if the_word[counter] == en_word[counter]:
+                            self.correct_letters += 1
+                        else:
+                            self.wrong_letter += 1
+        print('cw:' , self.correct_words , 'ww:' , self.wrong_words , 'cl:' , self.correct_letters , 'wl:' , self.wrong_letter)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
