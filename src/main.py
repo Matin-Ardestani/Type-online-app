@@ -1,21 +1,17 @@
 import socket
+from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 import sys
 import pymysql
 from email_validator import validate_email
+from pathlib import Path
 
-try:
-    connection = pymysql.connect() # Database inforamtions ( not in github )
-    cursor = connection.cursor()
-except:
-    error_msg = QMessageBox()
-    error_msg.setIcon(QMessageBox.Information)
-    error_msg.setText("Someting went wrong")
-    error_msg.setWindowTitle("Error")
-    error_msg.setStandardButtons(QMessageBox.Ok )
-    error_msg.buttonClicked.connect(lambda: error_msg.close())
-    error_msg.exec_()
+path = str(Path.cwd())
+
+connection = pymysql.connect() # Database inforamtions ( not in github )
+cursor = connection.cursor()
+
 
 from mainpage import Ui_MainWindow
 from login import Ui_LonginWindow
@@ -120,7 +116,7 @@ class RootMain(QMainWindow):
 
         self.userip = str(socket.gethostname())
         if self.userip in self.ips:
-            print('already loged in')
+            self.openMainWindow('username')
         else:
             self.logingin()
 
@@ -175,6 +171,8 @@ class RootMain(QMainWindow):
                 quary = "UPDATE acounts SET ip=\'%s\' WHERE username=\'%s\' ;" % (str(socket.gethostname()) , self.login.ui.username_en.text())
                 cursor.execute(quary)
                 connection.commit()
+
+                self.openMainWindow(self.login.ui.username_en.text())
 
         # sign in page
         def signing():
@@ -257,9 +255,11 @@ class RootMain(QMainWindow):
                         email = self.signup.ui.email_en.text()
                         password = self.signup.ui.password_en.text()
                         ip = str(socket.gethostname())
-                        quary = "INSERT INTO acounts VALUES( \'%s\' , \'%s\' , \'%s\' , \'%s\' );" % (username , email , password , ip)
+                        quary = "INSERT INTO acounts VALUES( \'%s\' , \'%s\' , \'%s\' , \'%s\' , \'%i\' , \'%i\' , \'%i\' , \'%i\' );" % (username , email , password , ip , 0 , 0 , 0 , 0)
                         cursor.execute(quary)
                         connection.commit()
+
+                        self.openMainWindow(username)
                     except:
                         error_msg = QMessageBox()
                         error_msg.setIcon(QMessageBox.Information)
@@ -283,8 +283,80 @@ class RootMain(QMainWindow):
         self.login.ui.btn_login.clicked.connect(LoginToDB)
 
 
-    def openMainWindow(self):
-        print('openmainwindow')
+    def openMainWindow(self , username):
+        self.show()
+        self.login.close()
+        self.signup.close()
+
+        # open & close sidebar
+        def openSidebar():
+            geo = self.main.sidebar.geometry()
+            if geo == QRect(-180, 0, 180, 620):
+                self.anim = QPropertyAnimation(self.main.sidebar , b"geometry")
+                self.anim.setDuration(200)
+                self.anim.setStartValue(QRect(-180, 0, 180, 620))
+                self.anim.setEndValue(QRect(0, 0, 180, 620))
+                self.anim.start()
+                icon3 = QIcon()
+                icon3.addPixmap(QPixmap("%s/img/close-menu.png" % path), QIcon.Normal, QIcon.Off)
+                self.main.btn_menu.setIcon(icon3)
+                self.main.btn_menu.setIconSize(QSize(30, 30))
+            else:
+                self.anim = QPropertyAnimation(self.main.sidebar , b"geometry")
+                self.anim.setDuration(200)
+                self.anim.setStartValue(QRect(0, 0, 180, 620))
+                self.anim.setEndValue(QRect(-180, 0, 180, 620))
+                self.anim.start()
+                icon3 = QIcon()
+                icon3.addPixmap(QPixmap("%s/img/menu.png" % path), QIcon.Normal, QIcon.Off)
+                self.main.btn_menu.setIcon(icon3)
+                self.main.btn_menu.setIconSize(QSize(20, 20))
+
+        # move between pages
+        self.main.btn_pageTest.clicked.connect(lambda: [
+            self.main.pages.setCurrentWidget(self.main.page_type),
+            self.main.btn_pageTest.setStyleSheet(" QPushButton { background: #DEDEDE; color: #010A1A; border-radius: 0px; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            self.main.btn_pageAcount.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            self.main.btn_pageRanking.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            self.main.btn_pageCompetitions.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            self.main.btn_pageSettings.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }")
+        ])
+        self.main.btn_pageAcount.clicked.connect(lambda: [
+            self.main.pages.setCurrentWidget(self.main.page_acount),
+            self.main.btn_pageAcount.setStyleSheet(" QPushButton { background: #DEDEDE; color: #010A1A; border-radius: 0px; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            self.main.btn_pageTest.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            self.main.btn_pageRanking.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            self.main.btn_pageCompetitions.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            self.main.btn_pageSettings.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }")
+        ])
+        self.main.btn_pageRanking.clicked.connect(lambda: [
+            self.main.pages.setCurrentWidget(self.main.page_ranking),
+            self.main.btn_pageRanking.setStyleSheet(" QPushButton { background: #DEDEDE; color: #010A1A; border-radius: 0px; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            self.main.btn_pageAcount.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            self.main.btn_pageTest.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            self.main.btn_pageCompetitions.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            self.main.btn_pageSettings.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }")
+        ])
+        self.main.btn_pageCompetitions.clicked.connect(lambda: [
+            self.main.pages.setCurrentWidget(self.main.page_competitions),
+            self.main.btn_pageCompetitions.setStyleSheet(" QPushButton { background: #DEDEDE; color: #010A1A; border-radius: 0px; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            self.main.btn_pageAcount.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            self.main.btn_pageRanking.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            self.main.btn_pageTest.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            self.main.btn_pageSettings.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }")
+        ])
+        self.main.btn_pageSettings.clicked.connect(lambda: [
+            self.main.pages.setCurrentWidget(self.main.page_settings),
+            self.main.btn_pageSettings.setStyleSheet(" QPushButton { background: #DEDEDE; color: #010A1A; border-radius: 0px; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            self.main.btn_pageAcount.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            self.main.btn_pageRanking.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            self.main.btn_pageCompetitions.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            self.main.btn_pageTest.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }")
+        ])
+
+        
+        # open & close sidebar
+        self.main.btn_menu.clicked.connect(openSidebar)
 
 
 

@@ -82,14 +82,14 @@
    <widget class="QFrame" name="sidebar">
     <property name="geometry">
      <rect>
-      <x>-140</x>
+      <x>0</x>
       <y>0</y>
-      <width>140</width>
+      <width>180</width>
       <height>620</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true"/>
+     <string notr="true">background-color: rgb(208, 208, 208);</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
@@ -97,6 +97,156 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
+    <widget class="QPushButton" name="btn_pageTest">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>80</y>
+       <width>180</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+background: none; color: #010A1A; border-radius: 0px;
+}
+QPushButton:hover{
+background-color: #DEDEDE;border-radius: 0px;
+}</string>
+     </property>
+     <property name="text">
+      <string>Test</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btn_pageAcount">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>140</y>
+       <width>180</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+background: none; color: #010A1A; border-radius: 0px;
+}
+QPushButton:hover{
+background-color: #DEDEDE;border-radius: 0px;
+}</string>
+     </property>
+     <property name="text">
+      <string>Acount</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btn_pageRanking">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>200</y>
+       <width>180</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+background: none; color: #010A1A; border-radius: 0px;
+}
+QPushButton:hover{
+background-color: #DEDEDE;border-radius: 0px;
+}</string>
+     </property>
+     <property name="text">
+      <string>Ranking</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btn_pageCompetitions">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>260</y>
+       <width>180</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+background: none; color: #010A1A; border-radius: 0px;
+}
+QPushButton:hover{
+background-color: #DEDEDE;border-radius: 0px;
+}</string>
+     </property>
+     <property name="text">
+      <string>Competitions</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btn_pageSettings">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>320</y>
+       <width>180</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+background: none; color: #010A1A; border-radius: 0px;
+}
+QPushButton:hover{
+background-color: #DEDEDE;border-radius: 0px;
+}</string>
+     </property>
+     <property name="text">
+      <string>Settings</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QPushButton" name="btn_menu">
     <property name="geometry">
@@ -118,7 +268,7 @@
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../img/menu.png</normaloff>../img/menu.png</iconset>
+      <normaloff>../../img/menu.png</normaloff>../../img/menu.png</iconset>
     </property>
     <property name="iconSize">
      <size>

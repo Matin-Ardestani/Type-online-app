@@ -45,11 +45,81 @@ class Ui_MainWindow(object):
         self.btn_close.setIconSize(QtCore.QSize(20, 20))
         self.btn_close.setObjectName("btn_close")
         self.sidebar = QtWidgets.QFrame(self.centralwidget)
-        self.sidebar.setGeometry(QtCore.QRect(-140, 0, 140, 620))
-        self.sidebar.setStyleSheet("")
+        self.sidebar.setGeometry(QtCore.QRect(-180, 0, 180, 620))
+        self.sidebar.setStyleSheet("background-color: rgb(208, 208, 208);")
         self.sidebar.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.sidebar.setFrameShadow(QtWidgets.QFrame.Raised)
         self.sidebar.setObjectName("sidebar")
+        self.btn_pageTest = QtWidgets.QPushButton(self.sidebar)
+        self.btn_pageTest.setGeometry(QtCore.QRect(0, 80, 180, 40))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(9)
+        self.btn_pageTest.setFont(font)
+        self.btn_pageTest.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.btn_pageTest.setStyleSheet("QPushButton{\n"
+"background: #DEDEDE; color: #010A1A; border-radius: 0px;\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color: #DEDEDE;border-radius: 0px;\n"
+"}")
+        self.btn_pageTest.setObjectName("btn_pageTest")
+        self.btn_pageAcount = QtWidgets.QPushButton(self.sidebar)
+        self.btn_pageAcount.setGeometry(QtCore.QRect(0, 140, 180, 40))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(9)
+        self.btn_pageAcount.setFont(font)
+        self.btn_pageAcount.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.btn_pageAcount.setStyleSheet("QPushButton{\n"
+"background: none; color: #010A1A; border-radius: 0px;\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color: #DEDEDE;border-radius: 0px;\n"
+"}")
+        self.btn_pageAcount.setObjectName("btn_pageAcount")
+        self.btn_pageRanking = QtWidgets.QPushButton(self.sidebar)
+        self.btn_pageRanking.setGeometry(QtCore.QRect(0, 200, 180, 40))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(9)
+        self.btn_pageRanking.setFont(font)
+        self.btn_pageRanking.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.btn_pageRanking.setStyleSheet("QPushButton{\n"
+"background: none; color: #010A1A; border-radius: 0px;\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color: #DEDEDE;border-radius: 0px;\n"
+"}")
+        self.btn_pageRanking.setObjectName("btn_pageRanking")
+        self.btn_pageCompetitions = QtWidgets.QPushButton(self.sidebar)
+        self.btn_pageCompetitions.setGeometry(QtCore.QRect(0, 260, 180, 40))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(9)
+        self.btn_pageCompetitions.setFont(font)
+        self.btn_pageCompetitions.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.btn_pageCompetitions.setStyleSheet("QPushButton{\n"
+"background: none; color: #010A1A; border-radius: 0px;\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color: #DEDEDE;border-radius: 0px;\n"
+"}")
+        self.btn_pageCompetitions.setObjectName("btn_pageCompetitions")
+        self.btn_pageSettings = QtWidgets.QPushButton(self.sidebar)
+        self.btn_pageSettings.setGeometry(QtCore.QRect(0, 320, 180, 40))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(9)
+        self.btn_pageSettings.setFont(font)
+        self.btn_pageSettings.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.btn_pageSettings.setStyleSheet("QPushButton{\n"
+"background: none; color: #010A1A; border-radius: 0px;\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color: #DEDEDE;border-radius: 0px;\n"
+"}")
+        self.btn_pageSettings.setObjectName("btn_pageSettings")
         self.btn_menu = QtWidgets.QPushButton(self.centralwidget)
         self.btn_menu.setGeometry(QtCore.QRect(10, 10, 30, 30))
         self.btn_menu.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
@@ -776,6 +846,11 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Typing App"))
+        self.btn_pageTest.setText(_translate("MainWindow", "Test"))
+        self.btn_pageAcount.setText(_translate("MainWindow", "Acount"))
+        self.btn_pageRanking.setText(_translate("MainWindow", "Ranking"))
+        self.btn_pageCompetitions.setText(_translate("MainWindow", "Competitions"))
+        self.btn_pageSettings.setText(_translate("MainWindow", "Settings"))
         self.label_7.setText(_translate("MainWindow", "Wrong Letters:"))
         self.type_Wletters.setText(_translate("MainWindow", "10 Letters"))
         self.type_wWords.setText(_translate("MainWindow", "10 Words"))
