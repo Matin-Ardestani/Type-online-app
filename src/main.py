@@ -399,17 +399,47 @@ class RootMain(QMainWindow):
                     self.main.type_lastword.setText(words_toType_list[0])
                     self.main.words_en.setText('')
                     
-                    
+            
+
 
             self.main.words_en.textChanged.connect(typing)
             self.main.words_en.setEnabled(True)
             self.main.words_en.setFocus()
 
-           
+            # test timer
+            def typing_timer():
+                self.main.type_timer.setText(str(self.main.timer_counter))
 
+                if self.main.timer_counter == 0:
+                    self.main.timer.stop()
+
+                    # check if last space has not pushed
+                    if self.main.words_en.text() != '':
+                        self.checkWord(words_toType_list[0] , self.main.words_en.text().strip())
+
+                    self.main.words_en.setText('')
+                    self.main.words_en.setEnabled(False)
+
+                    # print the results
+                    self.main.type_cwords.setText("%s Words" % self.correct_words)
+                    self.main.type_wWords.setText("%s Words" % self.wrong_words)
+                    self.main.type_cletters.setText("%s Letters" % self.correct_letters)
+                    self.main.type_Wletters.setText("%s Letters" % self.wrong_letter)
+                    
+                    self.result = int((self.correct_letters / 5) / 1) # result formula = (characters / 5) / 1 min
+                    self.main.type_result.setText("%s WPM" % self.result)
+
+                self.main.timer_counter -= 1
+
+            # test timer
+            self.main.timer_counter = 60
+            self.main.timer = QTimer()
+            self.main.timer.timeout.connect(typing_timer)
+            self.main.timer.start(1000)
         
         self.main.words_en.setEnabled(False)
         self.main.type_restart.clicked.connect(TypingTest)
+        
         
 
     # check typed word and add information fo self attributes
@@ -446,7 +476,7 @@ class RootMain(QMainWindow):
                             self.correct_letters += 1
                         else:
                             self.wrong_letter += 1
-        print('cw:' , self.correct_words , 'ww:' , self.wrong_words , 'cl:' , self.correct_letters , 'wl:' , self.wrong_letter)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
