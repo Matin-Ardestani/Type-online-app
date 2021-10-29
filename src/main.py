@@ -124,7 +124,11 @@ class RootMain(QMainWindow):
 
         self.userip = str(socket.gethostname())
         if self.userip in self.ips:
-            self.openMainWindow('username')
+            cursor.execute("SELECT username FROM acounts WHERE ip=\'%s\' ;" % self.userip)
+            for row in cursor:
+                self.username = row[0]
+            
+            self.openMainWindow(self.username)
         else:
             self.logingin()
 
@@ -133,6 +137,8 @@ class RootMain(QMainWindow):
         self.wrong_words = 0
         self.correct_letters = 0
         self.wrong_letter = 0
+
+        # acount
 
     #===============================Designer codes=============
     def borders(self):
@@ -152,6 +158,7 @@ class RootMain(QMainWindow):
     
     # open signin or login page
     def logingin(self):
+        connection.ping(reconnect=True)
 
         def LoginToDB():
             correct_info = True
@@ -298,9 +305,13 @@ class RootMain(QMainWindow):
 
 
     def openMainWindow(self , username):
+        connection.ping(reconnect=True)
         self.show()
         self.login.close()
         self.signup.close()
+
+        # acount page
+        self.acountPage(username)
 
         # open & close sidebar
         def openSidebar():
@@ -370,6 +381,7 @@ class RootMain(QMainWindow):
         # open & close sidebar
         self.main.btn_menu.clicked.connect(openSidebar)
 
+        # test function
         def TypingTest():
             # set words to type
             import random
@@ -380,8 +392,15 @@ class RootMain(QMainWindow):
             self.main.type_words.setText(words_toType)
             self.main.type_lastword.setText(words_toType_list[0])
 
-            # calculate words
-            def typing():
+            # delete last results
+            self.main.type_cwords.setText('')
+            self.main.type_wWords.setText('')
+            self.main.type_cletters.setText('')
+            self.main.type_Wletters.setText('')
+            self.main.type_result.setText('')
+
+            # split words with space
+            def splitSpace():
                 typed_text = self.main.words_en.text()
                 if len(typed_text) == 0:
                     typed_text = 'j'
@@ -402,7 +421,7 @@ class RootMain(QMainWindow):
             
 
 
-            self.main.words_en.textChanged.connect(typing)
+            self.main.words_en.textChanged.connect(splitSpace)
             self.main.words_en.setEnabled(True)
             self.main.words_en.setFocus()
 
@@ -429,13 +448,21 @@ class RootMain(QMainWindow):
                     self.result = int((self.correct_letters / 5) / 1) # result formula = (characters / 5) / 1 min
                     self.main.type_result.setText("%s WPM" % self.result)
 
+                    # acount
+                    self.acount_info['testsTaken'] += 1
+                    best = self.acount_info['bestTest']
+                    if self.result > best:
+                        self.acount_info['bestTest'] = self.result
+                    self.acount_info['typedLetters'] += self.correct_letters
+                    self.acountPage(username)
+
                 self.main.timer_counter -= 1
 
             # test timer
             self.main.timer_counter = 60
             self.main.timer = QTimer()
             self.main.timer.timeout.connect(typing_timer)
-            self.main.timer.start(1000)
+            self.main.timer.start(100)
         
         self.main.words_en.setEnabled(False)
         self.main.type_restart.clicked.connect(TypingTest)
@@ -476,6 +503,104 @@ class RootMain(QMainWindow):
                             self.correct_letters += 1
                         else:
                             self.wrong_letter += 1
+
+
+    # acount page
+    def acountPage(self , username):
+        connection.ping(reconnect=True)
+
+        # change acount settings
+        def changeAcountSetting():
+            self.acountsettings.show()
+
+            def change():
+                new_username = self.acountsettings.ui.username_en.text()
+                new_email = self.acountsettings.ui.email_en.text()
+                cursor.execute("SELECT username,email FROM acounts;")
+                db_usernames = []
+                db_emails = []
+                for row in cursor:
+                    db_usernames.append(row[0])
+                    db_emails.append(row[1])
+                if new_username in db_usernames:
+                    self.acountsettings.ui.alarmlb.setText("Username already exists")
+                elif new_email in db_emails:
+                    self.acountsettings.ui.alarmlb.setText("Email already exists")
+                else:
+                    # change username
+                    if new_email.strip() != '':
+                        try:
+                            validate_email(self.acountsettings.ui.email_en.text())
+
+                            quary = "UPDATE acounts SET email=\'%s\' WHERE email=\'%s\' ;" % (new_email , self.main.acount_email.text())
+                            cursor.execute(quary)
+                            connection.commit()
+
+                            self.main.acount_email.setText(new_email) # change username from acount page
+
+                        except:
+                            self.acountsettings.ui.alarmlb.setText('Email address is not valid')
+                    
+                    # change email
+                    if new_username.strip() != '':
+                        quary = "UPDATE acounts SET username=\'%s\' WHERE username=\'%s\' ;" % (new_username , self.main.acount_username.text())
+                        cursor.execute(quary)
+                        connection.commit()
+
+                        self.main.acount_username.setText(new_username) # change email from acount page
+                    
+                    self.acountsettings.close()
+                    
+
+            # acount settings page buttons
+            self.acountsettings.ui.btn_cancel.clicked.connect(lambda: self.acountsettings.close())
+            self.acountsettings.ui.btn_save.clicked.connect(change)
+
+        # log out
+        def logOut():
+            msg_logout = QMessageBox.question(self, 'LogOut', "Do want to log out from acount?", QMessageBox.Yes | QMessageBox.No)
+            if msg_logout == QMessageBox.Yes:
+                self.close()
+                quary = "UPDATE acounts SET ip=\'\' WHERE username=\'%s\' ; " % self.main.acount_username.text()
+                cursor.execute(quary)
+                connection.commit()
+                self.logingin()
+
+
+        try:
+            cursor.execute("UPDATE acounts SET testsTaken=%i , bestTest=%i , typedWords=%i , competeTaken=%i WHERE username=\'%s\' ;" %
+            (self.acount_info['testsTaken'] , self.acount_info['bestTest'] , self.acount_info['typedLetters'] , self.acount_info['competeTaken'] , username)
+            )
+            connection.commit()
+        except:
+            pass
+        
+        cursor.execute("SELECT * FROM acounts WHERE username=\'%s\' ;" % username)
+        self.acount_info = {}
+        for row in cursor:
+            self.acount_info['username'] = row[0]
+            self.acount_info['email'] = row[1]
+            self.acount_info['testsTaken'] = row[4]
+            self.acount_info['bestTest'] = row[5]
+            self.acount_info['typedLetters'] = row[6]
+            self.acount_info['competeTaken'] = row[7]
+
+        self.main.acount_email.setText(self.acount_info['email'])
+        self.main.acount_username.setText(self.acount_info['username'])
+        self.main.acount_profile.setText(username[0].upper())
+        self.main.acount_teststaken.setText("%s Tests" % self.acount_info['testsTaken'])
+        self.main.acount_besttest.setText("%s WPM" % self.acount_info['bestTest'])
+        self.main.acount_typedwords.setText("%s Letters" % self.acount_info['typedLetters'])
+        self.main.acount_comtaken.setText("%s Competitions" % self.acount_info['competeTaken'])
+
+        try:
+            self.tests_avrage = int( (int(self.acount_info['typedLetters']) / 5) / (int(self.acount_info['testsTaken']))) # (typedWords / 5) / (testsTaken * 1)
+        except:
+            self.tests_avrage = 0
+        self.main.acount_testavrage.setText("%s WPM" % self.tests_avrage)
+
+        self.main.btn_acountSettings.clicked.connect(changeAcountSetting)
+        self.main.btn_logout.clicked.connect(logOut)
 
 
 if __name__ == '__main__':
