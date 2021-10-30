@@ -25,6 +25,31 @@ from mainpage import Ui_MainWindow
 from login import Ui_LonginWindow
 from signup import Ui_SignupWindow
 from acountSettings import Ui_AcountSettings
+from competitions import Ui_CompetitionWindow
+
+class CompetitionWindow(QMainWindow):
+    def __init__(self):
+        QMainWindow.__init__(self)
+
+        self.ui = Ui_CompetitionWindow()
+        self.ui.setupUi(self)
+
+        # removing borders
+        self.setWindowFlag(Qt.FramelessWindowHint)
+        self.setAttribute(Qt.WA_TranslucentBackground)
+
+    def borders(self):
+        self.mainwindow = CompetitionWindow()
+        self.mainwindow.show()
+        self.close()
+
+    def mousePressEvent(self , evt):
+        self.oldPos = evt.globalPos()
+
+    def mouseMoveEvent(self , evt):
+        delta = QPoint(evt.globalPos() - self.oldPos)
+        self.move(self.x() + delta.x(), self.y() + delta.y())
+        self.oldPos = evt.globalPos()
 
 class AcountSettingsWindow(QMainWindow):
     def __init__(self):
@@ -138,7 +163,9 @@ class RootMain(QMainWindow):
         self.correct_letters = 0
         self.wrong_letter = 0
 
-        # acount
+        # competitions
+        self.main.btn_createcompetition.clicked.connect(lambda: self.competitionsPage(new=True))
+        self.main.btn_joincompetition.clicked.connect(lambda: self.competitionsPage(new=False))
 
     #===============================Designer codes=============
     def borders(self):
@@ -674,6 +701,11 @@ class RootMain(QMainWindow):
             self.main.rank_user5.setText('-')
             self.main.rank_test5.setText('-')
             
+
+
+    # competitions
+    def competitionsPage(self , new):
+        print(new)
 
 
 
