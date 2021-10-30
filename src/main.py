@@ -344,7 +344,8 @@ class RootMain(QMainWindow):
             self.main.btn_pageAcount.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageRanking.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageCompetitions.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
-            self.main.btn_pageSettings.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }")
+            self.main.btn_pageSettings.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            connection.ping(reconnect=True)
         ])
         self.main.btn_pageAcount.clicked.connect(lambda: [
             self.main.pages.setCurrentWidget(self.main.page_acount),
@@ -352,7 +353,8 @@ class RootMain(QMainWindow):
             self.main.btn_pageTest.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageRanking.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageCompetitions.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
-            self.main.btn_pageSettings.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }")
+            self.main.btn_pageSettings.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            connection.ping(reconnect=True)
         ])
         self.main.btn_pageRanking.clicked.connect(lambda: [
             self.main.pages.setCurrentWidget(self.main.page_ranking),
@@ -360,7 +362,9 @@ class RootMain(QMainWindow):
             self.main.btn_pageAcount.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageTest.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageCompetitions.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
-            self.main.btn_pageSettings.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }")
+            self.main.btn_pageSettings.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            self.rankingPage(0),
+            connection.ping(reconnect=True)
         ])
         self.main.btn_pageCompetitions.clicked.connect(lambda: [
             self.main.pages.setCurrentWidget(self.main.page_competitions),
@@ -368,7 +372,8 @@ class RootMain(QMainWindow):
             self.main.btn_pageAcount.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageRanking.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageTest.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
-            self.main.btn_pageSettings.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }")
+            self.main.btn_pageSettings.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            connection.ping(reconnect=True)
         ])
         self.main.btn_pageSettings.clicked.connect(lambda: [
             self.main.pages.setCurrentWidget(self.main.page_settings),
@@ -376,7 +381,8 @@ class RootMain(QMainWindow):
             self.main.btn_pageAcount.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageRanking.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageCompetitions.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
-            self.main.btn_pageTest.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }")
+            self.main.btn_pageTest.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            connection.ping(reconnect=True)
         ])
         # open & close sidebar
         self.main.btn_menu.clicked.connect(openSidebar)
@@ -418,8 +424,6 @@ class RootMain(QMainWindow):
                     self.main.type_lastword.setText(words_toType_list[0])
                     self.main.words_en.setText('')
                     
-            
-
 
             self.main.words_en.textChanged.connect(splitSpace)
             self.main.words_en.setEnabled(True)
@@ -455,6 +459,8 @@ class RootMain(QMainWindow):
                         self.acount_info['bestTest'] = self.result
                     self.acount_info['typedLetters'] += self.correct_letters
                     self.acountPage(username)
+
+                    self.rankingPage(self.result)
 
                 self.main.timer_counter -= 1
 
@@ -548,6 +554,7 @@ class RootMain(QMainWindow):
                         connection.commit()
 
                         self.main.acount_username.setText(new_username) # change email from acount page
+                        self.main.acount_profile.setText(new_username[0].upper())
                     
                     self.acountsettings.close()
                     
@@ -601,6 +608,73 @@ class RootMain(QMainWindow):
 
         self.main.btn_acountSettings.clicked.connect(changeAcountSetting)
         self.main.btn_logout.clicked.connect(logOut)
+
+
+    # ranking page
+    def rankingPage(self , wpm):
+        connection.ping(reconnect=True)
+
+        cursor.execute("SELECT * FROM ranking;")
+
+        # check if it's in 5 bests
+        ranking = {} # username : wpm
+        for row in cursor:
+            if (row[0] in ranking):
+                if ranking[row[0]] < row[1]:
+                    ranking[row[0]] = row[1]
+            else:
+                ranking[row[0]] = row[1]
+
+        
+        wpms = list(ranking.values())
+        users = list(ranking.keys())
+        counter = -1
+        for this in wpms:
+            counter += 1
+            if wpm > this:
+                ranking[str(self.main.acount_username.text())] = ranking.pop(users[counter])
+                ranking[str(self.main.acount_username.text())] = wpm
+
+                quary = "UPDATE ranking SET username=\'%s\',wpm=%i WHERE wpm=%i ;" % (self.main.acount_username.text() , wpm , this)
+                cursor.execute(quary)
+                connection.commit()
+
+                break
+
+        # print ranks in ranking page
+        sorted_ranks = sorted(ranking.items() , key = lambda x: (-x[1] , x[0]))
+        try:
+            self.main.rank_user1.setText(sorted_ranks[0][0])
+            self.main.rank_test1.setText(str(sorted_ranks[0][1]))
+        except:
+            self.main.rank_user1.setText('-')
+            self.main.rank_test1.setText('-')
+        try:
+            self.main.rank_user2.setText(sorted_ranks[1][0])
+            self.main.rank_test2.setText(str(sorted_ranks[1][1]))
+        except:
+            self.main.rank_user2.setText('-')
+            self.main.rank_test2.setText('-')
+        try:
+            self.main.rank_user3.setText(sorted_ranks[2][0])
+            self.main.rank_test3.setText(str(sorted_ranks[2][1]))
+        except:
+            self.main.rank_user3.setText('-')
+            self.main.rank_test3.setText('-')
+        try:
+            self.main.rank_user4.setText(sorted_ranks[3][0])
+            self.main.rank_test4.setText(str(sorted_ranks[3][1]))
+        except:
+            self.main.rank_user4.setText('-')
+            self.main.rank_test4.setText('-')
+        try:
+            self.main.rank_user5.setText(sorted_ranks[4][0])
+            self.main.rank_test5.setText(str(sorted_ranks[4][1]))
+        except:
+            self.main.rank_user5.setText('-')
+            self.main.rank_test5.setText('-')
+            
+
 
 
 if __name__ == '__main__':
