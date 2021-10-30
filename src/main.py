@@ -1,10 +1,12 @@
 import socket
-from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtGui import QFont, QIcon, QPixmap
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 import sys
+from PyQt5.sip import delete
 import pymysql
 from email_validator import validate_email
+import random
 from pathlib import Path
 
 path = str(Path.cwd())
@@ -417,7 +419,6 @@ class RootMain(QMainWindow):
         # test function
         def TypingTest():
             # set words to type
-            import random
             words_toType = ''
             for this in range(350):
                 words_toType += str(words[random.randint(0 , len(words)-1)]) + ' '
@@ -705,7 +706,187 @@ class RootMain(QMainWindow):
 
     # competitions
     def competitionsPage(self , new):
-        print(new)
+        connection.ping(reconnect=True)
+
+        # open competition page
+        def competitionPage(room_code):
+            self.comPage = CompetitionWindow()
+            self.close()
+            self.comPage.show()
+            self.comPage.ui.competition_code.setText(room_code)
+
+            # end competition
+            def endCompetition(room_code):
+                msg_end = QMessageBox.question(self.comPage, 'End Competition', "Do want to end the competition?", QMessageBox.Yes | QMessageBox.No)
+                if msg_end == QMessageBox.Yes:
+                    self.comPage.close()
+                    self.show()
+                    cursor.execute("DROP TABLE %s ;" % room_code)
+                    connection.commit()
+
+            # print competition ranking
+            def competitionRanking():
+
+                # delete former ranks
+                def deleteRanks():
+                    for i in reversed(range(self.comPage.ui.verticalLayout.count())): 
+                        self.comPage.ui.verticalLayout.itemAt(i).widget().setParent(None)
+
+                deleteRanks()
+
+                # print new ranks
+                tests = {}
+                cursor.execute("SELECT * FROM %s" % room_code)
+                for row in cursor:
+                    tests[row[0]] = row[1]
+
+                ranking = sorted(tests.items() , key = lambda x: -x[1])
+                counter = 1
+                for rank in ranking:
+                    self.comPage.ui.label_4 = QLabel(self.comPage.ui.scrollAreaWidgetContents)
+                    sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+                    sizePolicy.setHorizontalStretch(0)
+                    sizePolicy.setVerticalStretch(0)
+                    sizePolicy.setHeightForWidth(self.comPage.ui.label_4.sizePolicy().hasHeightForWidth())
+                    self.comPage.ui.label_4.setSizePolicy(sizePolicy)
+                    self.comPage.ui.label_4.setMinimumSize(QSize(0, 40))
+                    font = QFont()
+                    font.setFamily("Arial")
+                    font.setPointSize(9)
+                    self.comPage.ui.label_4.setFont(font)
+                    self.comPage.ui.label_4.setStyleSheet("background: #DEDEDE;")
+                    self.comPage.ui.label_4.setObjectName("label_4")
+                    self.comPage.ui.verticalLayout.addWidget(self.comPage.ui.label_4)
+                    self.comPage.ui.label_4.setText('   %i.    %s  |   %i WPM' % (counter,rank[0],rank[1]))
+                    counter += 1
+            
+
+            # competition test
+            def competitionTypingTest():
+                # set words to type
+                words_toType = ''
+                for this in range(350):
+                    words_toType += str(words[random.randint(0 , len(words)-1)]) + ' '
+                words_toType_list = words_toType.split()
+                self.comPage.ui.type_words.setText(words_toType)
+                self.comPage.ui.type_lastword.setText(words_toType_list[0])
+
+                # delete last results
+                self.comPage.ui.type_cwords.setText('')
+                self.comPage.ui.type_wWords.setText('')
+                self.comPage.ui.type_cletters.setText('')
+                self.comPage.ui.type_Wletters.setText('')
+                self.comPage.ui.type_result.setText('')
+
+                # split words with space
+                def splitSpace():
+                    typed_text = self.comPage.ui.words_en.text()
+                    if len(typed_text) == 0:
+                        typed_text = 'j'
+
+                    if typed_text[-1] == ' ':
+                        # check word                    
+                        self.checkWord(words_toType_list[0] , typed_text.strip())
+
+                        # delete last word
+                        words_toType_list.pop(0)
+                        words_toType = ''
+                        for word in words_toType_list:
+                            words_toType += word + ' '
+                        self.comPage.ui.type_words.setText(words_toType)
+                        self.comPage.ui.type_lastword.setText(words_toType_list[0])
+                        self.comPage.ui.words_en.setText('')
+                        
+
+                self.comPage.ui.words_en.textChanged.connect(splitSpace)
+                self.comPage.ui.words_en.setEnabled(True)
+                self.comPage.ui.words_en.setFocus()
+
+                # test timer
+                def typing_timer():
+                    self.comPage.ui.type_timer.setText(str(self.comPage.ui.timer_counter))
+
+                    # finish test
+                    if self.comPage.ui.timer_counter == 0:
+                        self.comPage.ui.timer.stop()
+
+                        # check if last space has not pushed
+                        if self.comPage.ui.words_en.text() != '':
+                            self.checkWord(words_toType_list[0] , self.comPage.ui.words_en.text().strip())
+
+                        self.comPage.ui.words_en.setText('')
+                        self.comPage.ui.words_en.setEnabled(False)
+
+                        # print the results
+                        self.comPage.ui.type_cwords.setText("%s Words" % self.correct_words)
+                        self.comPage.ui.type_wWords.setText("%s Words" % self.wrong_words)
+                        self.comPage.ui.type_cletters.setText("%s Letters" % self.correct_letters)
+                        self.comPage.ui.type_Wletters.setText("%s Letters" % self.wrong_letter)
+                        
+                        self.comPage.result = int((self.correct_letters / 5) / 1) # result formula = (characters / 5) / 1 min
+                        self.comPage.ui.type_result.setText("%s WPM" % self.comPage.result)
+
+                        cursor.execute("SELECT bestTest FROM %s WHERE username=\'%s\'" % (room_code , self.main.acount_username.text()))
+                        for row in cursor:
+                            if self.comPage.result > row[0]:
+                                quary = "UPDATE %s SET bestTest=%i WHERE username=\'%s\' ;" % (room_code , self.comPage.result , self.main.acount_username.text())
+                                cursor.execute(quary)
+                                connection.commit()
+                                competitionRanking()
+
+
+                    self.comPage.ui.timer_counter -= 1
+
+                # test timer
+                self.comPage.ui.timer_counter = 60
+                self.comPage.ui.timer = QTimer()
+                self.comPage.ui.timer.timeout.connect(typing_timer)
+                self.comPage.ui.timer.start(100)
+
+            self.comPage.ui.words_en.setEnabled(False)
+            self.comPage.ui.type_restart.clicked.connect(competitionTypingTest)
+
+            self.comPage.ui.btn_back.clicked.connect(lambda: [self.comPage.close() , self.show()])
+            try:
+                self.comPage.ui.btn_endCompetition.clicked.connect(lambda: endCompetition(room_code))
+            except:
+                pass
+            competitionRanking()
+
+        # create new competition
+        def createCompetition():
+            cursor.execute("show tables;")    
+            talbes = []
+            for row in cursor:
+                talbes.append(row[0])
+
+            # create competition code
+            code_characters = '12345678567890qwertyuiopasdfghjklzxcvbnm'
+            room_code = ''
+            while len(room_code) != 6:
+                room_code += random.choice(code_characters)
+
+            if room_code in talbes:
+                createCompetition()
+            else:
+                # create competition talbe in database
+                quary = "CREATE TABLE %s (username VARCHAR(100) , bestTest INT );" % room_code
+                cursor.execute(quary)
+                cursor.execute("INSERT INTO %s VALUES (\'%s\' , 20) ;" % (room_code , self.main.acount_username.text()))
+                cursor.execute("INSERT INTO %s VALUES (\'%s\' , 1) ;" % (room_code , 'reza'))
+                connection.commit()
+
+                competitionPage(room_code)
+            
+            
+
+        def joinCompetition():
+            pass
+
+        if new == True:
+            createCompetition()
+        else:
+            joinCompetition()
 
 
 
