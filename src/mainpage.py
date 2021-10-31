@@ -698,7 +698,7 @@ class Ui_MainWindow(object):
         self.join_competition.setText("")
         self.join_competition.setObjectName("join_competition")
         self.btn_joincompetition = QtWidgets.QPushButton(self.page_competitions)
-        self.btn_joincompetition.setGeometry(QtCore.QRect(20, 420, 370, 40))
+        self.btn_joincompetition.setGeometry(QtCore.QRect(20, 450, 370, 40))
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(9)
@@ -824,6 +824,20 @@ class Ui_MainWindow(object):
         self.btn_close.clicked.connect(MainWindow.close)
         self.btn_minimze.clicked.connect(MainWindow.showMinimized)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+        self.alarmlb = QtWidgets.QLabel(self.page_competitions)
+        self.alarmlb.setGeometry(QtCore.QRect(20, 420, 330, 20))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(9)
+        font.setBold(False)
+        font.setWeight(50)
+        self.alarmlb.setFont(font)
+        self.alarmlb.setStyleSheet("color: #d1131f;")
+        self.alarmlb.setText("")
+        self.alarmlb.setAlignment(QtCore.Qt.AlignCenter)
+        self.alarmlb.setObjectName("alarmlb")
+        self.alarmlb.setText('')
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

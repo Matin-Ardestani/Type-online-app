@@ -1,5 +1,5 @@
 import socket
-from PyQt5.QtGui import QFont, QIcon, QPixmap
+from PyQt5.QtGui import QCursor, QFont, QIcon, QPixmap
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 import sys
@@ -713,10 +713,32 @@ class RootMain(QMainWindow):
             self.comPage = CompetitionWindow()
             self.close()
             self.comPage.show()
+
+            quary = "SELECT host FROM %s ; " % room_code
+            cursor.execute(quary)
+            for row in cursor:
+                is_host = row[0]
+            
+            if is_host != 1:
+                self.comPage.ui.btn_endCompetition.deleteLater()
+            else:
+                self.comPage.ui.btn_endCompetition = QPushButton(self.comPage.ui.centralwidget)
+                self.comPage.ui.btn_endCompetition.setGeometry(QRect(20, 570, 150, 30))
+                font = QFont()
+                font.setFamily("Arial")
+                font.setPointSize(9)
+                self.comPage.ui.btn_endCompetition.setFont(font)
+                self.comPage.ui.btn_endCompetition.setCursor(QCursor(Qt.PointingHandCursor))
+                self.comPage.ui.btn_endCompetition.setStyleSheet("background-color: #0088CC; color: #FFFFFF;")
+                self.comPage.ui.btn_endCompetition.setObjectName("btn_endCompetition")
+                self.comPage.ui.btn_endCompetition.setText("End Competition")
+                
+
             self.comPage.ui.competition_code.setText(room_code)
 
             # end competition
             def endCompetition(room_code):
+                connection.ping(reconnect=True)
                 msg_end = QMessageBox.question(self.comPage, 'End Competition', "Do want to end the competition?", QMessageBox.Yes | QMessageBox.No)
                 if msg_end == QMessageBox.Yes:
                     self.comPage.close()
@@ -726,7 +748,7 @@ class RootMain(QMainWindow):
 
             # print competition ranking
             def competitionRanking():
-
+                connection.ping(reconnect=True)
                 # delete former ranks
                 def deleteRanks():
                     for i in reversed(range(self.comPage.ui.verticalLayout.count())): 
@@ -870,18 +892,47 @@ class RootMain(QMainWindow):
                 createCompetition()
             else:
                 # create competition talbe in database
-                quary = "CREATE TABLE %s (username VARCHAR(100) , bestTest INT );" % room_code
+                quary = "CREATE TABLE %s (username VARCHAR(100) , bestTest INT , host VARCHAR(100) );" % room_code
                 cursor.execute(quary)
-                cursor.execute("INSERT INTO %s VALUES (\'%s\' , 20) ;" % (room_code , self.main.acount_username.text()))
-                cursor.execute("INSERT INTO %s VALUES (\'%s\' , 1) ;" % (room_code , 'reza'))
+                cursor.execute("INSERT INTO %s VALUES (\'%s\' , 0 , 1) ;" % (room_code , self.main.acount_username.text()))
                 connection.commit()
 
                 competitionPage(room_code)
             
             
-
+        # join a competition
         def joinCompetition():
-            pass
+            # check blanks
+            if self.main.join_competition.text().strip() == '':
+                self.main.alarmlb.setText('Please enter competition code')
+            else:
+                # join to the competition
+                cursor.execute('show tables;')
+                tables = []
+                for row in cursor:
+                    tables.append(row[0])
+                    
+                print('tables:' , tables)
+                if self.main.join_competition.text() in tables:
+                    self.main.alarmlb.setText('')
+
+                    # insert new user into database
+                    cursor.execute("SELECT username FROM %s; " % self.main.join_competition.text())
+                    table_users = []
+                    for row in cursor:
+                        table_users.append(row[0])
+                    print('users: ' , table_users)
+                    if self.main.acount_username.text() not in table_users:
+                        # if user loged for first time
+                        quary = "INSERT INTO %s VALUES (\'%s\' , 0 , 0);" % (self.main.join_competition.text() , self.main.acount_username.text())
+                        cursor.execute(quary)
+                        connection.commit()
+
+                    competitionPage(str(self.main.join_competition.text()))
+                else:
+                    self.main.alarmlb.setText('This competition does not exists')
+
+
 
         if new == True:
             createCompetition()
