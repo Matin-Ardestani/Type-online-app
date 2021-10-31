@@ -714,24 +714,16 @@ class RootMain(QMainWindow):
             self.close()
             self.comPage.show()
 
-            quary = "SELECT host FROM %s ; " % room_code
+            quary = "SELECT host FROM %s WHERE username=\'%s\'; " % (room_code , self.main.acount_username.text())
             cursor.execute(quary)
             for row in cursor:
                 is_host = row[0]
+                print('row is:' , row)
             
-            if is_host != 1:
-                self.comPage.ui.btn_endCompetition.deleteLater()
+            if is_host == '1':
+                self.comPage.ui.btn_endCompetition.show()
             else:
-                self.comPage.ui.btn_endCompetition = QPushButton(self.comPage.ui.centralwidget)
-                self.comPage.ui.btn_endCompetition.setGeometry(QRect(20, 570, 150, 30))
-                font = QFont()
-                font.setFamily("Arial")
-                font.setPointSize(9)
-                self.comPage.ui.btn_endCompetition.setFont(font)
-                self.comPage.ui.btn_endCompetition.setCursor(QCursor(Qt.PointingHandCursor))
-                self.comPage.ui.btn_endCompetition.setStyleSheet("background-color: #0088CC; color: #FFFFFF;")
-                self.comPage.ui.btn_endCompetition.setObjectName("btn_endCompetition")
-                self.comPage.ui.btn_endCompetition.setText("End Competition")
+                self.comPage.ui.btn_endCompetition.hide()
                 
 
             self.comPage.ui.competition_code.setText(room_code)
@@ -897,6 +889,10 @@ class RootMain(QMainWindow):
                 cursor.execute("INSERT INTO %s VALUES (\'%s\' , 0 , 1) ;" % (room_code , self.main.acount_username.text()))
                 connection.commit()
 
+                # add a competition to other ones
+                self.acount_info['competeTaken'] += 1
+                self.acountPage(self.main.acount_username.text())
+
                 competitionPage(room_code)
             
             
@@ -927,6 +923,10 @@ class RootMain(QMainWindow):
                         quary = "INSERT INTO %s VALUES (\'%s\' , 0 , 0);" % (self.main.join_competition.text() , self.main.acount_username.text())
                         cursor.execute(quary)
                         connection.commit()
+
+                        # add a competition to other ones
+                        self.acount_info['competeTaken'] += 1
+                        self.acountPage(self.main.acount_username.text())
 
                     competitionPage(str(self.main.join_competition.text()))
                 else:
