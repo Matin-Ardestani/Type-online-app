@@ -339,8 +339,10 @@ class RootMain(QMainWindow):
         self.login.close()
         self.signup.close()
 
+        self.main.acount_username.setText(username)
+
         # acount page
-        self.acountPage(username)
+        self.acountPage(self.main.acount_username.text())
 
         # open & close sidebar
         def openSidebar():
@@ -486,7 +488,7 @@ class RootMain(QMainWindow):
                     if self.result > best:
                         self.acount_info['bestTest'] = self.result
                     self.acount_info['typedLetters'] += self.correct_letters
-                    self.acountPage(username)
+                    self.acountPage(self.main.acount_username.text())
 
                     self.rankingPage(self.result)
 
@@ -600,6 +602,8 @@ class RootMain(QMainWindow):
                 cursor.execute(quary)
                 connection.commit()
                 self.logingin()
+
+                self.acount_info = {} # delete loged out acount info
 
 
         try:
