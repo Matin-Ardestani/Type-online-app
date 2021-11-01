@@ -168,6 +168,12 @@ class RootMain(QMainWindow):
         # competitions
         self.main.btn_createcompetition.clicked.connect(lambda: self.competitionsPage(new=True))
         self.main.btn_joincompetition.clicked.connect(lambda: self.competitionsPage(new=False))
+        self.comPage = CompetitionWindow()
+
+        # page settings
+        self.theme = 'light'
+        self.settingPage()
+        
 
     #===============================Designer codes=============
     def borders(self):
@@ -305,9 +311,11 @@ class RootMain(QMainWindow):
                         email = self.signup.ui.email_en.text()
                         password = self.signup.ui.password_en.text()
                         ip = str(socket.gethostname())
-                        quary = "INSERT INTO acounts VALUES( \'%s\' , \'%s\' , \'%s\' , \'%s\' , \'%i\' , \'%i\' , \'%i\' , \'%i\' );" % (username , email , password , ip , 0 , 0 , 0 , 0)
+                        quary = "INSERT INTO acounts VALUES( \'%s\' , \'%s\' , \'%s\' , \'%s\' , \'%i\' , \'%i\' , \'%i\' , \'%i\' , \'light\');" % (username , email , password , ip , 0 , 0 , 0 , 0)
                         cursor.execute(quary)
                         connection.commit()
+
+                        
 
                         self.openMainWindow(username)
                     except:
@@ -364,9 +372,18 @@ class RootMain(QMainWindow):
                 self.anim.setEndValue(QRect(-180, 0, 180, 620))
                 self.anim.start()
                 icon3 = QIcon()
-                icon3.addPixmap(QPixmap("%s/img/menu.png" % path), QIcon.Normal, QIcon.Off)
-                self.main.btn_menu.setIcon(icon3)
-                self.main.btn_menu.setIconSize(QSize(20, 20))
+
+                cursor.execute("SELECT theme FROM acounts WHERE username=\'%s\' ;" % self.main.acount_username.text())
+                for row in cursor:
+                    self.theme = row[0]
+                if self.theme == 'light':
+                    icon3.addPixmap(QPixmap("%s/img/menu.png" % path), QIcon.Normal, QIcon.Off)
+                    self.main.btn_menu.setIcon(icon3)
+                    self.main.btn_menu.setIconSize(QSize(20, 20))
+                elif self.theme == 'dark':
+                    icon3.addPixmap(QPixmap("%s/img/menu-light.png" % path), QIcon.Normal, QIcon.Off)
+                    self.main.btn_menu.setIcon(icon3)
+                    self.main.btn_menu.setIconSize(QSize(20, 20))
 
         # move between pages
         self.main.btn_pageTest.clicked.connect(lambda: [
@@ -498,7 +515,7 @@ class RootMain(QMainWindow):
             self.main.timer_counter = 60
             self.main.timer = QTimer()
             self.main.timer.timeout.connect(typing_timer)
-            self.main.timer.start(100)
+            self.main.timer.start(1000)
         
         self.main.words_en.setEnabled(False)
         self.main.type_restart.clicked.connect(TypingTest)
@@ -714,7 +731,7 @@ class RootMain(QMainWindow):
 
         # open competition page
         def competitionPage(room_code):
-            self.comPage = CompetitionWindow()
+            
             self.close()
             self.comPage.show()
 
@@ -722,7 +739,6 @@ class RootMain(QMainWindow):
             cursor.execute(quary)
             for row in cursor:
                 is_host = row[0]
-                print('row is:' , row)
             
             if is_host == '1':
                 self.comPage.ui.btn_endCompetition.show()
@@ -859,7 +875,7 @@ class RootMain(QMainWindow):
                 self.comPage.ui.timer_counter = 60
                 self.comPage.ui.timer = QTimer()
                 self.comPage.ui.timer.timeout.connect(typing_timer)
-                self.comPage.ui.timer.start(100)
+                self.comPage.ui.timer.start(1000)
 
             self.comPage.ui.words_en.setEnabled(False)
             self.comPage.ui.type_restart.clicked.connect(competitionTypingTest)
@@ -912,7 +928,6 @@ class RootMain(QMainWindow):
                 for row in cursor:
                     tables.append(row[0])
                     
-                print('tables:' , tables)
                 if self.main.join_competition.text() in tables:
                     self.main.alarmlb.setText('')
 
@@ -921,7 +936,7 @@ class RootMain(QMainWindow):
                     table_users = []
                     for row in cursor:
                         table_users.append(row[0])
-                    print('users: ' , table_users)
+
                     if self.main.acount_username.text() not in table_users:
                         # if user loged for first time
                         quary = "INSERT INTO %s VALUES (\'%s\' , 0 , 0);" % (self.main.join_competition.text() , self.main.acount_username.text())
@@ -943,6 +958,255 @@ class RootMain(QMainWindow):
         else:
             joinCompetition()
 
+
+    # settings page
+    def settingPage(self):
+
+        def change_color(mode):
+            connection.ping(reconnect=True)
+
+            if mode == 'light':
+                self.theme = 'light'
+
+                cursor.execute("UPDATE acounts SET theme=\'light\' WHERE username=\'%s\' ;" % self.main.acount_username.text())
+                connection.commit()
+
+                # login page
+                self.login.setStyleSheet('background-color: #fff; border-radius: 5px;')
+                self.login.ui.title.setStyleSheet('color: #010A1A;')
+                self.login.ui.usernamelb.setStyleSheet('color: #010A1A;')
+                self.login.ui.passlb.setStyleSheet('color: #010A1A;')
+                self.login.ui.acountlb.setStyleSheet('color: #010A1A;')
+                icon1 = QIcon()
+                icon1.addPixmap(QPixmap("%s/img/close.png" % path), QIcon.Normal, QIcon.Off)
+                self.login.ui.btn_close.setIcon(icon1)
+                icon1 = QIcon()
+                icon1.addPixmap(QPixmap("%s/img/minimize.png" % path), QIcon.Normal, QIcon.Off)
+                self.login.ui.btn_minimze.setIcon(icon1)
+
+
+                # sign up page
+                self.signup.setStyleSheet('background-color: #fff; border-radius: 5px;')
+                self.signup.ui.title.setStyleSheet('color: #010A1A;')
+                self.signup.ui.usernamelb.setStyleSheet('color: #010A1A;')
+                self.signup.ui.passlb.setStyleSheet('color: #010A1A;')
+                self.signup.ui.acountlb.setStyleSheet('color: #010A1A;')
+                self.signup.ui.repasslb.setStyleSheet('color: #010A1A;')
+                icon1 = QIcon()
+                icon1.addPixmap(QPixmap("%s/img/close.png" % path), QIcon.Normal, QIcon.Off)
+                self.signup.ui.btn_close.setIcon(icon1)
+                icon1 = QIcon()
+                icon1.addPixmap(QPixmap("%s/img/minimize.png" % path), QIcon.Normal, QIcon.Off)
+
+
+                # acount settings
+                self.acountsettings.setStyleSheet('background-color: #fff; border-radius: 5px;')
+                self.acountsettings.ui.acount_email_2.setStyleSheet('color: #010A1A;')
+                self.acountsettings.ui.acount_email_3.setStyleSheet('color: #010A1A;')
+
+                # main page
+                self.setStyleSheet('background-color: #fff;border-radius:5px;')
+                self.main.label.setStyleSheet('color: #010A1A;')
+                self.main.label_2.setStyleSheet('color: #010A1A;')
+                self.main.label_6.setStyleSheet('color: #010A1A;')
+                self.main.label_7.setStyleSheet('color: #010A1A;')
+                self.main.acount_username.setStyleSheet('color: #010A1A;')
+                self.main.acount_email.setStyleSheet('color: #010A1A;')
+                self.main.acount_email_2.setStyleSheet('color: #010A1A;')
+                self.main.acount_email_3.setStyleSheet('color: #010A1A;')
+                self.main.acount_email_5.setStyleSheet('color: #010A1A;')
+                self.main.acount_email_6.setStyleSheet('color: #010A1A;')
+                self.main.acount_email_4.setStyleSheet('color: #010A1A;')
+                self.main.acount_teststaken.setStyleSheet('color: #010A1A;')
+                self.main.acount_besttest.setStyleSheet('color: #010A1A;')
+                self.main.acount_testavrage.setStyleSheet('color: #010A1A;')
+                self.main.acount_typedwords.setStyleSheet('color: #010A1A;')
+                self.main.acount_comtaken.setStyleSheet('color: #010A1A;')
+                self.main.ranking_title.setStyleSheet('color: #010A1A;')
+                self.main.label_14.setStyleSheet('background-color:#DEDEDE;color: #010A1A; border:1px solid #010A1A; border-radius: 0px;')
+                self.main.label_8.setStyleSheet('background-color:#DEDEDE;color: #010A1A; border:1px solid #010A1A; border-radius: 0px;')
+                self.main.label_9.setStyleSheet('background-color:#DEDEDE;color: #010A1A; border:1px solid #010A1A; border-radius: 0px;')
+                self.main.label_15.setStyleSheet('color: #010A1A; border:1px solid #010A1A; border-radius: 0px;')
+                self.main.label_16.setStyleSheet('color: #010A1A; border:1px solid #010A1A; border-radius: 0px;')
+                self.main.label_24.setStyleSheet('color: #010A1A; border:1px solid #010A1A; border-radius: 0px;')
+                self.main.label_27.setStyleSheet('color: #010A1A; border:1px solid #010A1A; border-radius: 0px;')
+                self.main.label_21.setStyleSheet('color: #010A1A; border:1px solid #010A1A; border-radius: 0px;')
+                self.main.rank_user1.setStyleSheet('color: #010A1A; border:1px solid #010A1A; border-radius: 0px;')
+                self.main.rank_user2.setStyleSheet('color: #010A1A; border:1px solid #010A1A; border-radius: 0px;')
+                self.main.rank_user3.setStyleSheet('color: #010A1A; border:1px solid #010A1A; border-radius: 0px;')
+                self.main.rank_user4.setStyleSheet('color: #010A1A; border:1px solid #010A1A; border-radius: 0px;')
+                self.main.rank_user5.setStyleSheet('color: #010A1A; border:1px solid #010A1A; border-radius: 0px;')
+                self.main.rank_test1.setStyleSheet('color: #010A1A; border:1px solid #010A1A; border-radius: 0px;')
+                self.main.rank_test2.setStyleSheet('color: #010A1A; border:1px solid #010A1A; border-radius: 0px;')
+                self.main.rank_test3.setStyleSheet('color: #010A1A; border:1px solid #010A1A; border-radius: 0px;')
+                self.main.rank_test4.setStyleSheet('color: #010A1A; border:1px solid #010A1A; border-radius: 0px;')
+                self.main.rank_test5.setStyleSheet('color: #010A1A; border:1px solid #010A1A; border-radius: 0px;')
+                self.main.ranking_title_2.setStyleSheet('color: #010A1A;')
+                self.main.ranking_title_4.setStyleSheet('color: #010A1A;')
+                self.main.ranking_title_5.setStyleSheet('color: #010A1A;')
+                self.main.ranking_title_6.setStyleSheet('color: #010A1A;')
+                self.main.ranking_title_7.setStyleSheet('color: #010A1A;')
+                self.main.ranking_title_8.setStyleSheet('color: #010A1A;')
+                self.main.ranking_title_9.setStyleSheet('color: #010A1A;')
+                self.main.ranking_title_10.setStyleSheet('color: #010A1A;')
+                self.main.ranking_title_11.setStyleSheet('color: #010A1A;')
+                self.main.ranking_title_12.setStyleSheet('color: #010A1A;')
+                icon1 = QIcon()
+                icon1.addPixmap(QPixmap("%s/img/close.png" % path), QIcon.Normal, QIcon.Off)
+                self.main.btn_close.setIcon(icon1)
+                icon1 = QIcon()
+                icon1.addPixmap(QPixmap("%s/img/minimize.png" % path), QIcon.Normal, QIcon.Off)
+                self.main.btn_minimze.setIcon(icon1)
+                icon1 = QIcon()
+                icon1.addPixmap(QPixmap("%s/img/menu.png" % path), QIcon.Normal, QIcon.Off)
+                self.main.btn_menu.setIcon(icon1)
+                self.main.btn_close.setStyleSheet('background-color: #FFFFFF;')
+                self.main.btn_minimze.setStyleSheet('background-color: #FFFFFF;')
+
+                # competition page
+                icon1 = QIcon()
+                icon1.addPixmap(QPixmap("%s/img/back.png" % path), QIcon.Normal, QIcon.Off)
+                self.comPage.setStyleSheet('background-color: #fff;border-radius:5px;')
+                self.comPage.ui.btn_back.setIcon(icon1)
+                self.comPage.ui.ranking_title_2.setStyleSheet('color: #010A1A;')
+                self.comPage.ui.ranking_title.setStyleSheet('color: #010A1A;')
+                self.comPage.ui.label.setStyleSheet('color: #010A1A;')
+                self.comPage.ui.label_2.setStyleSheet('color: #010A1A;')
+                self.comPage.ui.label_6.setStyleSheet('color: #010A1A;')
+                self.comPage.ui.label_7.setStyleSheet('color: #010A1A;')
+                self.comPage.ui.competition_code.setStyleSheet('color: #010A1A;')
+
+            if mode == 'dark':
+                self.theme = 'dark'
+
+                cursor.execute("UPDATE acounts SET theme=\'dark\' WHERE username=\'%s\' ;" % self.main.acount_username.text())
+                connection.commit()
+
+
+                # login page
+                self.login.setStyleSheet('background-color: #010A1A; border-radius: 5px;')
+                self.login.ui.title.setStyleSheet('color: #fff;')
+                self.login.ui.usernamelb.setStyleSheet('color: #fff;')
+                self.login.ui.passlb.setStyleSheet('color: #fff;')
+                self.login.ui.acountlb.setStyleSheet('color: #fff;')
+                icon1 = QIcon()
+                icon1.addPixmap(QPixmap("%s/img/close-light.png" % path), QIcon.Normal, QIcon.Off)
+                self.login.ui.btn_close.setIcon(icon1)
+                icon1 = QIcon()
+                icon1.addPixmap(QPixmap("%s/img/minimize-light.png" % path), QIcon.Normal, QIcon.Off)
+                self.login.ui.btn_minimze.setIcon(icon1)
+
+
+                # sign up page
+                self.signup.setStyleSheet('background-color: #010A1A; border-radius: 5px;')
+                self.signup.ui.title.setStyleSheet('color: #fff;')
+                self.signup.ui.usernamelb.setStyleSheet('color: #fff;')
+                self.signup.ui.passlb.setStyleSheet('color: #fff;')
+                self.signup.ui.acountlb.setStyleSheet('color: #fff;')
+                self.signup.ui.repasslb.setStyleSheet('color: #fff;')
+                icon1 = QIcon()
+                icon1.addPixmap(QPixmap("%s/img/close-light.png" % path), QIcon.Normal, QIcon.Off)
+                self.signup.ui.btn_close.setIcon(icon1)
+                icon1 = QIcon()
+                icon1.addPixmap(QPixmap("%s/img/minimize-light.png" % path), QIcon.Normal, QIcon.Off)
+                self.signup.ui.btn_minimze.setIcon(icon1)
+
+
+                # acount settings
+                self.acountsettings.setStyleSheet('background-color: #010A1A; border-radius: 5px;')
+                self.acountsettings.ui.acount_email_2.setStyleSheet('color: #fff;')
+                self.acountsettings.ui.acount_email_3.setStyleSheet('color: #fff;')
+
+                # main page
+                self.setStyleSheet('background-color: #010A1A;border-radius:5px;')
+                self.main.label.setStyleSheet('color: #fff;')
+                self.main.label_2.setStyleSheet('color: #fff;')
+                self.main.label_6.setStyleSheet('color: #fff;')
+                self.main.label_7.setStyleSheet('color: #fff;')
+                self.main.acount_username.setStyleSheet('color: #fff;')
+                self.main.acount_email.setStyleSheet('color: #fff;')
+                self.main.acount_email_2.setStyleSheet('color: #fff;')
+                self.main.acount_email_3.setStyleSheet('color: #fff;')
+                self.main.acount_email_5.setStyleSheet('color: #fff;')
+                self.main.acount_email_6.setStyleSheet('color: #fff;')
+                self.main.acount_email_4.setStyleSheet('color: #fff;')
+                self.main.acount_teststaken.setStyleSheet('color: #fff;')
+                self.main.acount_besttest.setStyleSheet('color: #fff;')
+                self.main.acount_testavrage.setStyleSheet('color: #fff;')
+                self.main.acount_typedwords.setStyleSheet('color: #fff;')
+                self.main.acount_comtaken.setStyleSheet('color: #fff;')
+                self.main.ranking_title.setStyleSheet('color: #fff;')
+                self.main.label_14.setStyleSheet('background-color:#DEDEDE;color: #fff; border:1px solid #fff; border-radius: 0px;')
+                self.main.label_8.setStyleSheet('background-color:#DEDEDE;color: #fff; border:1px solid #fff; border-radius: 0px;')
+                self.main.label_9.setStyleSheet('background-color:#DEDEDE;color: #fff; border:1px solid #fff; border-radius: 0px;')
+                self.main.label_15.setStyleSheet('color: #fff; border:1px solid #fff; border-radius: 0px;')
+                self.main.label_16.setStyleSheet('color: #fff; border:1px solid #fff; border-radius: 0px;')
+                self.main.label_24.setStyleSheet('color: #fff; border:1px solid #fff; border-radius: 0px;')
+                self.main.label_27.setStyleSheet('color: #fff; border:1px solid #fff; border-radius: 0px;')
+                self.main.label_21.setStyleSheet('color: #fff; border:1px solid #fff; border-radius: 0px;')
+                self.main.rank_user1.setStyleSheet('color: #fff; border:1px solid #fff; border-radius: 0px;')
+                self.main.rank_user2.setStyleSheet('color: #fff; border:1px solid #fff; border-radius: 0px;')
+                self.main.rank_user3.setStyleSheet('color: #fff; border:1px solid #fff; border-radius: 0px;')
+                self.main.rank_user4.setStyleSheet('color: #fff; border:1px solid #fff; border-radius: 0px;')
+                self.main.rank_user5.setStyleSheet('color: #fff; border:1px solid #fff; border-radius: 0px;')
+                self.main.rank_test1.setStyleSheet('color: #fff; border:1px solid #fff; border-radius: 0px;')
+                self.main.rank_test2.setStyleSheet('color: #fff; border:1px solid #fff; border-radius: 0px;')
+                self.main.rank_test3.setStyleSheet('color: #fff; border:1px solid #fff; border-radius: 0px;')
+                self.main.rank_test4.setStyleSheet('color: #fff; border:1px solid #fff; border-radius: 0px;')
+                self.main.rank_test5.setStyleSheet('color: #fff; border:1px solid #fff; border-radius: 0px;')
+                self.main.ranking_title_2.setStyleSheet('color: #fff;')
+                self.main.ranking_title_4.setStyleSheet('color: #fff;')
+                self.main.ranking_title_5.setStyleSheet('color: #fff;')
+                self.main.ranking_title_6.setStyleSheet('color: #fff;')
+                self.main.ranking_title_7.setStyleSheet('color: #fff;')
+                self.main.ranking_title_8.setStyleSheet('color: #fff;')
+                self.main.ranking_title_9.setStyleSheet('color: #fff;')
+                self.main.ranking_title_10.setStyleSheet('color: #fff;')
+                self.main.ranking_title_11.setStyleSheet('color: #fff;')
+                self.main.ranking_title_12.setStyleSheet('color: #fff;')
+                icon1 = QIcon()
+                icon1.addPixmap(QPixmap("%s/img/close-light.png" % path), QIcon.Normal, QIcon.Off)
+                self.main.btn_close.setIcon(icon1)
+                icon1 = QIcon()
+                icon1.addPixmap(QPixmap("%s/img/minimize-light.png" % path), QIcon.Normal, QIcon.Off)
+                self.main.btn_minimze.setIcon(icon1)
+                icon1 = QIcon()
+                icon1.addPixmap(QPixmap("%s/img/menu-light.png" % path), QIcon.Normal, QIcon.Off)
+                self.main.btn_menu.setIcon(icon1)
+                self.main.btn_close.setStyleSheet('background-color: #010A1A;')
+                self.main.btn_minimze.setStyleSheet('background-color: #010A1A;')
+
+                # competition page
+                icon1 = QIcon()
+                icon1.addPixmap(QPixmap("%s/img/back-light.png" % path), QIcon.Normal, QIcon.Off)
+                self.comPage.setStyleSheet('background-color: #010A1A;border-radius:5px;')
+                self.comPage.ui.btn_back.setIcon(icon1)
+                self.comPage.ui.ranking_title_2.setStyleSheet('color: #fff;')
+                self.comPage.ui.ranking_title.setStyleSheet('color: #fff;')
+                self.comPage.ui.label.setStyleSheet('color: #fff;')
+                self.comPage.ui.label_2.setStyleSheet('color: #fff;')
+                self.comPage.ui.label_6.setStyleSheet('color: #fff;')
+                self.comPage.ui.label_7.setStyleSheet('color: #fff;')
+                self.comPage.ui.competition_code.setStyleSheet('color: #fff;')
+
+        # change color  
+        try:
+            cursor.execute("SELECT theme FROM acounts WHERE username=\'%s\' ;" % self.main.acount_username.text())
+            for row in cursor:
+                self.theme = row[0]
+                
+            if self.theme == 'light':
+                change_color('light')
+            elif self.theme == 'dark':
+                change_color('dark')
+                
+        except:
+            change_color('light')
+
+        self.main.settings_theme.currentTextChanged.connect(lambda: change_color(self.main.settings_theme.currentText().lower()))
+
+
+        
 
 
 if __name__ == '__main__':

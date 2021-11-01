@@ -82,7 +82,7 @@
    <widget class="QFrame" name="sidebar">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>-180</x>
       <y>0</y>
       <width>180</width>
       <height>620</height>
@@ -287,7 +287,7 @@ background-color: #DEDEDE;border-radius: 0px;
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="page_type">
      <widget class="QLabel" name="label_7">
