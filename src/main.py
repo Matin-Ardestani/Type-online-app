@@ -7,12 +7,18 @@ from PyQt5.sip import delete
 import pymysql
 from email_validator import validate_email
 import random
+from win10toast import ToastNotifier
 from pathlib import Path
 
 path = str(Path.cwd())
 
-connection = pymysql.connect() # Database inforamtions ( not in github )
-cursor = connection.cursor()
+try:
+    connection = pymysql.connect(host='mysql5033.site4now.net' , user='a7b948_typing' , password='Mn#1105host' , database='db_a7b948_typing') # Database inforamtions ( not in github )
+    cursor = connection.cursor()
+except:
+    toast = ToastNotifier()
+    toast.show_toast("Warning","Something went wrong!\nChen your internet connection.",duration=20,icon_path="C:/Users/ardes/Desktop/Typing-online-app/img/logo.ico")
+    exit()
 
 words = ['about', 'above', 'add', 'after', 'again', 'air', 'all', 'almost', 'along', 'also', 'always', 'America', 'an', 'and', 'animal', 'another', 'answer', 'any', 'are', 'around', 'as', 'ask', 'at', 'away', 'back', 'be', 
 'because', 'been', 'before', 'began', 'begin', 'being', 'below', 'between', 'big', 'book', 'both', 'boy', 'but', 'by', 'call', 'came', 'can', 'car', 'carry', 'change', 'children', 'city', 'close', 'come', 'could', 'country', 'cut', 'day', 'did', 'different', 'do', 'does', "don't", 'down', 'each', 'earth', 'eat', 'end', 'enough', 'even', 'every', 'example', 'eye', 'face', 'family', 'far', 'father', 'feet', 'few', 'find', 'first', 'follow', 'food', 'for', 'form', 'found', 'four', 'from', 'get', 'girl', 'give', 'go', 'good', 'got', 'great', 'group', 'grow', 'had', 'hand', 'hard', 'has', 'have', 'he', 'head', 'hear', 'help', 'her', 'here', 'high', 'him', 'his', 'home', 'house', 'how', 'idea', 'if', 'important', 'in', 'Indian', 'into', 'is', 'it', 'its', "it's", 'just', 'keep', 'kind', 'know', 'land', 'large', 'last', 'later', 'learn', 'leave', 'left', 
@@ -197,6 +203,7 @@ class RootMain(QMainWindow):
             # check blanks
             if ((self.login.ui.username_en.text()).strip() == '') or ((self.login.ui.password_en.text()).strip() == ''):
                 self.login.ui.alarmlb.setText('Fill all blanks')
+                correct_info = False
             else:
                 # check username
                 cursor.execute("SELECT username FROM acounts;")
@@ -217,13 +224,13 @@ class RootMain(QMainWindow):
                     if self.login.ui.password_en.text() != password:
                         self.login.ui.alarmlb.setText('Username or Password is not correct')
                         correct_info = False
+                        
 
             # change user ip in database
             if correct_info == True:
                 quary = "UPDATE acounts SET ip=\'%s\' WHERE username=\'%s\' ;" % (str(socket.gethostname()) , self.login.ui.username_en.text())
                 cursor.execute(quary)
                 connection.commit()
-
                 self.openMainWindow(self.login.ui.username_en.text())
 
         # sign in page
@@ -346,7 +353,7 @@ class RootMain(QMainWindow):
         self.main.acount_username.setText(username)
 
         # acount page
-        self.acountPage(self.main.acount_username.text())
+        self.acountPage(username)
 
         # open & close sidebar
         def openSidebar():
@@ -508,6 +515,11 @@ class RootMain(QMainWindow):
 
                     self.rankingPage(self.result)
 
+                    self.correct_words = 0
+                    self.wrong_words = 0
+                    self.correct_letters = 0
+                    self.wrong_letter = 0
+
                 self.main.timer_counter -= 1
 
             # test timer
@@ -633,6 +645,7 @@ class RootMain(QMainWindow):
         cursor.execute("SELECT * FROM acounts WHERE username=\'%s\' ;" % username)
         self.acount_info = {}
         for row in cursor:
+            print('row is: ' , row)
             self.acount_info['username'] = row[0]
             self.acount_info['email'] = row[1]
             self.acount_info['testsTaken'] = row[4]
@@ -679,18 +692,32 @@ class RootMain(QMainWindow):
         counter = -1
         for this in wpms:
             counter += 1
-            if wpm > this:
-                ranking[str(self.main.acount_username.text())] = ranking.pop(users[counter])
+            if (wpm > this):
+                if self.main.acount_username.text() in users:
+                    if wpm <= ranking[self.main.acount_username.text()]:
+                        break
+
                 ranking[str(self.main.acount_username.text())] = wpm
 
-                quary = "UPDATE ranking SET username=\'%s\',wpm=%i WHERE wpm=%i ;" % (self.main.acount_username.text() , wpm , this)
-                cursor.execute(quary)
+                sorted_ranks = sorted(ranking.items() , key = lambda x: (-x[1] , x[0]))
+
+                if len(sorted_ranks) < 5:
+                    sorted_ranks.pop(-1)
+                print('sorted:' , sorted_ranks)
+                cursor.execute("DELETE FROM ranking;")
+                for that in sorted_ranks:
+                    cursor.execute("INSERT INTO ranking VALUES (\'%s\',\'%s\')" % (that[0],that[1]))
                 connection.commit()
 
                 break
 
         # print ranks in ranking page
+        cursor.execute("SELECT * FROM ranking;")
+        ranking = {}
+        for this in cursor:
+            ranking[this[0]] = this[1]
         sorted_ranks = sorted(ranking.items() , key = lambda x: (-x[1] , x[0]))
+        print(sorted_ranks)
         try:
             self.main.rank_user1.setText(sorted_ranks[0][0])
             self.main.rank_test1.setText(str(sorted_ranks[0][1]))
@@ -870,6 +897,11 @@ class RootMain(QMainWindow):
                                 connection.commit()
                                 competitionRanking()
 
+                        self.correct_words = 0
+                        self.wrong_words = 0
+                        self.correct_letters = 0
+                        self.wrong_letter = 0
+
 
                     self.comPage.ui.timer_counter -= 1
 
@@ -1002,9 +1034,9 @@ class RootMain(QMainWindow):
 
 
                 # acount settings
-                self.acountsettings.setStyleSheet('background-color: #fff; border-radius: 5px;')
-                self.acountsettings.ui.acount_email_2.setStyleSheet('color: #010A1A;')
-                self.acountsettings.ui.acount_email_3.setStyleSheet('color: #010A1A;')
+                self.acountsettings.setStyleSheet('background-color: #fff; border-radius: 5px; border: 1px solid #010A1A;')
+                self.acountsettings.ui.acount_email_2.setStyleSheet('color: #010A1A; border: none;')
+                self.acountsettings.ui.acount_email_3.setStyleSheet('color: #010A1A; border: none;')
 
                 # main page
                 self.setStyleSheet('background-color: #fff;border-radius:5px;')
@@ -1117,9 +1149,9 @@ class RootMain(QMainWindow):
 
 
                 # acount settings
-                self.acountsettings.setStyleSheet('background-color: #010A1A; border-radius: 5px;')
-                self.acountsettings.ui.acount_email_2.setStyleSheet('color: #fff;')
-                self.acountsettings.ui.acount_email_3.setStyleSheet('color: #fff;')
+                self.acountsettings.setStyleSheet('background-color: #010A1A; border-radius: 5px;  border: 1px solid #fff;')
+                self.acountsettings.ui.acount_email_2.setStyleSheet('color: #fff; border: none;')
+                self.acountsettings.ui.acount_email_3.setStyleSheet('color: #fff; border: none;')
 
                 # main page
                 self.setStyleSheet('background-color: #010A1A;border-radius:5px;')
@@ -1214,9 +1246,9 @@ class RootMain(QMainWindow):
                 # main page
                 self.main.label.setText('کلمات درست:')
                 self.main.label.setAlignment(Qt.AlignRight)
-                self.main.label_2.setText('کلمات نادرست:')
+                self.main.label_2.setText('حروف درست')
                 self.main.label_2.setAlignment(Qt.AlignRight)
-                self.main.label_6.setText('حروف درست:')
+                self.main.label_6.setText('كلمات نادرست')
                 self.main.label_6.setAlignment(Qt.AlignRight)
                 self.main.label_7.setText('حروف نادرست:')
                 self.main.label_7.setAlignment(Qt.AlignRight)
@@ -1291,9 +1323,9 @@ class RootMain(QMainWindow):
                 # main page
                 self.main.label.setText('Correct Words:')
                 self.main.label.setAlignment(Qt.AlignLeft)
-                self.main.label_2.setText('Wrong Words:')
+                self.main.label_2.setText('Correct Letters:')
                 self.main.label_2.setAlignment(Qt.AlignLeft)
-                self.main.label_6.setText('Correct Letters:')
+                self.main.label_6.setText('Wrong Words:')
                 self.main.label_6.setAlignment(Qt.AlignLeft)
                 self.main.label_7.setText('Wrong Letters:')
                 self.main.label_7.setAlignment(Qt.AlignLeft)
