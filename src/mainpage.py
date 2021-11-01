@@ -907,7 +907,7 @@ class Ui_MainWindow(object):
         self.settings_theme.setItemText(0, _translate("MainWindow", "Light"))
         self.settings_theme.setItemText(1, _translate("MainWindow", "Dark"))
         self.Settings_lang.setItemText(0, _translate("MainWindow", "English"))
-        self.Settings_lang.setItemText(1, _translate("MainWindow", "Persion"))
+        self.Settings_lang.setItemText(1, _translate("MainWindow", "Persian"))
         self.ranking_title_9.setText(_translate("MainWindow", "Language"))
         self.ranking_title_10.setText(_translate("MainWindow", "About"))
         self.ranking_title_11.setText(_translate("MainWindow", "<html><head/><body><p>Features</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Type as fast as you can and get your typing speed number</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">See best tests which are taken with this app</li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Make private room and compete with your friends</li></ul><p>Support</p>\n"

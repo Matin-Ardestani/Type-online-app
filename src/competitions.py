@@ -229,7 +229,7 @@ class Ui_CompetitionWindow(object):
         font.setWeight(50)
         self.ranking_title_2.setFont(font)
         self.ranking_title_2.setStyleSheet("color: #010A1A; border: none;")
-        self.ranking_title_2.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.ranking_title_2.setAlignment(QtCore.Qt.AlignCenter)
         self.ranking_title_2.setObjectName("ranking_title_2")
         self.competition_code = QtWidgets.QLabel(self.centralwidget)
         self.competition_code.setGeometry(QtCore.QRect(180, 10, 170, 30))
