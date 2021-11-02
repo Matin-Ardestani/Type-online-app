@@ -8,12 +8,13 @@ import pymysql
 from email_validator import validate_email
 import random
 from win10toast import ToastNotifier
+import webbrowser
 from pathlib import Path
 
 path = str(Path.cwd())
 
 try:
-    connection = pymysql.connect(host='mysql5033.site4now.net' , user='a7b948_typing' , password='Mn#1105host' , database='db_a7b948_typing') # Database inforamtions ( not in github )
+    connection = pymysql.connect() # Database inforamtions ( not in github )
     cursor = connection.cursor()
 except:
     toast = ToastNotifier()
@@ -645,7 +646,6 @@ class RootMain(QMainWindow):
         cursor.execute("SELECT * FROM acounts WHERE username=\'%s\' ;" % username)
         self.acount_info = {}
         for row in cursor:
-            print('row is: ' , row)
             self.acount_info['username'] = row[0]
             self.acount_info['email'] = row[1]
             self.acount_info['testsTaken'] = row[4]
@@ -703,7 +703,6 @@ class RootMain(QMainWindow):
 
                 if len(sorted_ranks) < 5:
                     sorted_ranks.pop(-1)
-                print('sorted:' , sorted_ranks)
                 cursor.execute("DELETE FROM ranking;")
                 for that in sorted_ranks:
                     cursor.execute("INSERT INTO ranking VALUES (\'%s\',\'%s\')" % (that[0],that[1]))
@@ -717,7 +716,6 @@ class RootMain(QMainWindow):
         for this in cursor:
             ranking[this[0]] = this[1]
         sorted_ranks = sorted(ranking.items() , key = lambda x: (-x[1] , x[0]))
-        print(sorted_ranks)
         try:
             self.main.rank_user1.setText(sorted_ranks[0][0])
             self.main.rank_test1.setText(str(sorted_ranks[0][1]))
@@ -814,7 +812,7 @@ class RootMain(QMainWindow):
                     font.setFamily("Arial")
                     font.setPointSize(9)
                     self.comPage.ui.label_4.setFont(font)
-                    self.comPage.ui.label_4.setStyleSheet("background: #DEDEDE;")
+                    self.comPage.ui.label_4.setStyleSheet("background: #DEDEDE; border: none;")
                     self.comPage.ui.label_4.setObjectName("label_4")
                     self.comPage.ui.verticalLayout.addWidget(self.comPage.ui.label_4)
                     self.comPage.ui.label_4.setText('   %i.    %s  |   %i WPM' % (counter,rank[0],rank[1]))
@@ -1111,6 +1109,7 @@ class RootMain(QMainWindow):
                 self.comPage.ui.competition_code.setStyleSheet('color: #010A1A;')
                 self.comPage.ui.frame_2.setStyleSheet('border: 1px solid #010A1A;')
                 self.comPage.ui.scrollArea.setStyleSheet('background-color: #fff;')
+                self.comPage.ui.scrollArea.setStyleSheet('border: none;')
 
             if mode == 'dark':
                 self.theme = 'dark'
@@ -1380,6 +1379,8 @@ class RootMain(QMainWindow):
                 self.comPage.ui.label_7.setText('Wrong Letters:')
                 self.comPage.ui.label_7.setAlignment(Qt.AlignLeft)
                 self.comPage.ui.ranking_title_2.setText('Competition code:')
+                self.comPage.ui.label_3.setText('Result:')
+                self.comPage.ui.label_5.setText('(Words Per Minute)')
 
         # change color  
         try:
@@ -1414,7 +1415,10 @@ class RootMain(QMainWindow):
 
         self.main.Settings_lang.currentTextChanged.connect(lambda: change_language(self.main.Settings_lang.currentText()))
 
-        
+
+        # socail btns
+        self.main.btn_github.clicked.connect(lambda: webbrowser.open('https://github.com/Matin-Ardestani'))
+        self.main.btn_social.clicked.connect(lambda: webbrowser.open('https://bioly.io/MatinArdestani'))
 
 
 if __name__ == '__main__':
