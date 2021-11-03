@@ -8,7 +8,11 @@ Type fast and compete with your friends.
 - See best taken tests
 - English & Persian languages
 
-# About
+# Coming Soon
+- Chat during a competition
+- Profile photo
+
+# About me
 Full Name: Matin Ardestani
 
 Age : 14
