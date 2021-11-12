@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'acount-settings.ui'
+# Form implementation generated from reading ui file 'account-settings.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -11,23 +11,23 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_AcountSettings(object):
+class Ui_AccountSettings(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(600, 300)
         MainWindow.setStyleSheet("background-color: #fff; border-radius: 5px; border: 1px solid #010A1A")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.acount_email_2 = QtWidgets.QLabel(self.centralwidget)
-        self.acount_email_2.setGeometry(QtCore.QRect(125, 70, 120, 30))
+        self.account_email_2 = QtWidgets.QLabel(self.centralwidget)
+        self.account_email_2.setGeometry(QtCore.QRect(125, 70, 120, 30))
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(9)
         font.setBold(False)
         font.setWeight(50)
-        self.acount_email_2.setFont(font)
-        self.acount_email_2.setStyleSheet("color: #010A1A; border: none;")
-        self.acount_email_2.setObjectName("acount_email_2")
+        self.account_email_2.setFont(font)
+        self.account_email_2.setStyleSheet("color: #010A1A; border: none;")
+        self.account_email_2.setObjectName("account_email_2")
         self.username_en = QtWidgets.QLineEdit(self.centralwidget)
         self.username_en.setGeometry(QtCore.QRect(255, 70, 230, 30))
         font = QtGui.QFont()
@@ -44,16 +44,16 @@ class Ui_AcountSettings(object):
         self.email_en.setFont(font)
         self.email_en.setStyleSheet("background-color: #DEDEDE; color: #010A1A; border: none")
         self.email_en.setObjectName("email_en")
-        self.acount_email_3 = QtWidgets.QLabel(self.centralwidget)
-        self.acount_email_3.setGeometry(QtCore.QRect(125, 120, 120, 30))
+        self.account_email_3 = QtWidgets.QLabel(self.centralwidget)
+        self.account_email_3.setGeometry(QtCore.QRect(125, 120, 120, 30))
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(9)
         font.setBold(False)
         font.setWeight(50)
-        self.acount_email_3.setFont(font)
-        self.acount_email_3.setStyleSheet("color: #010A1A; border: none;")
-        self.acount_email_3.setObjectName("acount_email_3")
+        self.account_email_3.setFont(font)
+        self.account_email_3.setStyleSheet("color: #010A1A; border: none;")
+        self.account_email_3.setObjectName("account_email_3")
         self.btn_save = QtWidgets.QPushButton(self.centralwidget)
         self.btn_save.setGeometry(QtCore.QRect(125, 190, 170, 40))
         font = QtGui.QFont()
@@ -103,8 +103,8 @@ class Ui_AcountSettings(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Typing online"))
-        self.acount_email_2.setText(_translate("MainWindow", "Change Username:"))
-        self.acount_email_3.setText(_translate("MainWindow", "Change Emal:"))
+        self.account_email_2.setText(_translate("MainWindow", "Change Username:"))
+        self.account_email_3.setText(_translate("MainWindow", "Change Emal:"))
         self.btn_save.setText(_translate("MainWindow", "Save Changes"))
         self.btn_cancel.setText(_translate("MainWindow", "Cancel"))
-        self.title.setText(_translate("MainWindow", "Acount Settings"))
+        self.title.setText(_translate("MainWindow", "Account Settings"))
