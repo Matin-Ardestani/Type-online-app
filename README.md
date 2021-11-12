@@ -2,15 +2,18 @@
 Type fast and compete with your friends.
 
 # Features
-- Create your own acount
+- Create your own account
 - Type as fast as you can and get your speed number
-- Create online competition, give the competition code to your friends and compete with them
-- See the best taken tests
-- English & Persian languages
+- Create an online competition room, give the competition room code to your friends and compete with them
+- See the your best taken tests
+- Make it to the top of the global leaderboard
+- English & Persian user interfaces
+- Including both Light and Dark modes
 
 # Coming Soon
 - Chat during a competition
 - Profile photo
+- Weekly Challenges
 
 # About me
 Full Name: Matin Ardestani
