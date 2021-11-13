@@ -28,7 +28,7 @@ words = ['about', 'above', 'add', 'after', 'again', 'air', 'all', 'almost', 'alo
 from mainpage import Ui_MainWindow
 from login import Ui_LonginWindow
 from signup import Ui_SignupWindow
-from acountSettings import Ui_AcountSettings
+from accountSettings import Ui_AccountSettings
 from competitions import Ui_CompetitionWindow
 
 class CompetitionWindow(QMainWindow):
@@ -55,11 +55,11 @@ class CompetitionWindow(QMainWindow):
         self.move(self.x() + delta.x(), self.y() + delta.y())
         self.oldPos = evt.globalPos()
 
-class AcountSettingsWindow(QMainWindow):
+class AccountSettingsWindow(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
 
-        self.ui = Ui_AcountSettings()
+        self.ui = Ui_AccountSettings()
         self.ui.setupUi(self)
 
         # removing borders
@@ -67,7 +67,7 @@ class AcountSettingsWindow(QMainWindow):
         self.setAttribute(Qt.WA_TranslucentBackground)
 
     def borders(self):
-        self.mainwindow = AcountSettingsWindow()
+        self.mainwindow = AccountSettingsWindow()
         self.mainwindow.show()
         self.close()
 
@@ -143,17 +143,17 @@ class RootMain(QMainWindow):
         # windows
         self.login = LoginWindow()
         self.signup = SignupWindow()
-        self.acountsettings = AcountSettingsWindow()
+        self.accountsettings = AccountSettingsWindow()
 
         # get ips from database | check if its new or not
-        cursor.execute("SELECT ip FROM acounts;")
+        cursor.execute("SELECT ip FROM accounts;")
         self.ips = []
         for ip in cursor:
             self.ips.append(ip[0])
 
         self.userip = str(socket.gethostname())
         if self.userip in self.ips:
-            cursor.execute("SELECT username FROM acounts WHERE ip=\'%s\' ;" % self.userip)
+            cursor.execute("SELECT username FROM accounts WHERE ip=\'%s\' ;" % self.userip)
             for row in cursor:
                 self.username = row[0]
             
@@ -207,7 +207,7 @@ class RootMain(QMainWindow):
                 correct_info = False
             else:
                 # check username
-                cursor.execute("SELECT username FROM acounts;")
+                cursor.execute("SELECT username FROM accounts;")
                 db_usernames = []
                 for username in cursor:
                      db_usernames.append(username[0])
@@ -217,7 +217,7 @@ class RootMain(QMainWindow):
 
                 else:
                     # check password
-                    cursor.execute("SELECT password FROM acounts WHERE username=\'%s\' ;" % self.login.ui.username_en.text())
+                    cursor.execute("SELECT password FROM accounts WHERE username=\'%s\' ;" % self.login.ui.username_en.text())
                     password = ''
                     for row in cursor:
                         password = row[0]
@@ -229,7 +229,7 @@ class RootMain(QMainWindow):
 
             # change user ip in database
             if correct_info == True:
-                quary = "UPDATE acounts SET ip=\'%s\' WHERE username=\'%s\' ;" % (str(socket.gethostname()) , self.login.ui.username_en.text())
+                quary = "UPDATE accounts SET ip=\'%s\' WHERE username=\'%s\' ;" % (str(socket.gethostname()) , self.login.ui.username_en.text())
                 cursor.execute(quary)
                 connection.commit()
                 self.openMainWindow(self.login.ui.username_en.text())
@@ -281,7 +281,7 @@ class RootMain(QMainWindow):
                     try:
                         validate_email(self.signup.ui.email_en.text())
 
-                        cursor.execute("SELECT email FROM acounts;")
+                        cursor.execute("SELECT email FROM accounts;")
                         db_emails = []
                         for email in cursor:
                             db_emails.append(email[0])
@@ -299,7 +299,7 @@ class RootMain(QMainWindow):
                             self.signup.ui.alarmlb.setText('Username is not valid')
                             correct_info = False
                         else:
-                            cursor.execute("SELECT username FROM acounts;")
+                            cursor.execute("SELECT username FROM accounts;")
                             db_usernames = []
                             for username in cursor:
                                 db_usernames.append(username[0])
@@ -315,7 +315,7 @@ class RootMain(QMainWindow):
                         email = self.signup.ui.email_en.text()
                         password = self.signup.ui.password_en.text()
                         ip = str(socket.gethostname())
-                        quary = "INSERT INTO acounts VALUES( \'%s\' , \'%s\' , \'%s\' , \'%s\' , \'%i\' , \'%i\' , \'%i\' , \'%i\' , \'light\' , \'English\');" % (username , email , password , ip , 0 , 0 , 0 , 0)
+                        quary = "INSERT INTO accounts VALUES( \'%s\' , \'%s\' , \'%s\' , \'%s\' , \'%i\' , \'%i\' , \'%i\' , \'%i\' , \'light\' , \'English\');" % (username , email , password , ip , 0 , 0 , 0 , 0)
                         cursor.execute(quary)
                         connection.commit()
 
@@ -351,10 +351,10 @@ class RootMain(QMainWindow):
         self.login.close()
         self.signup.close()
 
-        self.main.acount_username.setText(username)
+        self.main.account_username.setText(username)
 
-        # acount page
-        self.acountPage(username)
+        # account page
+        self.accountPage(username)
 
         # open & close sidebar
         def openSidebar():
@@ -377,7 +377,7 @@ class RootMain(QMainWindow):
                 self.anim.start()
                 icon3 = QIcon()
 
-                cursor.execute("SELECT theme FROM acounts WHERE username=\'%s\' ;" % self.main.acount_username.text())
+                cursor.execute("SELECT theme FROM accounts WHERE username=\'%s\' ;" % self.main.account_username.text())
                 for row in cursor:
                     self.theme = row[0]
                 if self.theme == 'light':
@@ -393,15 +393,15 @@ class RootMain(QMainWindow):
         self.main.btn_pageTest.clicked.connect(lambda: [
             self.main.pages.setCurrentWidget(self.main.page_type),
             self.main.btn_pageTest.setStyleSheet(" QPushButton { background: #DEDEDE; color: #010A1A; border-radius: 0px; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
-            self.main.btn_pageAcount.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            self.main.btn_pageAccount.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageRanking.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageCompetitions.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageSettings.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             connection.ping(reconnect=True)
         ])
-        self.main.btn_pageAcount.clicked.connect(lambda: [
-            self.main.pages.setCurrentWidget(self.main.page_acount),
-            self.main.btn_pageAcount.setStyleSheet(" QPushButton { background: #DEDEDE; color: #010A1A; border-radius: 0px; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+        self.main.btn_pageAccount.clicked.connect(lambda: [
+            self.main.pages.setCurrentWidget(self.main.page_account),
+            self.main.btn_pageAccount.setStyleSheet(" QPushButton { background: #DEDEDE; color: #010A1A; border-radius: 0px; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageTest.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageRanking.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageCompetitions.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
@@ -411,7 +411,7 @@ class RootMain(QMainWindow):
         self.main.btn_pageRanking.clicked.connect(lambda: [
             self.main.pages.setCurrentWidget(self.main.page_ranking),
             self.main.btn_pageRanking.setStyleSheet(" QPushButton { background: #DEDEDE; color: #010A1A; border-radius: 0px; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
-            self.main.btn_pageAcount.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            self.main.btn_pageAccount.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageTest.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageCompetitions.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageSettings.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
@@ -421,7 +421,7 @@ class RootMain(QMainWindow):
         self.main.btn_pageCompetitions.clicked.connect(lambda: [
             self.main.pages.setCurrentWidget(self.main.page_competitions),
             self.main.btn_pageCompetitions.setStyleSheet(" QPushButton { background: #DEDEDE; color: #010A1A; border-radius: 0px; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
-            self.main.btn_pageAcount.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            self.main.btn_pageAccount.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageRanking.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageTest.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageSettings.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
@@ -430,7 +430,7 @@ class RootMain(QMainWindow):
         self.main.btn_pageSettings.clicked.connect(lambda: [
             self.main.pages.setCurrentWidget(self.main.page_settings),
             self.main.btn_pageSettings.setStyleSheet(" QPushButton { background: #DEDEDE; color: #010A1A; border-radius: 0px; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
-            self.main.btn_pageAcount.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
+            self.main.btn_pageAccount.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageRanking.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageCompetitions.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
             self.main.btn_pageTest.setStyleSheet(" QPushButton { background: none; color: #010A1A; } QPushButton:hover {background-color: #DEDEDE;border-radius: 0px; }"),
@@ -506,13 +506,13 @@ class RootMain(QMainWindow):
                     self.result = int((self.correct_letters / 5) / 1) # result formula = (characters / 5) / 1 min
                     self.main.type_result.setText("%s WPM" % self.result)
 
-                    # acount
-                    self.acount_info['testsTaken'] += 1
-                    best = self.acount_info['bestTest']
+                    # account
+                    self.account_info['testsTaken'] += 1
+                    best = self.account_info['bestTest']
                     if self.result > best:
-                        self.acount_info['bestTest'] = self.result
-                    self.acount_info['typedLetters'] += self.correct_letters
-                    self.acountPage(self.main.acount_username.text())
+                        self.account_info['bestTest'] = self.result
+                    self.account_info['typedLetters'] += self.correct_letters
+                    self.accountPage(self.main.account_username.text())
 
                     self.rankingPage(self.result)
 
@@ -570,104 +570,104 @@ class RootMain(QMainWindow):
                             self.wrong_letter += 1
 
 
-    # acount page
-    def acountPage(self , username):
+    # account page
+    def accountPage(self , username):
         connection.ping(reconnect=True)
 
-        # change acount settings
-        def changeAcountSetting():
-            self.acountsettings.show()
+        # change account settings
+        def changeAccountSetting():
+            self.accountsettings.show()
 
             def change():
-                new_username = self.acountsettings.ui.username_en.text()
-                new_email = self.acountsettings.ui.email_en.text()
-                cursor.execute("SELECT username,email FROM acounts;")
+                new_username = self.accountsettings.ui.username_en.text()
+                new_email = self.accountsettings.ui.email_en.text()
+                cursor.execute("SELECT username,email FROM accounts;")
                 db_usernames = []
                 db_emails = []
                 for row in cursor:
                     db_usernames.append(row[0])
                     db_emails.append(row[1])
                 if new_username in db_usernames:
-                    self.acountsettings.ui.alarmlb.setText("Username already exists")
+                    self.accountsettings.ui.alarmlb.setText("Username already exists")
                 elif new_email in db_emails:
-                    self.acountsettings.ui.alarmlb.setText("Email already exists")
+                    self.accountsettings.ui.alarmlb.setText("Email already exists")
                 else:
                     # change username
                     if new_email.strip() != '':
                         try:
-                            validate_email(self.acountsettings.ui.email_en.text())
+                            validate_email(self.accountsettings.ui.email_en.text())
 
-                            quary = "UPDATE acounts SET email=\'%s\' WHERE email=\'%s\' ;" % (new_email , self.main.acount_email.text())
+                            quary = "UPDATE accounts SET email=\'%s\' WHERE email=\'%s\' ;" % (new_email , self.main.account_email.text())
                             cursor.execute(quary)
                             connection.commit()
 
-                            self.main.acount_email.setText(new_email) # change username from acount page
+                            self.main.account_email.setText(new_email) # change username from account page
 
                         except:
-                            self.acountsettings.ui.alarmlb.setText('Email address is not valid')
+                            self.accountsettings.ui.alarmlb.setText('Email address is not valid')
                     
                     # change email
                     if new_username.strip() != '':
-                        quary = "UPDATE acounts SET username=\'%s\' WHERE username=\'%s\' ;" % (new_username , self.main.acount_username.text())
+                        quary = "UPDATE accounts SET username=\'%s\' WHERE username=\'%s\' ;" % (new_username , self.main.account_username.text())
                         cursor.execute(quary)
                         connection.commit()
 
-                        self.main.acount_username.setText(new_username) # change email from acount page
-                        self.main.acount_profile.setText(new_username[0].upper())
+                        self.main.account_username.setText(new_username) # change email from account page
+                        self.main.account_profile.setText(new_username[0].upper())
                     
-                    self.acountsettings.close()
+                    self.accountsettings.close()
                     
 
-            # acount settings page buttons
-            self.acountsettings.ui.btn_cancel.clicked.connect(lambda: self.acountsettings.close())
-            self.acountsettings.ui.btn_save.clicked.connect(change)
+            # account settings page buttons
+            self.accountsettings.ui.btn_cancel.clicked.connect(lambda: self.accountsettings.close())
+            self.accountsettings.ui.btn_save.clicked.connect(change)
 
         # log out
         def logOut():
-            msg_logout = QMessageBox.question(self, 'LogOut', "Do want to log out from acount?", QMessageBox.Yes | QMessageBox.No)
+            msg_logout = QMessageBox.question(self, 'LogOut', "Do want to log out from account?", QMessageBox.Yes | QMessageBox.No)
             if msg_logout == QMessageBox.Yes:
                 self.close()
-                quary = "UPDATE acounts SET ip=\'\' WHERE username=\'%s\' ; " % self.main.acount_username.text()
+                quary = "UPDATE accounts SET ip=\'\' WHERE username=\'%s\' ; " % self.main.account_username.text()
                 cursor.execute(quary)
                 connection.commit()
                 self.logingin()
 
-                self.acount_info = {} # delete loged out acount info
+                self.account_info = {} # delete loged out account info
 
 
         try:
-            cursor.execute("UPDATE acounts SET testsTaken=%i , bestTest=%i , typedWords=%i , competeTaken=%i WHERE username=\'%s\' ;" %
-            (self.acount_info['testsTaken'] , self.acount_info['bestTest'] , self.acount_info['typedLetters'] , self.acount_info['competeTaken'] , username)
+            cursor.execute("UPDATE accounts SET testsTaken=%i , bestTest=%i , typedWords=%i , competeTaken=%i WHERE username=\'%s\' ;" %
+            (self.account_info['testsTaken'] , self.account_info['bestTest'] , self.account_info['typedLetters'] , self.account_info['competeTaken'] , username)
             )
             connection.commit()
         except:
             pass
         
-        cursor.execute("SELECT * FROM acounts WHERE username=\'%s\' ;" % username)
-        self.acount_info = {}
+        cursor.execute("SELECT * FROM accounts WHERE username=\'%s\' ;" % username)
+        self.account_info = {}
         for row in cursor:
-            self.acount_info['username'] = row[0]
-            self.acount_info['email'] = row[1]
-            self.acount_info['testsTaken'] = row[4]
-            self.acount_info['bestTest'] = row[5]
-            self.acount_info['typedLetters'] = row[6]
-            self.acount_info['competeTaken'] = row[7]
+            self.account_info['username'] = row[0]
+            self.account_info['email'] = row[1]
+            self.account_info['testsTaken'] = row[4]
+            self.account_info['bestTest'] = row[5]
+            self.account_info['typedLetters'] = row[6]
+            self.account_info['competeTaken'] = row[7]
 
-        self.main.acount_email.setText(self.acount_info['email'])
-        self.main.acount_username.setText(self.acount_info['username'])
-        self.main.acount_profile.setText(username[0].upper())
-        self.main.acount_teststaken.setText("%s Tests" % self.acount_info['testsTaken'])
-        self.main.acount_besttest.setText("%s WPM" % self.acount_info['bestTest'])
-        self.main.acount_typedwords.setText("%s Letters" % self.acount_info['typedLetters'])
-        self.main.acount_comtaken.setText("%s Competitions" % self.acount_info['competeTaken'])
+        self.main.account_email.setText(self.account_info['email'])
+        self.main.account_username.setText(self.account_info['username'])
+        self.main.account_profile.setText(username[0].upper())
+        self.main.account_teststaken.setText("%s Tests" % self.account_info['testsTaken'])
+        self.main.account_besttest.setText("%s WPM" % self.account_info['bestTest'])
+        self.main.account_typedwords.setText("%s Letters" % self.account_info['typedLetters'])
+        self.main.account_comtaken.setText("%s Competitions" % self.account_info['competeTaken'])
 
         try:
-            self.tests_avrage = int( (int(self.acount_info['typedLetters']) / 5) / (int(self.acount_info['testsTaken']))) # (typedWords / 5) / (testsTaken * 1)
+            self.tests_avrage = int( (int(self.account_info['typedLetters']) / 5) / (int(self.account_info['testsTaken']))) # (typedWords / 5) / (testsTaken * 1)
         except:
             self.tests_avrage = 0
-        self.main.acount_testavrage.setText("%s WPM" % self.tests_avrage)
+        self.main.account_testavrage.setText("%s WPM" % self.tests_avrage)
 
-        self.main.btn_acountSettings.clicked.connect(changeAcountSetting)
+        self.main.btn_accountSettings.clicked.connect(changeAccountSetting)
         self.main.btn_logout.clicked.connect(logOut)
 
 
@@ -693,11 +693,11 @@ class RootMain(QMainWindow):
         for this in wpms:
             counter += 1
             if (wpm > this):
-                if self.main.acount_username.text() in users:
-                    if wpm <= ranking[self.main.acount_username.text()]:
+                if self.main.account_username.text() in users:
+                    if wpm <= ranking[self.main.account_username.text()]:
                         break
 
-                ranking[str(self.main.acount_username.text())] = wpm
+                ranking[str(self.main.account_username.text())] = wpm
 
                 sorted_ranks = sorted(ranking.items() , key = lambda x: (-x[1] , x[0]))
 
@@ -759,7 +759,7 @@ class RootMain(QMainWindow):
             self.close()
             self.comPage.show()
 
-            quary = "SELECT host FROM %s WHERE username=\'%s\'; " % (room_code , self.main.acount_username.text())
+            quary = "SELECT host FROM %s WHERE username=\'%s\'; " % (room_code , self.main.account_username.text())
             cursor.execute(quary)
             for row in cursor:
                 is_host = row[0]
@@ -887,10 +887,10 @@ class RootMain(QMainWindow):
                         self.comPage.result = int((self.correct_letters / 5) / 1) # result formula = (characters / 5) / 1 min
                         self.comPage.ui.type_result.setText("%s WPM" % self.comPage.result)
 
-                        cursor.execute("SELECT bestTest FROM %s WHERE username=\'%s\'" % (room_code , self.main.acount_username.text()))
+                        cursor.execute("SELECT bestTest FROM %s WHERE username=\'%s\'" % (room_code , self.main.account_username.text()))
                         for row in cursor:
                             if self.comPage.result > row[0]:
-                                quary = "UPDATE %s SET bestTest=%i WHERE username=\'%s\' ;" % (room_code , self.comPage.result , self.main.acount_username.text())
+                                quary = "UPDATE %s SET bestTest=%i WHERE username=\'%s\' ;" % (room_code , self.comPage.result , self.main.account_username.text())
                                 cursor.execute(quary)
                                 connection.commit()
                                 competitionRanking()
@@ -938,12 +938,12 @@ class RootMain(QMainWindow):
                 # create competition talbe in database
                 quary = "CREATE TABLE %s (username VARCHAR(100) , bestTest INT , host VARCHAR(100) );" % room_code
                 cursor.execute(quary)
-                cursor.execute("INSERT INTO %s VALUES (\'%s\' , 0 , 1) ;" % (room_code , self.main.acount_username.text()))
+                cursor.execute("INSERT INTO %s VALUES (\'%s\' , 0 , 1) ;" % (room_code , self.main.account_username.text()))
                 connection.commit()
 
                 # add a competition to other ones
-                self.acount_info['competeTaken'] += 1
-                self.acountPage(self.main.acount_username.text())
+                self.account_info['competeTaken'] += 1
+                self.accountPage(self.main.account_username.text())
 
                 competitionPage(room_code)
             
@@ -969,15 +969,15 @@ class RootMain(QMainWindow):
                     for row in cursor:
                         table_users.append(row[0])
 
-                    if self.main.acount_username.text() not in table_users:
+                    if self.main.account_username.text() not in table_users:
                         # if user loged for first time
-                        quary = "INSERT INTO %s VALUES (\'%s\' , 0 , 0);" % (self.main.join_competition.text() , self.main.acount_username.text())
+                        quary = "INSERT INTO %s VALUES (\'%s\' , 0 , 0);" % (self.main.join_competition.text() , self.main.account_username.text())
                         cursor.execute(quary)
                         connection.commit()
 
                         # add a competition to other ones
-                        self.acount_info['competeTaken'] += 1
-                        self.acountPage(self.main.acount_username.text())
+                        self.account_info['competeTaken'] += 1
+                        self.accountPage(self.main.account_username.text())
 
                     competitionPage(str(self.main.join_competition.text()))
                 else:
@@ -1000,7 +1000,7 @@ class RootMain(QMainWindow):
             if mode == 'light':
                 self.theme = 'light'
 
-                cursor.execute("UPDATE acounts SET theme=\'light\' WHERE username=\'%s\' ;" % self.main.acount_username.text())
+                cursor.execute("UPDATE accounts SET theme=\'light\' WHERE username=\'%s\' ;" % self.main.account_username.text())
                 connection.commit()
 
                 # login page
@@ -1008,7 +1008,7 @@ class RootMain(QMainWindow):
                 self.login.ui.title.setStyleSheet('color: #010A1A;')
                 self.login.ui.usernamelb.setStyleSheet('color: #010A1A;')
                 self.login.ui.passlb.setStyleSheet('color: #010A1A;')
-                self.login.ui.acountlb.setStyleSheet('color: #010A1A;')
+                self.login.ui.accountlb.setStyleSheet('color: #010A1A;')
                 icon1 = QIcon()
                 icon1.addPixmap(QPixmap("%s/img/close.png" % path), QIcon.Normal, QIcon.Off)
                 self.login.ui.btn_close.setIcon(icon1)
@@ -1022,7 +1022,7 @@ class RootMain(QMainWindow):
                 self.signup.ui.title.setStyleSheet('color: #010A1A;')
                 self.signup.ui.usernamelb.setStyleSheet('color: #010A1A;')
                 self.signup.ui.passlb.setStyleSheet('color: #010A1A;')
-                self.signup.ui.acountlb.setStyleSheet('color: #010A1A;')
+                self.signup.ui.accountlb.setStyleSheet('color: #010A1A;')
                 self.signup.ui.repasslb.setStyleSheet('color: #010A1A;')
                 icon1 = QIcon()
                 icon1.addPixmap(QPixmap("%s/img/close.png" % path), QIcon.Normal, QIcon.Off)
@@ -1031,10 +1031,10 @@ class RootMain(QMainWindow):
                 icon1.addPixmap(QPixmap("%s/img/minimize.png" % path), QIcon.Normal, QIcon.Off)
 
 
-                # acount settings
-                self.acountsettings.setStyleSheet('background-color: #fff; border-radius: 5px; border: 1px solid #010A1A;')
-                self.acountsettings.ui.acount_email_2.setStyleSheet('color: #010A1A; border: none;')
-                self.acountsettings.ui.acount_email_3.setStyleSheet('color: #010A1A; border: none;')
+                # account settings
+                self.accountsettings.setStyleSheet('background-color: #fff; border-radius: 5px; border: 1px solid #010A1A;')
+                self.accountsettings.ui.account_email_2.setStyleSheet('color: #010A1A; border: none;')
+                self.accountsettings.ui.account_email_3.setStyleSheet('color: #010A1A; border: none;')
 
                 # main page
                 self.setStyleSheet('background-color: #fff;border-radius:5px;')
@@ -1042,18 +1042,18 @@ class RootMain(QMainWindow):
                 self.main.label_2.setStyleSheet('color: #010A1A;')
                 self.main.label_6.setStyleSheet('color: #010A1A;')
                 self.main.label_7.setStyleSheet('color: #010A1A;')
-                self.main.acount_username.setStyleSheet('color: #010A1A;')
-                self.main.acount_email.setStyleSheet('color: #010A1A;')
-                self.main.acount_email_2.setStyleSheet('color: #010A1A;')
-                self.main.acount_email_3.setStyleSheet('color: #010A1A;')
-                self.main.acount_email_5.setStyleSheet('color: #010A1A;')
-                self.main.acount_email_6.setStyleSheet('color: #010A1A;')
-                self.main.acount_email_4.setStyleSheet('color: #010A1A;')
-                self.main.acount_teststaken.setStyleSheet('color: #010A1A;')
-                self.main.acount_besttest.setStyleSheet('color: #010A1A;')
-                self.main.acount_testavrage.setStyleSheet('color: #010A1A;')
-                self.main.acount_typedwords.setStyleSheet('color: #010A1A;')
-                self.main.acount_comtaken.setStyleSheet('color: #010A1A;')
+                self.main.account_username.setStyleSheet('color: #010A1A;')
+                self.main.account_email.setStyleSheet('color: #010A1A;')
+                self.main.account_email_2.setStyleSheet('color: #010A1A;')
+                self.main.account_email_3.setStyleSheet('color: #010A1A;')
+                self.main.account_email_5.setStyleSheet('color: #010A1A;')
+                self.main.account_email_6.setStyleSheet('color: #010A1A;')
+                self.main.account_email_4.setStyleSheet('color: #010A1A;')
+                self.main.account_teststaken.setStyleSheet('color: #010A1A;')
+                self.main.account_besttest.setStyleSheet('color: #010A1A;')
+                self.main.account_testavrage.setStyleSheet('color: #010A1A;')
+                self.main.account_typedwords.setStyleSheet('color: #010A1A;')
+                self.main.account_comtaken.setStyleSheet('color: #010A1A;')
                 self.main.ranking_title.setStyleSheet('color: #010A1A;')
                 self.main.label_14.setStyleSheet('background-color:#DEDEDE;color: #010A1A; border:1px solid #010A1A; border-radius: 0px;')
                 self.main.label_8.setStyleSheet('background-color:#DEDEDE;color: #010A1A; border:1px solid #010A1A; border-radius: 0px;')
@@ -1114,7 +1114,7 @@ class RootMain(QMainWindow):
             if mode == 'dark':
                 self.theme = 'dark'
 
-                cursor.execute("UPDATE acounts SET theme=\'dark\' WHERE username=\'%s\' ;" % self.main.acount_username.text())
+                cursor.execute("UPDATE accounts SET theme=\'dark\' WHERE username=\'%s\' ;" % self.main.account_username.text())
                 connection.commit()
 
 
@@ -1123,7 +1123,7 @@ class RootMain(QMainWindow):
                 self.login.ui.title.setStyleSheet('color: #fff;')
                 self.login.ui.usernamelb.setStyleSheet('color: #fff;')
                 self.login.ui.passlb.setStyleSheet('color: #fff;')
-                self.login.ui.acountlb.setStyleSheet('color: #fff;')
+                self.login.ui.accountlb.setStyleSheet('color: #fff;')
                 icon1 = QIcon()
                 icon1.addPixmap(QPixmap("%s/img/close-light.png" % path), QIcon.Normal, QIcon.Off)
                 self.login.ui.btn_close.setIcon(icon1)
@@ -1137,7 +1137,7 @@ class RootMain(QMainWindow):
                 self.signup.ui.title.setStyleSheet('color: #fff;')
                 self.signup.ui.usernamelb.setStyleSheet('color: #fff;')
                 self.signup.ui.passlb.setStyleSheet('color: #fff;')
-                self.signup.ui.acountlb.setStyleSheet('color: #fff;')
+                self.signup.ui.accountlb.setStyleSheet('color: #fff;')
                 self.signup.ui.repasslb.setStyleSheet('color: #fff;')
                 icon1 = QIcon()
                 icon1.addPixmap(QPixmap("%s/img/close-light.png" % path), QIcon.Normal, QIcon.Off)
@@ -1147,10 +1147,10 @@ class RootMain(QMainWindow):
                 self.signup.ui.btn_minimze.setIcon(icon1)
 
 
-                # acount settings
-                self.acountsettings.setStyleSheet('background-color: #010A1A; border-radius: 5px;  border: 1px solid #fff;')
-                self.acountsettings.ui.acount_email_2.setStyleSheet('color: #fff; border: none;')
-                self.acountsettings.ui.acount_email_3.setStyleSheet('color: #fff; border: none;')
+                # account settings
+                self.accountsettings.setStyleSheet('background-color: #010A1A; border-radius: 5px;  border: 1px solid #fff;')
+                self.accountsettings.ui.account_email_2.setStyleSheet('color: #fff; border: none;')
+                self.accountsettings.ui.account_email_3.setStyleSheet('color: #fff; border: none;')
 
                 # main page
                 self.setStyleSheet('background-color: #010A1A;border-radius:5px;')
@@ -1158,18 +1158,18 @@ class RootMain(QMainWindow):
                 self.main.label_2.setStyleSheet('color: #fff;')
                 self.main.label_6.setStyleSheet('color: #fff;')
                 self.main.label_7.setStyleSheet('color: #fff;')
-                self.main.acount_username.setStyleSheet('color: #fff;')
-                self.main.acount_email.setStyleSheet('color: #fff;')
-                self.main.acount_email_2.setStyleSheet('color: #fff;')
-                self.main.acount_email_3.setStyleSheet('color: #fff;')
-                self.main.acount_email_5.setStyleSheet('color: #fff;')
-                self.main.acount_email_6.setStyleSheet('color: #fff;')
-                self.main.acount_email_4.setStyleSheet('color: #fff;')
-                self.main.acount_teststaken.setStyleSheet('color: #fff;')
-                self.main.acount_besttest.setStyleSheet('color: #fff;')
-                self.main.acount_testavrage.setStyleSheet('color: #fff;')
-                self.main.acount_typedwords.setStyleSheet('color: #fff;')
-                self.main.acount_comtaken.setStyleSheet('color: #fff;')
+                self.main.account_username.setStyleSheet('color: #fff;')
+                self.main.account_email.setStyleSheet('color: #fff;')
+                self.main.account_email_2.setStyleSheet('color: #fff;')
+                self.main.account_email_3.setStyleSheet('color: #fff;')
+                self.main.account_email_5.setStyleSheet('color: #fff;')
+                self.main.account_email_6.setStyleSheet('color: #fff;')
+                self.main.account_email_4.setStyleSheet('color: #fff;')
+                self.main.account_teststaken.setStyleSheet('color: #fff;')
+                self.main.account_besttest.setStyleSheet('color: #fff;')
+                self.main.account_testavrage.setStyleSheet('color: #fff;')
+                self.main.account_typedwords.setStyleSheet('color: #fff;')
+                self.main.account_comtaken.setStyleSheet('color: #fff;')
                 self.main.ranking_title.setStyleSheet('color: #fff;')
                 self.main.label_14.setStyleSheet('background-color:#DEDEDE;color: #fff; border:1px solid #fff; border-radius: 0px;')
                 self.main.label_8.setStyleSheet('background-color:#DEDEDE;color: #010A1A; border:1px solid #fff; border-radius: 0px;')
@@ -1231,12 +1231,12 @@ class RootMain(QMainWindow):
             if lang == 'Persian':
                 self.lang = 'Persian'
 
-                cursor.execute("UPDATE acounts SET lang=\'Persian\' WHERE username=\'%s\' ;" % self.main.acount_username.text())
+                cursor.execute("UPDATE accounts SET lang=\'Persian\' WHERE username=\'%s\' ;" % self.main.account_username.text())
                 connection.commit()
 
                 # sidebar
                 self.main.btn_pageTest.setText('تست')
-                self.main.btn_pageAcount.setText('حساب کاربردی')
+                self.main.btn_pageAccount.setText('حساب کاربردی')
                 self.main.btn_pageRanking.setText('رتبه بندی')
                 self.main.btn_pageCompetitions.setText('مسابقات')
                 self.main.btn_pageSettings.setText('تنظیمات')
@@ -1253,18 +1253,18 @@ class RootMain(QMainWindow):
                 self.main.label_7.setAlignment(Qt.AlignRight)
                 self.main.label_3.setText('نتیجه:')
                 self.main.label_5.setText('(کلمه در دقیقه)')
-                self.main.btn_acountSettings.setText('تنظیمات حساب')
+                self.main.btn_accountSettings.setText('تنظیمات حساب')
                 self.main.btn_logout.setText('خروج')
-                self.main.acount_email_2.setText('تست‌ها:')
-                self.main.acount_email_2.setAlignment(Qt.AlignRight)
-                self.main.acount_email_3.setText('بهترین رکورد:')
-                self.main.acount_email_3.setAlignment(Qt.AlignRight)
-                self.main.acount_email_4.setText('سرعت میانگین:')
-                self.main.acount_email_4.setAlignment(Qt.AlignRight)
-                self.main.acount_email_5.setText('حروف تایپ شده:')
-                self.main.acount_email_5.setAlignment(Qt.AlignRight)
-                self.main.acount_email_6.setText('مسابفات:')
-                self.main.acount_email_6.setAlignment(Qt.AlignRight)
+                self.main.account_email_2.setText('تست‌ها:')
+                self.main.account_email_2.setAlignment(Qt.AlignRight)
+                self.main.account_email_3.setText('بهترین رکورد:')
+                self.main.account_email_3.setAlignment(Qt.AlignRight)
+                self.main.account_email_4.setText('سرعت میانگین:')
+                self.main.account_email_4.setAlignment(Qt.AlignRight)
+                self.main.account_email_5.setText('حروف تایپ شده:')
+                self.main.account_email_5.setAlignment(Qt.AlignRight)
+                self.main.account_email_6.setText('مسابفات:')
+                self.main.account_email_6.setAlignment(Qt.AlignRight)
                 self.main.ranking_title.setText('بهترین رکوردها')
                 self.main.ranking_title.setAlignment(Qt.AlignRight)
                 self.main.ranking_title_2.setText('ساخت مسابقه')
@@ -1308,13 +1308,13 @@ class RootMain(QMainWindow):
             if lang == 'English':
                 self.lang = 'English'
 
-                cursor.execute("UPDATE acounts SET lang=\'English\' WHERE username=\'%s\' ;" % self.main.acount_username.text())
+                cursor.execute("UPDATE accounts SET lang=\'English\' WHERE username=\'%s\' ;" % self.main.account_username.text())
                 connection.commit()
 
                 # sidebar
                 self.main.btn_pageTest.setText('Test')
-                self.main.btn_pageAcount.setText('Acount')
-                self.main.btn_pageRanking.setText('Ranking')
+                self.main.btn_pageAccount.setText('Account')
+                self.main.btn_pageRanking.setText('Rankings')
                 self.main.btn_pageCompetitions.setText('Competitions')
                 self.main.btn_pageSettings.setText('Settings')
                 
@@ -1330,25 +1330,25 @@ class RootMain(QMainWindow):
                 self.main.label_7.setAlignment(Qt.AlignLeft)
                 self.main.label_3.setText('Result:')
                 self.main.label_5.setText('(Words Per Minute)')
-                self.main.btn_acountSettings.setText('Acount Settings')
+                self.main.btn_accountSettings.setText('Account Settings')
                 self.main.btn_logout.setText('Log Out')
-                self.main.acount_email_2.setText('Tests taken:')
-                self.main.acount_email_2.setAlignment(Qt.AlignLeft)
-                self.main.acount_email_3.setText('Best test:')
-                self.main.acount_email_3.setAlignment(Qt.AlignLeft)
-                self.main.acount_email_4.setText('Typing speed avrage:')
-                self.main.acount_email_4.setAlignment(Qt.AlignLeft)
-                self.main.acount_email_5.setText('Typed words:')
-                self.main.acount_email_5.setAlignment(Qt.AlignLeft)
-                self.main.acount_email_6.setText('Competition taken:')
-                self.main.acount_email_6.setAlignment(Qt.AlignLeft)
+                self.main.account_email_2.setText('Tests taken:')
+                self.main.account_email_2.setAlignment(Qt.AlignLeft)
+                self.main.account_email_3.setText('Best test:')
+                self.main.account_email_3.setAlignment(Qt.AlignLeft)
+                self.main.account_email_4.setText('Typing speed average:')
+                self.main.account_email_4.setAlignment(Qt.AlignLeft)
+                self.main.account_email_5.setText('Typed words:')
+                self.main.account_email_5.setAlignment(Qt.AlignLeft)
+                self.main.account_email_6.setText('Competition taken:')
+                self.main.account_email_6.setAlignment(Qt.AlignLeft)
                 self.main.ranking_title.setText('Best Tests')
                 self.main.ranking_title.setAlignment(Qt.AlignLeft)
-                self.main.ranking_title_2.setText('Create competition')
+                self.main.ranking_title_2.setText('Create competition room')
                 self.main.ranking_title_2.setAlignment(Qt.AlignLeft)
-                self.main.ranking_title_4.setText('(The competition room will be closed when the host end it)')
+                self.main.ranking_title_4.setText('(The competition room will be closed once the host ends it)')
                 self.main.ranking_title_4.setAlignment(Qt.AlignLeft)
-                self.main.ranking_title_5.setText('Join competition')
+                self.main.ranking_title_5.setText('Join competition room')
                 self.main.ranking_title_5.setAlignment(Qt.AlignLeft)
                 self.main.ranking_title_6.setText('competition code:')
                 self.main.ranking_title_6.setAlignment(Qt.AlignLeft)
@@ -1372,9 +1372,9 @@ class RootMain(QMainWindow):
                 # competition page
                 self.comPage.ui.label.setText('Correct Words:')
                 self.comPage.ui.label.setAlignment(Qt.AlignLeft)
-                self.comPage.ui.label_2.setText('Wrong Words:')
+                self.comPage.ui.label_2.setText('Correct Letters:')
                 self.comPage.ui.label_2.setAlignment(Qt.AlignLeft)
-                self.comPage.ui.label_6.setText('Correct Letters:')
+                self.comPage.ui.label_6.setText('Wrong Words:')
                 self.comPage.ui.label_6.setAlignment(Qt.AlignLeft)
                 self.comPage.ui.label_7.setText('Wrong Letters:')
                 self.comPage.ui.label_7.setAlignment(Qt.AlignLeft)
@@ -1384,7 +1384,7 @@ class RootMain(QMainWindow):
 
         # change color  
         try:
-            cursor.execute("SELECT theme FROM acounts WHERE username=\'%s\' ;" % self.main.acount_username.text())
+            cursor.execute("SELECT theme FROM accounts WHERE username=\'%s\' ;" % self.main.account_username.text())
             for row in cursor:
                 self.theme = row[0]
                 
@@ -1400,7 +1400,7 @@ class RootMain(QMainWindow):
 
         # chagne language
         try:
-            cursor.execute("SELECT lang FROM acounts WHERE username=\'%s\' ;" % self.main.acount_username.text())
+            cursor.execute("SELECT lang FROM accounts WHERE username=\'%s\' ;" % self.main.account_username.text())
             for row in cursor:
                 self.lang = row[0]
                 
