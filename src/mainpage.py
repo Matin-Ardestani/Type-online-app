@@ -870,7 +870,7 @@ class Ui_MainWindow(object):
         self.acount_email_2.setText(_translate("MainWindow", "Tests taken:"))
         self.acount_email_3.setText(_translate("MainWindow", "Best test:"))
         self.acount_email_4.setText(_translate("MainWindow", "Average typing speed:"))
-        self.acount_email_5.setText(_translate("MainWindow", "Typed words:"))
+        self.acount_email_5.setText(_translate("MainWindow", "Typed Letters:"))
         self.acount_email_6.setText(_translate("MainWindow", "Competitions taken:"))
         self.acount_teststaken.setText(_translate("MainWindow", "0"))
         self.acount_besttest.setText(_translate("MainWindow", "0"))
