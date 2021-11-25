@@ -152,7 +152,7 @@ class RootMain(QMainWindow):
         for ip in cursor:
             self.ips.append(ip[0])
 
-        self.userip = str(socket.gethostname())
+        self.userip = str(socket.gethostbyname(socket.gethostname()))
         if self.userip in self.ips:
             connection.ping(reconnect=True)
             cursor.execute("SELECT username FROM acounts WHERE ip=\'%s\' ;" % self.userip)
@@ -233,7 +233,7 @@ class RootMain(QMainWindow):
 
             # change user ip in database
             if correct_info == True:
-                quary = "UPDATE acounts SET ip=\'%s\' WHERE username=\'%s\' ;" % (str(socket.gethostname()) , self.login.ui.username_en.text())
+                quary = "UPDATE acounts SET ip=\'%s\' WHERE username=\'%s\' ;" % (str(socket.gethostbyname(socket.gethostname())) , self.login.ui.username_en.text())
                 connection.ping(reconnect=True)
                 cursor.execute(quary)
                 connection.commit()
@@ -321,7 +321,7 @@ class RootMain(QMainWindow):
                         username = self.signup.ui.username_en.text()
                         email = self.signup.ui.email_en.text()
                         password = self.signup.ui.password_en.text()
-                        ip = str(socket.gethostname())
+                        ip = str(socket.gethostbyname(socket.gethostname()))
                         quary = "INSERT INTO acounts VALUES( \'%s\' , \'%s\' , \'%s\' , \'%s\' , \'%i\' , \'%i\' , \'%i\' , \'%i\' , \'light\' , \'English\');" % (username , email , password , ip , 0 , 0 , 0 , 0)
                         connection.ping(reconnect=True)
                         cursor.execute(quary)
