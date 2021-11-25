@@ -869,7 +869,7 @@ class Ui_MainWindow(object):
         self.btn_acountSettings.setText(_translate("MainWindow", "Acount Settings"))
         self.acount_email_2.setText(_translate("MainWindow", "Tests taken:"))
         self.acount_email_3.setText(_translate("MainWindow", "Best test:"))
-        self.acount_email_4.setText(_translate("MainWindow", "Typing speed avrage:"))
+        self.acount_email_4.setText(_translate("MainWindow", "Average typing speed:"))
         self.acount_email_5.setText(_translate("MainWindow", "Typed words:"))
         self.acount_email_6.setText(_translate("MainWindow", "Competitions taken:"))
         self.acount_teststaken.setText(_translate("MainWindow", "0"))
@@ -910,7 +910,7 @@ class Ui_MainWindow(object):
         self.Settings_lang.setItemText(1, _translate("MainWindow", "Persian"))
         self.ranking_title_9.setText(_translate("MainWindow", "Language"))
         self.ranking_title_10.setText(_translate("MainWindow", "About"))
-        self.ranking_title_11.setText(_translate("MainWindow", "<html><head/><body><p>Features</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Type as fast as you can and get your typing speed number</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">See best tests which are taken with this app</li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Make private room and compete with your friends</li></ul><p>Support</p>\n"
+        self.ranking_title_11.setText(_translate("MainWindow", "<html><head/><body><p>Features</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Type as fast as you can and get your typing speed number</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">See best tests which are taken with this app</li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Make a private room and compete with your friends</li></ul><p>Support</p>\n"
 "</body></html>"))
         self.ranking_title_12.setText(_translate("MainWindow", "<html><head/><body><p>You can support us using below links:</p></body></html>"))
         self.btn_github.setText(_translate("MainWindow", "Git Hub"))

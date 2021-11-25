@@ -13,6 +13,7 @@ from pathlib import Path
 
 path = str(Path.cwd())
 
+# connect to database
 try:
     connection = pymysql.connect() # Database inforamtions ( not in github )
     cursor = connection.cursor()
@@ -673,7 +674,7 @@ class RootMain(QMainWindow):
         self.main.acount_profile.setText(username[0].upper())
         self.main.acount_teststaken.setText("%s Tests" % self.acount_info['testsTaken'])
         self.main.acount_besttest.setText("%s WPM" % self.acount_info['bestTest'])
-        self.main.acount_typedwords.setText("%s Letters" % self.acount_info['typedLetters'])
+        self.main.acount_typedwords.setText("%s Words" % self.acount_info['typedLetters'])
         self.main.acount_comtaken.setText("%s Competitions" % self.acount_info['competeTaken'])
 
         try:
@@ -1025,6 +1026,8 @@ class RootMain(QMainWindow):
             if mode == 'light':
                 self.theme = 'light'
 
+                self.main.settings_theme.setCurrentText('Light')
+
                 cursor.execute("UPDATE acounts SET theme=\'light\' WHERE username=\'%s\' ;" % self.main.acount_username.text())
                 connection.commit()
 
@@ -1049,6 +1052,7 @@ class RootMain(QMainWindow):
                 self.signup.ui.passlb.setStyleSheet('color: #010A1A;')
                 self.signup.ui.acountlb.setStyleSheet('color: #010A1A;')
                 self.signup.ui.repasslb.setStyleSheet('color: #010A1A;')
+                self.signup.ui.emaillb.setStyleSheet('color: #010A1A;')
                 icon1 = QIcon()
                 icon1.addPixmap(QPixmap("%s/img/close.png" % path), QIcon.Normal, QIcon.Off)
                 self.signup.ui.btn_close.setIcon(icon1)
@@ -1139,6 +1143,8 @@ class RootMain(QMainWindow):
             if mode == 'dark':
                 self.theme = 'dark'
 
+                self.main.settings_theme.setCurrentText('Dark')
+
                 cursor.execute("UPDATE acounts SET theme=\'dark\' WHERE username=\'%s\' ;" % self.main.acount_username.text())
                 connection.commit()
 
@@ -1164,6 +1170,7 @@ class RootMain(QMainWindow):
                 self.signup.ui.passlb.setStyleSheet('color: #fff;')
                 self.signup.ui.acountlb.setStyleSheet('color: #fff;')
                 self.signup.ui.repasslb.setStyleSheet('color: #fff;')
+                self.signup.ui.emaillb.setStyleSheet('color: #fff;')
                 icon1 = QIcon()
                 icon1.addPixmap(QPixmap("%s/img/close-light.png" % path), QIcon.Normal, QIcon.Off)
                 self.signup.ui.btn_close.setIcon(icon1)
@@ -1256,6 +1263,8 @@ class RootMain(QMainWindow):
             if lang == 'Persian':
                 self.lang = 'Persian'
 
+                self.main.Settings_lang.setCurrentText('Persian')
+
                 cursor.execute("UPDATE acounts SET lang=\'Persian\' WHERE username=\'%s\' ;" % self.main.acount_username.text())
                 connection.commit()
 
@@ -1268,27 +1277,27 @@ class RootMain(QMainWindow):
                 
 
                 # main page
-                self.main.label.setText('کلمات درست:')
+                self.main.label.setText(':کلمات درست')
                 self.main.label.setAlignment(Qt.AlignRight)
-                self.main.label_2.setText('حروف درست')
+                self.main.label_2.setText(':حروف درست')
                 self.main.label_2.setAlignment(Qt.AlignRight)
-                self.main.label_6.setText('كلمات نادرست')
+                self.main.label_6.setText(':کلمات نادرست')
                 self.main.label_6.setAlignment(Qt.AlignRight)
-                self.main.label_7.setText('حروف نادرست:')
+                self.main.label_7.setText(':حروف ناردست')
                 self.main.label_7.setAlignment(Qt.AlignRight)
-                self.main.label_3.setText('نتیجه:')
+                self.main.label_3.setText(':نتیجه')
                 self.main.label_5.setText('(کلمه در دقیقه)')
                 self.main.btn_acountSettings.setText('تنظیمات حساب')
                 self.main.btn_logout.setText('خروج')
-                self.main.acount_email_2.setText('تست‌ها:')
+                self.main.acount_email_2.setText(':تست ها')
                 self.main.acount_email_2.setAlignment(Qt.AlignRight)
-                self.main.acount_email_3.setText('بهترین رکورد:')
+                self.main.acount_email_3.setText(':بهترین رکورد')
                 self.main.acount_email_3.setAlignment(Qt.AlignRight)
-                self.main.acount_email_4.setText('سرعت میانگین:')
+                self.main.acount_email_4.setText(':سرعت میانگین')
                 self.main.acount_email_4.setAlignment(Qt.AlignRight)
-                self.main.acount_email_5.setText('حروف تایپ شده:')
+                self.main.acount_email_5.setText(':حروف تایپ شده')
                 self.main.acount_email_5.setAlignment(Qt.AlignRight)
-                self.main.acount_email_6.setText('مسابفات:')
+                self.main.acount_email_6.setText(':مسابقات')
                 self.main.acount_email_6.setAlignment(Qt.AlignRight)
                 self.main.ranking_title.setText('بهترین رکوردها')
                 self.main.ranking_title.setAlignment(Qt.AlignRight)
@@ -1304,41 +1313,46 @@ class RootMain(QMainWindow):
                 self.main.btn_joincompetition.setText('پیوستن')
                 self.main.ranking_title_7.setText('تنظیمات')
                 self.main.ranking_title_7.setAlignment(Qt.AlignRight)
-                self.main.ranking_title_8.setText('رنگ:')
+                self.main.ranking_title_8.setText(':رنگ')
                 self.main.ranking_title_8.setAlignment(Qt.AlignRight)
-                self.main.ranking_title_9.setText('زبان:')
+                self.main.ranking_title_9.setText(':زبان')
                 self.main.ranking_title_9.setAlignment(Qt.AlignRight)
                 self.main.ranking_title_10.setText('درباره')
                 self.main.ranking_title_10.setAlignment(Qt.AlignRight)
-                self.main.ranking_title_11.setText(("<html><head/><body><p>ویژگی‌ها</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">تایپ کن و سرعت تایپ خود را بگیر</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">بهرترین رکوردهایی که با این برنامه گرفته شده اند را ببین</li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">مسابقه خصوصی بساز و با دوستان خود رقابت کن</li></ul><p>حمابت:</p>\n"
+                self.main.ranking_title_11.setText(("<html><head/><body><p>ویژگی‌ها</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">تایپ کن و سرعت تایپ خود را بگیر</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">بهترین رکوردهایی که با این برنامه گرفته شده اند را ببین</li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">مسابقه خصوصی بساز و با دوستان خود رقابت کن</li></ul><p>حمابت:</p>\n"
                 "</body></html>"))
                 self.main.ranking_title_12.setText('از طریق لینک های زیر میتوانید از ما حمایت کنید.')
                 self.main.ranking_title_12.setAlignment(Qt.AlignRight)
                 self.main.btn_github.setText('گیت‌هاب')
                 self.main.btn_social.setText('شبكه‌هاي اجتماعي')
 
+                self.main.label_8.setText('نام کاربری')
+                self.main.label_9.setText('کلمه در دقیقه')
+
                 # competition page
-                self.comPage.ui.label.setText('کلمات درست:')
+                self.comPage.ui.label.setText(':کلمات درست')
                 self.comPage.ui.label.setAlignment(Qt.AlignRight)
-                self.comPage.ui.label_2.setText('کلمات نادرست:')
+                self.comPage.ui.label_2.setText(':حروف درست')
                 self.comPage.ui.label_2.setAlignment(Qt.AlignRight)
-                self.comPage.ui.label_6.setText('حروف درست:')
+                self.comPage.ui.label_6.setText(':کلمات نادرست')
                 self.comPage.ui.label_6.setAlignment(Qt.AlignRight)
-                self.comPage.ui.label_7.setText('حروف نادرست:')
+                self.comPage.ui.label_7.setText(':حروف ناردست')
                 self.comPage.ui.label_7.setAlignment(Qt.AlignRight)
-                self.comPage.ui.label_3.setText('نتیجه:')
+                self.comPage.ui.label_3.setText(':نتیجه')
                 self.comPage.ui.label_5.setText('(کلمه در دقیقه)')
-                self.comPage.ui.ranking_title_2.setText('كد مسابقه:')
+                self.comPage.ui.ranking_title_2.setText(':کد مسابقه')
 
             if lang == 'English':
                 self.lang = 'English'
+
+                self.main.Settings_lang.setCurrentText('English')
 
                 cursor.execute("UPDATE acounts SET lang=\'English\' WHERE username=\'%s\' ;" % self.main.acount_username.text())
                 connection.commit()
 
                 # sidebar
                 self.main.btn_pageTest.setText('Test')
-                self.main.btn_pageAcount.setText('Acount')
+                self.main.btn_pageAcount.setText('Account')
                 self.main.btn_pageRanking.setText('Ranking')
                 self.main.btn_pageCompetitions.setText('Competitions')
                 self.main.btn_pageSettings.setText('Settings')
@@ -1361,11 +1375,11 @@ class RootMain(QMainWindow):
                 self.main.acount_email_2.setAlignment(Qt.AlignLeft)
                 self.main.acount_email_3.setText('Best test:')
                 self.main.acount_email_3.setAlignment(Qt.AlignLeft)
-                self.main.acount_email_4.setText('Typing speed avrage:')
+                self.main.acount_email_4.setText('Average typing speed:')
                 self.main.acount_email_4.setAlignment(Qt.AlignLeft)
                 self.main.acount_email_5.setText('Typed words:')
                 self.main.acount_email_5.setAlignment(Qt.AlignLeft)
-                self.main.acount_email_6.setText('Competition taken:')
+                self.main.acount_email_6.setText('Competitions taken:')
                 self.main.acount_email_6.setAlignment(Qt.AlignLeft)
                 self.main.ranking_title.setText('Best Tests')
                 self.main.ranking_title.setAlignment(Qt.AlignLeft)
@@ -1387,19 +1401,22 @@ class RootMain(QMainWindow):
                 self.main.ranking_title_9.setAlignment(Qt.AlignLeft)
                 self.main.ranking_title_10.setText('About')
                 self.main.ranking_title_10.setAlignment(Qt.AlignLeft)
-                self.main.ranking_title_11.setText(("<html><head/><body><p>Features</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Type as fast as you can and get your typing speed number</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">See best tests which are taken with this app</li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Make private room and compete with your friends</li></ul><p>Support</p>\n"
+                self.main.ranking_title_11.setText(("<html><head/><body><p>Features</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Type as fast as you can and get your typing speed number</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">See best tests which are taken with this app</li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Make a private room and compete with your friends</li></ul><p>Support</p>\n"
                 "</body></html>"))
                 self.main.ranking_title_12.setText('<html><head/><body><p>You can support us using below links:</p></body></html>')
                 self.main.ranking_title_12.setAlignment(Qt.AlignLeft)
                 self.main.btn_github.setText('GitHub')
                 self.main.btn_social.setText('Social Media')
 
+                self.main.label_8.setText('Username')
+                self.main.label_9.setText('WPM')
+
                 # competition page
                 self.comPage.ui.label.setText('Correct Words:')
                 self.comPage.ui.label.setAlignment(Qt.AlignLeft)
-                self.comPage.ui.label_2.setText('Wrong Words:')
+                self.comPage.ui.label_2.setText('Correct Letters:')
                 self.comPage.ui.label_2.setAlignment(Qt.AlignLeft)
-                self.comPage.ui.label_6.setText('Correct Letters:')
+                self.comPage.ui.label_6.setText('Wrong Words:')
                 self.comPage.ui.label_6.setAlignment(Qt.AlignLeft)
                 self.comPage.ui.label_7.setText('Wrong Letters:')
                 self.comPage.ui.label_7.setAlignment(Qt.AlignLeft)

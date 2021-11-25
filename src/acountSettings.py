@@ -104,7 +104,7 @@ class Ui_AcountSettings(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Typing online"))
         self.acount_email_2.setText(_translate("MainWindow", "Change Username:"))
-        self.acount_email_3.setText(_translate("MainWindow", "Change Emal:"))
+        self.acount_email_3.setText(_translate("MainWindow", "Change Email:"))
         self.btn_save.setText(_translate("MainWindow", "Save Changes"))
         self.btn_cancel.setText(_translate("MainWindow", "Cancel"))
-        self.title.setText(_translate("MainWindow", "Acount Settings"))
+        self.title.setText(_translate("MainWindow", "Account Settings"))
