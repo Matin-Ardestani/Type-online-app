@@ -18,7 +18,7 @@ try:
     cursor = connection.cursor()
 except:
     toast = ToastNotifier()
-    toast.show_toast("Warning","Something went wrong!\nChen your internet connection.",duration=20,icon_path="C:/Users/ardes/Desktop/Typing-online-app/img/logo.ico")
+    toast.show_toast("Warning","Something went wrong!\nChen your internet connection.",duration=20,icon_path=("%s/img/logo.ico"%path))
     exit()
 
 words = ['about', 'above', 'add', 'after', 'again', 'air', 'all', 'almost', 'along', 'also', 'always', 'America', 'an', 'and', 'animal', 'another', 'answer', 'any', 'are', 'around', 'as', 'ask', 'at', 'away', 'back', 'be', 
@@ -146,6 +146,7 @@ class RootMain(QMainWindow):
         self.acountsettings = AcountSettingsWindow()
 
         # get ips from database | check if its new or not
+        connection.ping(reconnect=True)
         cursor.execute("SELECT ip FROM acounts;")
         self.ips = []
         for ip in cursor:
@@ -153,6 +154,7 @@ class RootMain(QMainWindow):
 
         self.userip = str(socket.gethostname())
         if self.userip in self.ips:
+            connection.ping(reconnect=True)
             cursor.execute("SELECT username FROM acounts WHERE ip=\'%s\' ;" % self.userip)
             for row in cursor:
                 self.username = row[0]
@@ -207,6 +209,7 @@ class RootMain(QMainWindow):
                 correct_info = False
             else:
                 # check username
+                connection.ping(reconnect=True)
                 cursor.execute("SELECT username FROM acounts;")
                 db_usernames = []
                 for username in cursor:
@@ -217,6 +220,7 @@ class RootMain(QMainWindow):
 
                 else:
                     # check password
+                    connection.ping(reconnect=True)
                     cursor.execute("SELECT password FROM acounts WHERE username=\'%s\' ;" % self.login.ui.username_en.text())
                     password = ''
                     for row in cursor:
@@ -230,6 +234,7 @@ class RootMain(QMainWindow):
             # change user ip in database
             if correct_info == True:
                 quary = "UPDATE acounts SET ip=\'%s\' WHERE username=\'%s\' ;" % (str(socket.gethostname()) , self.login.ui.username_en.text())
+                connection.ping(reconnect=True)
                 cursor.execute(quary)
                 connection.commit()
                 self.openMainWindow(self.login.ui.username_en.text())
@@ -281,6 +286,7 @@ class RootMain(QMainWindow):
                     try:
                         validate_email(self.signup.ui.email_en.text())
 
+                        connection.ping(reconnect=True)
                         cursor.execute("SELECT email FROM acounts;")
                         db_emails = []
                         for email in cursor:
@@ -299,6 +305,7 @@ class RootMain(QMainWindow):
                             self.signup.ui.alarmlb.setText('Username is not valid')
                             correct_info = False
                         else:
+                            connection.ping(reconnect=True)
                             cursor.execute("SELECT username FROM acounts;")
                             db_usernames = []
                             for username in cursor:
@@ -316,6 +323,7 @@ class RootMain(QMainWindow):
                         password = self.signup.ui.password_en.text()
                         ip = str(socket.gethostname())
                         quary = "INSERT INTO acounts VALUES( \'%s\' , \'%s\' , \'%s\' , \'%s\' , \'%i\' , \'%i\' , \'%i\' , \'%i\' , \'light\' , \'English\');" % (username , email , password , ip , 0 , 0 , 0 , 0)
+                        connection.ping(reconnect=True)
                         cursor.execute(quary)
                         connection.commit()
 
@@ -377,6 +385,7 @@ class RootMain(QMainWindow):
                 self.anim.start()
                 icon3 = QIcon()
 
+                connection.ping(reconnect=True)
                 cursor.execute("SELECT theme FROM acounts WHERE username=\'%s\' ;" % self.main.acount_username.text())
                 for row in cursor:
                     self.theme = row[0]
@@ -581,6 +590,7 @@ class RootMain(QMainWindow):
             def change():
                 new_username = self.acountsettings.ui.username_en.text()
                 new_email = self.acountsettings.ui.email_en.text()
+                connection.ping(reconnect=True)
                 cursor.execute("SELECT username,email FROM acounts;")
                 db_usernames = []
                 db_emails = []
@@ -598,6 +608,7 @@ class RootMain(QMainWindow):
                             validate_email(self.acountsettings.ui.email_en.text())
 
                             quary = "UPDATE acounts SET email=\'%s\' WHERE email=\'%s\' ;" % (new_email , self.main.acount_email.text())
+                            connection.ping(reconnect=True)
                             cursor.execute(quary)
                             connection.commit()
 
@@ -609,6 +620,7 @@ class RootMain(QMainWindow):
                     # change email
                     if new_username.strip() != '':
                         quary = "UPDATE acounts SET username=\'%s\' WHERE username=\'%s\' ;" % (new_username , self.main.acount_username.text())
+                        connection.ping(reconnect=True)
                         cursor.execute(quary)
                         connection.commit()
 
@@ -628,6 +640,7 @@ class RootMain(QMainWindow):
             if msg_logout == QMessageBox.Yes:
                 self.close()
                 quary = "UPDATE acounts SET ip=\'\' WHERE username=\'%s\' ; " % self.main.acount_username.text()
+                connection.ping(reconnect=True)
                 cursor.execute(quary)
                 connection.commit()
                 self.logingin()
@@ -636,6 +649,7 @@ class RootMain(QMainWindow):
 
 
         try:
+            connection.ping(reconnect=True)
             cursor.execute("UPDATE acounts SET testsTaken=%i , bestTest=%i , typedWords=%i , competeTaken=%i WHERE username=\'%s\' ;" %
             (self.acount_info['testsTaken'] , self.acount_info['bestTest'] , self.acount_info['typedLetters'] , self.acount_info['competeTaken'] , username)
             )
@@ -643,6 +657,7 @@ class RootMain(QMainWindow):
         except:
             pass
         
+        connection.ping(reconnect=True)
         cursor.execute("SELECT * FROM acounts WHERE username=\'%s\' ;" % username)
         self.acount_info = {}
         for row in cursor:
@@ -675,6 +690,7 @@ class RootMain(QMainWindow):
     def rankingPage(self , wpm):
         connection.ping(reconnect=True)
 
+        connection.ping(reconnect=True)
         cursor.execute("SELECT * FROM ranking;")
 
         # check if it's in 5 bests
@@ -703,6 +719,7 @@ class RootMain(QMainWindow):
 
                 if len(sorted_ranks) < 5:
                     sorted_ranks.pop(-1)
+                connection.ping(reconnect=True)
                 cursor.execute("DELETE FROM ranking;")
                 for that in sorted_ranks:
                     cursor.execute("INSERT INTO ranking VALUES (\'%s\',\'%s\')" % (that[0],that[1]))
@@ -711,6 +728,7 @@ class RootMain(QMainWindow):
                 break
 
         # print ranks in ranking page
+        connection.ping(reconnect=True)
         cursor.execute("SELECT * FROM ranking;")
         ranking = {}
         for this in cursor:
@@ -760,6 +778,7 @@ class RootMain(QMainWindow):
             self.comPage.show()
 
             quary = "SELECT host FROM %s WHERE username=\'%s\'; " % (room_code , self.main.acount_username.text())
+            connection.ping(reconnect=True)
             cursor.execute(quary)
             for row in cursor:
                 is_host = row[0]
@@ -779,6 +798,7 @@ class RootMain(QMainWindow):
                 if msg_end == QMessageBox.Yes:
                     self.comPage.close()
                     self.show()
+                    connection.ping(reconnect=True)
                     cursor.execute("DROP TABLE %s ;" % room_code)
                     connection.commit()
 
@@ -794,6 +814,7 @@ class RootMain(QMainWindow):
 
                 # print new ranks
                 tests = {}
+                connection.ping(reconnect=True)
                 cursor.execute("SELECT * FROM %s" % room_code)
                 for row in cursor:
                     tests[row[0]] = row[1]
@@ -887,6 +908,7 @@ class RootMain(QMainWindow):
                         self.comPage.result = int((self.correct_letters / 5) / 1) # result formula = (characters / 5) / 1 min
                         self.comPage.ui.type_result.setText("%s WPM" % self.comPage.result)
 
+                        connection.ping(reconnect=True)
                         cursor.execute("SELECT bestTest FROM %s WHERE username=\'%s\'" % (room_code , self.main.acount_username.text()))
                         for row in cursor:
                             if self.comPage.result > row[0]:
@@ -921,6 +943,7 @@ class RootMain(QMainWindow):
 
         # create new competition
         def createCompetition():
+            connection.ping(reconnect=True)
             cursor.execute("show tables;")    
             talbes = []
             for row in cursor:
@@ -937,6 +960,7 @@ class RootMain(QMainWindow):
             else:
                 # create competition talbe in database
                 quary = "CREATE TABLE %s (username VARCHAR(100) , bestTest INT , host VARCHAR(100) );" % room_code
+                connection.ping(reconnect=True)
                 cursor.execute(quary)
                 cursor.execute("INSERT INTO %s VALUES (\'%s\' , 0 , 1) ;" % (room_code , self.main.acount_username.text()))
                 connection.commit()
@@ -955,6 +979,7 @@ class RootMain(QMainWindow):
                 self.main.alarmlb.setText('Please enter competition code')
             else:
                 # join to the competition
+                connection.ping(reconnect=True)
                 cursor.execute('show tables;')
                 tables = []
                 for row in cursor:
