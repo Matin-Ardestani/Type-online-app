@@ -9,13 +9,13 @@ Many people use a keyboard during their everyday life, whether they are working 
 - English & Persian languages
 
 # About me
-Programmer: Matin Ardestani
+Programmer: [Matin Ardestani](https://github.com/Matin-Ardestani/)
 
-Tester & guide producer: @Blasterth
+Tester & guide producer: [Blasterth](https://www.github.com/blasterth)
 
 Location : Tehran, Iran
 
-more Information : [MatinArdestani](https://bioly.io/MatinArdestani),[Blasterth](https://www.github.com/blasterth)
+more Information : [Matin Ardestani](https://bioly.io/MatinArdestani), [Blasterth](https://www.github.com/blasterth)
 
 # Installation
  1. Run the setup.
