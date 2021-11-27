@@ -2,20 +2,20 @@
 Many people use a keyboard during their everyday life, whether they are working with a PC or laptop, working in a small store or in an office. All of this people have something in common: All of them need typing skills. [Type online app](https://github.com/Matin-Ardestani/Type-online-app) allows you to test yourself by typing ordinary words.
 
 # Features
-- Create your own acount
+- Create your own account
 - Type as fast as you can and get your speed number
-- Create online competition, give the competition code to your friends and compete with them
+- Create online competition rooms and give the competition room codes to your friends and compete with them
 - See the best taken tests
 - English & Persian languages
 
 # About me
 Programmer: Matin Ardestani
 
-Tester & guid producer: @Blasterth
+Tester & guide producer: @Blasterth
 
 Location : Tehran, Iran
 
-more Information : [MatinArdestani](https://bioly.io/MatinArdestani)
+more Information : [MatinArdestani](https://bioly.io/MatinArdestani),[Blasterth](https://www.github.com/blasterth)
 
 # Installation
  1. Run the setup.
@@ -26,14 +26,14 @@ more Information : [MatinArdestani](https://bioly.io/MatinArdestani)
  6. Run the App.
  
  
- **Note: Do not change installation's direcotry**
+ **Note: Do not change installation direcotry**
  
 # Sign up / Log in
-For using the program, you need create an account using an email. An
+For using the program, you need to create an account using an email. An
 internet connection is required when using the app.
 
 # Typing Test
-In the Test screen, you cab see the following parts: word list, typing
+In the Test screen, you can see the following parts: word list, typing
 section, start button, timer, correct words, correct letters, wrong
 words, wrong letters and your typing speed number (WPM: words per
 minute)
@@ -115,6 +115,8 @@ automatically deleted.
 
 # به زودی
 - تست تایپ فارسی
-- جالش های هفتگی
+- چالش های هفتگی
 - عکس نمایه
+
+**ممنون بابت توجه شما**
 
