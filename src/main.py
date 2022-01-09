@@ -268,7 +268,7 @@ class RootMain(QMainWindow):
                         check_pass = [False , False , False]
                         for letter in self.signup.ui.password_en.text():
                             if (letter not in numbers) and (letter not in alphabets) and (letter not in signs):
-                                self.signup.ui.alarmlb.setText('Password should contains numbers and alphabets and signs')
+                                self.signup.ui.alarmlb.setText('Password should contain numbers and alphabets and signs')
                                 correct_info = False
                             else:
                                 if letter in numbers:
@@ -279,7 +279,7 @@ class RootMain(QMainWindow):
                                     check_pass[2] = True
                         
                         if check_pass != [True , True , True]:
-                            self.signup.ui.alarmlb.setText('Password should contains numbers and alphabets and signs')
+                            self.signup.ui.alarmlb.setText('Password should contain numbers and alphabets and signs')
                             correct_info = False
                         else:
                             self.signup.ui.alarmlb.setText('')
@@ -335,7 +335,7 @@ class RootMain(QMainWindow):
                     except:
                         error_msg = QMessageBox()
                         error_msg.setIcon(QMessageBox.Information)
-                        error_msg.setText("Someting went wrong")
+                        error_msg.setText("Something went wrong")
                         error_msg.setWindowTitle("Error")
                         error_msg.setStandardButtons(QMessageBox.Ok )
                         error_msg.buttonClicked.connect(lambda: error_msg.close())
@@ -638,7 +638,7 @@ class RootMain(QMainWindow):
 
         # log out
         def logOut():
-            msg_logout = QMessageBox.question(self, 'LogOut', "Do want to log out from acount?", QMessageBox.Yes | QMessageBox.No)
+            msg_logout = QMessageBox.question(self, 'LogOut', "Do you want to log out from your account?", QMessageBox.Yes | QMessageBox.No)
             if msg_logout == QMessageBox.Yes:
                 self.close()
                 quary = "UPDATE acounts SET ip=\'\' WHERE username=\'%s\' ; " % self.main.acount_username.text()
