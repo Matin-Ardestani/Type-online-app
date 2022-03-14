@@ -15,7 +15,7 @@ path = str(Path.cwd())
 
 # connect to database
 try:
-    connection = pymysql.connect(host='mysql5033.site4now.net' , user='a7b948_typing' , password='Mn#1105host' , database='db_a7b948_typing') # Database inforamtions ( not in github )
+    connection = pymysql.connect(host='mysql5030.site4now.net' , user='a83cd2_type' , password='dashMatin!@34' , database='db_a83cd2_type') # Database inforamtions ( not in github )
     cursor = connection.cursor()
 except:
     toast = ToastNotifier()
