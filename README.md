@@ -15,7 +15,7 @@ Tester & guide producer: [Blasterth](https://www.github.com/blasterth)
 
 Location : Tehran, Iran
 
-more Information : [Matin Ardestani](https://bioly.io/MatinArdestani), [Blasterth](https://www.github.com/blasterth)
+more Information : [Matin Ardestani](https://matinardestani.com), [Blasterth](https://www.github.com/blasterth)
 
 # Installation
  1. Run the setup.
