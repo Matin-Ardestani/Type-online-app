@@ -18,7 +18,7 @@ Location : Tehran, Iran
 more Information : [Matin Ardestani](https://matinardestani.com), [Blasterth](https://www.github.com/blasterth)
 
 # Installation
- 1. Run the setup.
+ 1. Run ```Type Online v1.2.1 setup file.exe```.
  2. Select the language for the installation process.
  3. In the Welcome screen, click on Next.
  4. Read the License Agreement. After accepting the agreement, click on Next.
@@ -32,11 +32,15 @@ more Information : [Matin Ardestani](https://matinardestani.com), [Blasterth](ht
 For using the program, you need to create an account using an email. An
 internet connection is required when using the app.
 
+![singup-login](https://github.com/Matin-Ardestani/Type-online-app/assets/88619050/1bf0369a-1f54-438c-beee-72e47a7e0e2c)
+
 # Typing Test
 In the Test screen, you can see the following parts: word list, typing
 section, start button, timer, correct words, correct letters, wrong
 words, wrong letters and your typing speed number (WPM: words per
 minute)
+
+![typetest](https://github.com/Matin-Ardestani/Type-online-app/assets/88619050/c8afdcd7-5269-48c7-b4b0-30bba681eaee)
 
 To start a test, click on start button. The words will show up on the top
 of the screen. Just type them and click on space to go to the next word.
@@ -50,11 +54,15 @@ In account screen, you can see your statistics, including:
 - The number of competitions you’ve participated in so far.
 - Your average typing speed based on your previous tests.
 
+![acount](https://github.com/Matin-Ardestani/Type-online-app/assets/88619050/308dce53-6ad5-4bfc-96a8-3ac3295432d0)
+
 Also, you can change your username and password from Account
 settings or log out using its button.
 
 # Rankings
 In this part, you can see the best typist’s results.
+
+![ranking](https://github.com/Matin-Ardestani/Type-online-app/assets/88619050/7b4e0b67-c5ce-405e-8f58-4b5eb128cedb)
 
 # Competitions
 In competitions part, you can:
@@ -63,10 +71,17 @@ In competitions part, you can:
 A room will be closed once the host closes it.
 If nobody uses the room for 48 hours, the room will be
 automatically deleted.
+### Log in to competition page
+![competition](https://github.com/Matin-Ardestani/Type-online-app/assets/88619050/42edd500-15b6-4c64-9394-6220dc3e8762)
+
+### Competition Room
+![competition-room](https://github.com/Matin-Ardestani/Type-online-app/assets/88619050/20a34350-33d8-4a6c-aca7-2642ef453f2e)
 
 # Settings
 - Switch between English and Persian language
 - Switch between Light and Dark mode.
+
+![setting](https://github.com/Matin-Ardestani/Type-online-app/assets/88619050/7744316b-06f2-4a75-b6ad-29000e81f29a)
 
 # Comming Soon
 - Persian typing test
