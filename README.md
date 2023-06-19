@@ -86,7 +86,7 @@ automatically deleted.
 
 
 
-**Thanks for you attention**
+**Thanks for your attention**
 
 # مقدمه
 بسياري از مردم در طول روز با رايانه كار مي كنند و همه آنها به مهارت تايپ ١٠ انگشتي احتياج دارند. اين برنامه شما را
