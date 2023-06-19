@@ -83,10 +83,8 @@ automatically deleted.
 
 ![setting](https://github.com/Matin-Ardestani/Type-online-app/assets/88619050/7744316b-06f2-4a75-b6ad-29000e81f29a)
 
-# Comming Soon
-- Persian typing test
-- Weekly challenges
-- Profile photos
+
+
 
 **Thanks for you attention**
 
@@ -127,9 +125,4 @@ automatically deleted.
 - جابجایی بین زبان های فارسی و انگلیسی
 - تعویض حالت رنگی برنامه
 
-
-# به زودی
-- تست تایپ فارسی
-- چالش های هفتگی
-- عکس نمایه
 
